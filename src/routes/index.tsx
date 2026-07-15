@@ -1,24 +1,37 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LangProvider, useLang } from "@/lib/i18n";
+import { NavBar } from "@/components/NavBar";
+import { Hero } from "@/components/Hero";
+import { Playground } from "@/components/Playground";
+import { Gallery } from "@/components/Gallery";
+import { StudyCorner } from "@/components/StudyCorner";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+function Footer() {
+  const { t } = useLang();
+  return (
+    <footer className="mx-auto mt-24 mb-10 w-[min(1100px,94%)] text-center text-xs text-muted-foreground">
+      {t("footer")}
+    </footer>
+  );
+}
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <LangProvider>
+      <div className="min-h-screen pb-10">
+        <NavBar />
+        <main>
+          <Hero />
+          <Playground />
+          <Gallery />
+          <StudyCorner />
+        </main>
+        <Footer />
+      </div>
+    </LangProvider>
   );
 }
