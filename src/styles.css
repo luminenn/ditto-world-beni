@@ -141,16 +141,20 @@
 @utility card-doodle {
   background: var(--color-card);
   border: 3px solid var(--color-ink);
-  border-radius: 1.75rem;
+  border-radius: 6px;
   box-shadow: 6px 6px 0 0 var(--color-ink), 0 0 28px rgba(243, 165, 255, 0.28);
 }
 
 @utility card-doodle-sm {
   background: var(--color-card);
   border: 2.5px solid var(--color-ink);
-  border-radius: 1.25rem;
+  border-radius: 6px;
   box-shadow: 4px 4px 0 0 var(--color-ink), 0 0 18px rgba(243, 165, 255, 0.22);
 }
+
+/* Restore soft/bubbly geometry only inside the Japanese Class section */
+#study .card-doodle { border-radius: 1.75rem; }
+#study .card-doodle-sm { border-radius: 1.25rem; }
 
 @utility pill-btn {
   display: inline-flex;
