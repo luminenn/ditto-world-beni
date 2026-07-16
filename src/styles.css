@@ -212,3 +212,15 @@
 @utility animate-shake { animation: shake-x 0.5s ease-in-out; }
 @utility animate-float { animation: float-y 3s ease-in-out infinite; }
 @utility animate-twinkle { animation: twinkle var(--tw-dur, 3.5s) ease-in-out infinite; }
+
+/* Cosmic thin scrollbar for the accessory drawer */
+.cosmic-scroll { scrollbar-width: thin; scrollbar-color: #D7A1F9 #2A1740; }
+.cosmic-scroll::-webkit-scrollbar { width: 8px; }
+.cosmic-scroll::-webkit-scrollbar-track { background: #2A1740; border-radius: 8px; }
+.cosmic-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #D7A1F9, #EC7CD2);
+  border-radius: 8px;
+  border: 2px solid #2A1740;
+}
+.cosmic-scroll::-webkit-scrollbar-thumb:hover { background: #EC7CD2; }
+
