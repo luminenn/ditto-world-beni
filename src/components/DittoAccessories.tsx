@@ -1,3 +1,5 @@
+import type React from "react";
+
 /** Simple hand-drawn style SVG accessories that dress up the Ditto SVG. */
 const INK = "#4A2C5B";
 
@@ -53,7 +55,7 @@ export type AccessoryKey = "hat" | "glasses" | "scarf";
 
 export const ACCESSORIES: Record<
   AccessoryKey,
-  { w: number; render: (s: number) => JSX.Element; defaultPos: { x: number; y: number } }
+  { w: number; render: (s: number) => React.ReactElement; defaultPos: { x: number; y: number } }
 > = {
   hat: { w: 84, render: (s) => <HatSVG size={s} />, defaultPos: { x: 155, y: 8 } },
   glasses: { w: 110, render: (s) => <GlassesSVG size={s} />, defaultPos: { x: 140, y: 110 } },
