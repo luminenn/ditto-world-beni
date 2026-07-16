@@ -4,6 +4,7 @@ import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
+import { supabase } from "@/integrations/supabase/client";
 const DITTO_MASCOT_PRIMARY =
   "https://static.wikia.nocookie.net/omniversal-battlefield/images/5/5b/460.png/revision/latest/scale-to-width-down/400?cb=20190323171728";
 const DITTO_MASCOT_FALLBACK = DITTO_MASCOT_PRIMARY;
