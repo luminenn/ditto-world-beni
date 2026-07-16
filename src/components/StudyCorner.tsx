@@ -331,8 +331,8 @@ function Flashcards() {
             initial={{ scale: 0.7, rotate: -6, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 260, damping: 18 }}
-            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] bg-[var(--ditto-purple)] px-8 py-4 font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)]"
-            style={{ fontSize: card.char.length > 2 ? "3.5rem" : "4.5rem", lineHeight: 1 }}
+            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] px-8 py-4 font-bold shadow-[5px_5px_0_0_var(--color-ink)]"
+            style={{ fontSize: card.char.length > 2 ? "3.5rem" : "4.5rem", lineHeight: 1, background: "#FFFDF6", color: "#1A122B" }}
           >
             {card.char}
           </motion.div>
@@ -347,7 +347,8 @@ function Flashcards() {
                   ? "var(--mint)"
                   : revealed && isPicked
                     ? "color-mix(in oklab, var(--destructive) 40%, white)"
-                    : "var(--cream)";
+                    : "#3A2A50";
+              const fg = revealed && isAnswer ? "#1A122B" : "#FFFFFF";
               return (
                 <motion.button
                   key={c}
@@ -356,7 +357,7 @@ function Flashcards() {
                   disabled={revealed}
                   onClick={() => choose(c)}
                   className="card-doodle-sm px-3 py-3 text-xl font-bold"
-                  style={{ background: bg }}
+                  style={{ background: bg, color: fg }}
                 >
                   {c}
                 </motion.button>
@@ -488,10 +489,10 @@ function TracingCanvas() {
     const c = canvasRef.current!;
     const ctx = c.getContext("2d")!;
     const p = getPos(e);
-    ctx.strokeStyle = "#F3A5FF";
-    ctx.shadowColor = "rgba(243,165,255,0.9)";
-    ctx.shadowBlur = 12;
-    ctx.lineWidth = 14;
+    ctx.strokeStyle = "#1A122B";
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
+    ctx.lineWidth = 12;
 
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -525,14 +526,13 @@ function TracingCanvas() {
         <div className="flex flex-col items-center">
           <div
             className="relative rounded-3xl border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_0_var(--color-ink)] overflow-hidden"
-            style={{ background: "#241534", width: "min(100%, 420px)", aspectRatio: "1 / 1", boxShadow: "6px 6px 0 0 var(--color-ink), inset 0 0 30px rgba(215,161,249,0.15)" }}
+            style={{ background: "#FFFDF6", width: "min(100%, 420px)", aspectRatio: "1 / 1", boxShadow: "6px 6px 0 0 var(--color-ink)" }}
           >
 
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
-                color: "rgba(215,161,249,0.35)",
-                textShadow: "0 0 18px rgba(215,161,249,0.35)",
+                color: "#8A8A8A",
                 fontSize: "min(80vw, 340px)",
                 lineHeight: 1,
               }}
@@ -555,7 +555,7 @@ function TracingCanvas() {
                     >
                       {h.n}
                     </span>
-                    <span className="text-lg font-bold" style={{ color: "#FFFFFF", textShadow: "0 0 6px rgba(215,161,249,0.8)" }}>{h.arrow}</span>
+                    <span className="text-lg font-bold" style={{ color: "#1A122B" }}>{h.arrow}</span>
                   </div>
                 ))}
               </div>
