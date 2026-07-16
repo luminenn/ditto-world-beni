@@ -149,7 +149,8 @@ export function Playground() {
                 whileTap={{ scale: 0.94 }}
                 onClick={() => add(k)}
                 className="card-doodle-sm flex items-center gap-3 p-3 text-sm font-semibold"
-                style={{ boxShadow: "3px 3px 0 0 var(--color-ink)" }}
+                style={{ boxShadow: "3px 3px 0 0 var(--color-ink)", background: "#3A2554", color: "#F4EFFF", borderColor: "#D7A1F9" }}
+
               >
                 <span className="flex h-10 w-14 items-center justify-center">
                   {ACCESSORIES[k].render(40)}
