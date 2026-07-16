@@ -370,16 +370,16 @@ function Flashcards() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ type: "spring", stiffness: 240, damping: 18 }}
                 className="mt-5 rounded-2xl border-[3px] border-[var(--color-ink)] p-4 text-center shadow-[5px_5px_0_0_var(--color-ink)]"
-                style={{ background: "var(--butter)" }}
+                style={{ background: "var(--butter)", color: "#1A122B" }}
               >
-                <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#1A122B", opacity: 0.75 }}>
                   Meaning
                 </div>
-                <div className="text-2xl font-extrabold">{card.meaning}</div>
-                <div className="mt-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <div className="text-2xl font-extrabold" style={{ color: "#1A122B" }}>{card.meaning}</div>
+                <div className="mt-1 text-xs font-bold uppercase tracking-wider" style={{ color: "#1A122B", opacity: 0.75 }}>
                   Romaji
                 </div>
-                <div className="text-lg font-bold italic">{card.romaji}</div>
+                <div className="text-lg font-bold italic" style={{ color: "#1A122B" }}>{card.romaji}</div>
               </motion.div>
             )}
           </AnimatePresence>
