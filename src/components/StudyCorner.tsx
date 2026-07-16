@@ -240,13 +240,13 @@ export function StudyCorner() {
 
       <div className="mb-6 flex flex-wrap justify-center gap-3">
         <ModeBtn active={mode === "flash"} onClick={() => setMode("flash")}>
-          <Layers size={16} /> Kanji Flashcards
+          Kanji Flashcards
         </ModeBtn>
         <ModeBtn active={mode === "trace"} onClick={() => setMode("trace")}>
-          <Brush size={16} /> Kanji Tracing
+          Kanji Tracing
         </ModeBtn>
         <ModeBtn active={mode === "story"} onClick={() => setMode("story")}>
-          <BookOpen size={16} /> Ditto's Story Time
+          Ditto's Story Time
         </ModeBtn>
       </div>
 
