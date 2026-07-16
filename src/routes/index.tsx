@@ -2,10 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { LangProvider, useLang } from "@/lib/i18n";
 import { TabProvider, useTab } from "@/lib/tabs";
+import { AdminProvider } from "@/lib/admin";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
 import { Playground } from "@/components/Playground";
-import { Shop } from "@/components/Shop";
+import { Shop, AdminBanner, AdminLoginLink } from "@/components/Shop";
 import { StudyCorner } from "@/components/StudyCorner";
 
 export const Route = createFileRoute("/")({
@@ -16,7 +17,10 @@ function Footer() {
   const { t } = useLang();
   return (
     <footer className="mx-auto mt-24 mb-10 w-[min(1100px,94%)] text-center text-xs text-muted-foreground">
-      {t("footer")}
+      <div>{t("footer")}</div>
+      <div className="mt-3">
+        <AdminLoginLink />
+      </div>
     </footer>
   );
 }
@@ -48,15 +52,18 @@ function TabbedContent() {
 function Index() {
   return (
     <LangProvider>
-      <TabProvider>
-        <div className="min-h-screen pb-10">
-          <NavBar />
-          <main>
-            <TabbedContent />
-          </main>
-          <Footer />
-        </div>
-      </TabProvider>
+      <AdminProvider>
+        <TabProvider>
+          <div className="min-h-screen pb-10">
+            <AdminBanner />
+            <NavBar />
+            <main>
+              <TabbedContent />
+            </main>
+            <Footer />
+          </div>
+        </TabProvider>
+      </AdminProvider>
     </LangProvider>
   );
 }
