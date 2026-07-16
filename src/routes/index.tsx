@@ -8,6 +8,7 @@ import { Hero } from "@/components/Hero";
 import { Playground } from "@/components/Playground";
 import { Shop, AdminBanner, AdminLoginLink } from "@/components/Shop";
 import { StudyCorner } from "@/components/StudyCorner";
+import { StarField } from "@/components/StarField";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -54,13 +55,16 @@ function Index() {
     <LangProvider>
       <AdminProvider>
         <TabProvider>
-          <div className="min-h-screen pb-10">
-            <AdminBanner />
-            <NavBar />
-            <main>
-              <TabbedContent />
-            </main>
-            <Footer />
+          <div className="relative min-h-screen pb-10">
+            <StarField count={70} />
+            <div className="relative z-10">
+              <AdminBanner />
+              <NavBar />
+              <main>
+                <TabbedContent />
+              </main>
+              <Footer />
+            </div>
           </div>
         </TabProvider>
       </AdminProvider>
