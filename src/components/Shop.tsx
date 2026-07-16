@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState, type FormEvent } from "react";
-import { Star, X, Mail, Send, Loader2 } from "lucide-react";
+import { useEffect, useState, type FormEvent } from "react";
+import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck } from "lucide-react";
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
+import { useAdmin } from "@/lib/admin";
 
 type Card = {
   id: string;
@@ -13,9 +14,10 @@ type Card = {
   bg: string;
   ink: string;
   monogram: string;
+  imageUrl?: string;
 };
 
-const CARDS: Card[] = [
+const DEFAULT_CARDS: Card[] = [
   {
     id: "pikachu-sunset",
     title: "Pikachu at Sunset",
@@ -78,6 +80,8 @@ const CARDS: Card[] = [
   },
 ];
 
+const CARDS_KEY = "dittoland_cards_v1";
+
 const contactSchema = z.object({
   name: z.string().trim().min(1).max(80),
   email: z.string().trim().email().max(200),
@@ -85,12 +89,29 @@ const contactSchema = z.object({
 });
 
 function CardArt({ card }: { card: Card }) {
+  if (card.imageUrl) {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[var(--cream)]">
+        <img
+          src={card.imageUrl}
+          alt={card.title}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+        <span
+          className="absolute bottom-2 right-2 rounded-full border-[2px] border-[var(--color-ink)] bg-white/85 px-2 py-0.5 text-[9px] font-bold tracking-widest"
+          style={{ color: "#1A122B" }}
+        >
+          BENI · ORIGINAL
+        </span>
+      </div>
+    );
+  }
   return (
     <div
       className="relative flex h-full w-full items-center justify-center overflow-hidden"
       style={{ background: card.bg }}
     >
-      {/* dotted texture */}
       <div
         aria-hidden
         className="absolute inset-0 opacity-25"
@@ -100,11 +121,11 @@ function CardArt({ card }: { card: Card }) {
         }}
       />
       <div
-        className="flex h-24 w-24 items-center justify-center rounded-full border-[3px] font-bold sm:h-28 sm:w-28"
+        className="flex h-20 w-20 items-center justify-center rounded-full border-[3px] font-bold sm:h-24 sm:w-24"
         style={{
           borderColor: card.ink,
           color: card.ink,
-          fontSize: "3rem",
+          fontSize: "2.5rem",
           background: "rgba(255,255,255,0.55)",
           boxShadow: `3px 3px 0 0 ${card.ink}`,
         }}
@@ -112,12 +133,25 @@ function CardArt({ card }: { card: Card }) {
         {card.monogram}
       </div>
       <span
-        className="absolute bottom-3 right-3 text-[10px] font-bold tracking-widest"
+        className="absolute bottom-2 right-2 text-[9px] font-bold tracking-widest"
         style={{ color: card.ink }}
       >
         BENI · ORIGINAL
       </span>
     </div>
+  );
+}
+
+function SoldOutBadge({ available, t }: { available: boolean; t: (k: any) => any }) {
+  const soldStyle = { background: "#2E1547", color: "#FFFFFF" };
+  const availStyle = { background: "var(--mint)", color: "#1A122B" };
+  return (
+    <span
+      className="shrink-0 rounded-full border-[2px] border-[var(--color-ink)] px-2 py-0.5 text-[10px] font-bold"
+      style={available ? availStyle : soldStyle}
+    >
+      {available ? t("available") : t("sold_out")}
+    </span>
   );
 }
 
@@ -169,13 +203,12 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
     }
     setErrors({});
     setState("sending");
-    // Simulated send — no backend wired yet.
     setTimeout(() => setState("done"), 900);
   };
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-ink)]/50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-ink)]/60 p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -191,7 +224,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
       >
         <button
           onClick={onClose}
-          className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-white shadow-[2px_2px_0_0_var(--color-ink)]"
+          className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
           aria-label="Close"
         >
           <X size={16} />
@@ -210,7 +243,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
               <button
                 onClick={onClose}
                 className="pill-btn pill-btn-hover mx-auto mt-5 text-sm"
-                style={{ background: "var(--ditto-pink)", color: "white" }}
+                style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
               >
                 {t("close")}
               </button>
@@ -218,20 +251,15 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
           ) : (
             <>
               <div className="mb-3 flex items-start justify-between gap-3">
-                <div>
+                <div className="min-w-0">
                   <h3 className="text-xl font-bold leading-tight">{card.title}</h3>
                   <p className="mt-1 text-xs text-muted-foreground">{card.desc}</p>
                 </div>
                 <div className="shrink-0 text-right">
                   <div className="text-lg font-bold">${card.price}</div>
-                  <span
-                    className="mt-1 inline-block rounded-full border-[2px] border-[var(--color-ink)] px-2 py-0.5 text-[10px] font-bold"
-                    style={{
-                      background: card.available ? "var(--mint)" : "var(--butter)",
-                    }}
-                  >
-                    {card.available ? t("available") : t("sold_out")}
-                  </span>
+                  <div className="mt-1">
+                    <SoldOutBadge available={card.available} t={t} />
+                  </div>
                 </div>
               </div>
 
@@ -245,9 +273,9 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     name="name"
                     maxLength={80}
                     placeholder={ts("name_ph")}
-                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
+                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
                   />
-                  {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
+                  {errors.name && <p className="mt-1 text-xs text-red-300">{errors.name}</p>}
                 </label>
                 <label className="block">
                   <span className="mb-1 block text-xs font-bold">{t("email")}</span>
@@ -256,9 +284,9 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     type="email"
                     maxLength={200}
                     placeholder={ts("email_ph")}
-                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
+                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
                   />
-                  {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+                  {errors.email && <p className="mt-1 text-xs text-red-300">{errors.email}</p>}
                 </label>
                 <label className="block">
                   <span className="mb-1 block text-xs font-bold">{t("message")}</span>
@@ -267,17 +295,17 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     rows={3}
                     maxLength={1000}
                     placeholder={ts("message_ph")}
-                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
+                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
                   />
                   {errors.message && (
-                    <p className="mt-1 text-xs text-red-600">{errors.message}</p>
+                    <p className="mt-1 text-xs text-red-300">{errors.message}</p>
                   )}
                 </label>
                 <button
                   type="submit"
                   disabled={state === "sending"}
                   className="pill-btn pill-btn-hover w-full justify-center text-sm disabled:opacity-70"
-                  style={{ background: "var(--ditto-pink)", color: "white" }}
+                  style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
                 >
                   {state === "sending" ? (
                     <>
@@ -285,7 +313,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     </>
                   ) : (
                     <>
-                      <Send size={16} /> {t("send")}
+                      <Send size={16} /> Contact Beni to Purchase
                     </>
                   )}
                 </button>
@@ -298,12 +326,187 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
   );
 }
 
-export function Shop() {
-  const { t } = useLang();
-  const [open, setOpen] = useState<Card | null>(null);
+function CardEditor({
+  initial,
+  onClose,
+  onSave,
+}: {
+  initial: Card | null;
+  onClose: () => void;
+  onSave: (c: Card) => void;
+}) {
+  const [title, setTitle] = useState(initial?.title ?? "");
+  const [desc, setDesc] = useState(initial?.desc ?? "");
+  const [price, setPrice] = useState<string>(String(initial?.price ?? 20));
+  const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? "");
+  const [available, setAvailable] = useState<boolean>(initial?.available ?? true);
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    const priceNum = Number(price);
+    if (!title.trim() || Number.isNaN(priceNum)) return;
+    const id = initial?.id ?? `card-${Date.now()}`;
+    onSave({
+      id,
+      title: title.trim(),
+      desc: desc.trim(),
+      price: priceNum,
+      available,
+      bg: initial?.bg ?? "linear-gradient(160deg, #FBD3E4 0%, #B78CE0 100%)",
+      ink: initial?.ink ?? "#4A2C5B",
+      monogram: initial?.monogram ?? (title.trim()[0]?.toUpperCase() ?? "?"),
+      imageUrl: imageUrl.trim() || undefined,
+    });
+  };
 
   return (
-    <section id="shop" className="mx-auto mt-20 w-[min(1100px,94%)] scroll-mt-28">
+    <motion.div
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-[var(--color-ink)]/70 p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.form
+        onSubmit={submit}
+        className="card-doodle relative w-full max-w-lg p-6"
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
+          aria-label="Close"
+        >
+          <X size={16} />
+        </button>
+        <h3 className="mb-4 text-xl font-bold">{initial ? "Edit Card" : "Add New Card"}</h3>
+        <div className="space-y-3">
+          <label className="block">
+            <span className="mb-1 block text-xs font-bold">Card Name</span>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+              maxLength={100}
+              required
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-bold">Description</span>
+            <textarea
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              rows={3}
+              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+              maxLength={500}
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-bold">Price (USD)</span>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+              required
+            />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-bold">Image URL (optional)</span>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://…"
+              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+            />
+          </label>
+          <label className="flex items-center gap-2 text-sm font-bold">
+            <input
+              type="checkbox"
+              checked={!available}
+              onChange={(e) => setAvailable(!e.target.checked)}
+              className="h-4 w-4"
+            />
+            Sold Out
+          </label>
+        </div>
+        <div className="mt-5 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="pill-btn text-sm"
+            style={{ background: "#4F3A66", color: "#FFFFFF" }}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="pill-btn pill-btn-hover text-sm"
+            style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
+          >
+            Save Card
+          </button>
+        </div>
+      </motion.form>
+    </motion.div>
+  );
+}
+
+function loadCards(): Card[] {
+  if (typeof window === "undefined") return DEFAULT_CARDS;
+  try {
+    const raw = localStorage.getItem(CARDS_KEY);
+    if (!raw) return DEFAULT_CARDS;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed as Card[];
+  } catch {
+    /* noop */
+  }
+  return DEFAULT_CARDS;
+}
+
+export function Shop() {
+  const { t } = useLang();
+  const { isAdmin } = useAdmin();
+  const [cards, setCards] = useState<Card[]>(DEFAULT_CARDS);
+  const [open, setOpen] = useState<Card | null>(null);
+  const [editing, setEditing] = useState<Card | null>(null);
+  const [adding, setAdding] = useState(false);
+
+  useEffect(() => {
+    setCards(loadCards());
+  }, []);
+
+  const persist = (next: Card[]) => {
+    setCards(next);
+    try {
+      localStorage.setItem(CARDS_KEY, JSON.stringify(next));
+    } catch {
+      /* noop */
+    }
+  };
+
+  const upsert = (c: Card) => {
+    const exists = cards.some((x) => x.id === c.id);
+    persist(exists ? cards.map((x) => (x.id === c.id ? c : x)) : [...cards, c]);
+    setEditing(null);
+    setAdding(false);
+  };
+
+  const remove = (id: string) => {
+    if (!confirm("Delete this card?")) return;
+    persist(cards.filter((c) => c.id !== id));
+  };
+
+  return (
+    <section id="shop" className="mx-auto mt-20 w-[min(1200px,94%)] scroll-mt-28">
       <div className="mb-6 text-center">
         <h2 className="text-3xl font-bold sm:text-4xl">{t("shop_title")}</h2>
         <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
@@ -311,43 +514,192 @@ export function Shop() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {CARDS.map((c, i) => (
-          <motion.button
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {cards.map((c, i) => (
+          <motion.div
             key={c.id}
-            onClick={() => setOpen(c)}
-            whileHover={{ y: -5, rotate: i % 2 ? 1 : -1 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ y: -4, rotate: i % 2 ? 0.8 : -0.8 }}
             className="card-doodle group relative flex flex-col overflow-hidden p-0 text-left"
           >
-            <div className="aspect-[4/5] w-full">
+            <button
+              onClick={() => setOpen(c)}
+              className="aspect-[4/5] w-full text-left"
+              aria-label={`View ${c.title}`}
+            >
               <CardArt card={c} />
-            </div>
-            <div className="flex flex-1 flex-col gap-2 border-t-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-4">
+            </button>
+            <div className="flex flex-1 flex-col gap-2 border-t-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-3">
               <div className="flex items-start justify-between gap-2">
-                <h3 className="text-base font-bold leading-tight">{c.title}</h3>
-                <span
-                  className="shrink-0 rounded-full border-[2px] border-[var(--color-ink)] px-2 py-0.5 text-[10px] font-bold"
-                  style={{ background: c.available ? "var(--mint)" : "var(--butter)" }}
-                >
-                  {c.available ? t("available") : t("sold_out")}
-                </span>
+                <h3 className="text-sm font-bold leading-tight">{c.title}</h3>
+                <SoldOutBadge available={c.available} t={t} />
               </div>
-              <p className="text-xs text-muted-foreground">{c.desc}</p>
+              <p className="line-clamp-2 text-[11px] text-muted-foreground">{c.desc}</p>
               <div className="mt-1 flex items-center justify-between">
-                <span className="text-lg font-bold">${c.price}</span>
-                <span className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--ditto-deep)]">
+                <span className="text-base font-bold">${c.price}</span>
+                <button
+                  onClick={() => setOpen(c)}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--ditto-pink)] hover:underline"
+                >
                   <Mail size={12} /> {t("inquire")}
-                </span>
+                </button>
               </div>
+              {isAdmin && (
+                <div className="mt-2 flex gap-2 border-t-[2px] border-dashed border-[var(--color-ink)]/40 pt-2">
+                  <button
+                    onClick={() => setEditing(c)}
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg border-[2px] border-[var(--color-ink)] bg-[var(--mint)] px-2 py-1 text-[11px] font-bold text-[#1A122B]"
+                  >
+                    <Pencil size={11} /> Edit
+                  </button>
+                  <button
+                    onClick={() => remove(c.id)}
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-lg border-[2px] border-[var(--color-ink)] bg-[#FF8A8A] px-2 py-1 text-[11px] font-bold text-[#1A122B]"
+                  >
+                    <Trash2 size={11} /> Delete
+                  </button>
+                </div>
+              )}
             </div>
-          </motion.button>
+          </motion.div>
         ))}
+
+        {isAdmin && (
+          <button
+            onClick={() => setAdding(true)}
+            className="card-doodle flex min-h-[300px] flex-col items-center justify-center gap-3 border-dashed p-6 text-center hover:bg-[var(--muted)]"
+            style={{ background: "transparent" }}
+          >
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border-[3px] border-dashed border-[var(--ditto-pink)] text-[var(--ditto-pink)]">
+              <Plus size={32} />
+            </div>
+            <span className="text-sm font-bold text-[var(--ditto-pink)]">Add New Card</span>
+          </button>
+        )}
       </div>
 
       <AnimatePresence>
         {open && <OrderModal card={open} onClose={() => setOpen(null)} />}
+        {(editing || adding) && (
+          <CardEditor
+            initial={editing}
+            onClose={() => {
+              setEditing(null);
+              setAdding(false);
+            }}
+            onSave={upsert}
+          />
+        )}
       </AnimatePresence>
     </section>
+  );
+}
+
+export function AdminBanner() {
+  const { isAdmin, logout } = useAdmin();
+  if (!isAdmin) return null;
+  return (
+    <div className="fixed left-1/2 top-3 z-40 -translate-x-1/2">
+      <div
+        className="flex items-center gap-3 rounded-full border-[2.5px] border-[var(--color-ink)] px-4 py-1.5 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
+        style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
+      >
+        <ShieldCheck size={14} />
+        Admin Mode Active
+        <button
+          onClick={logout}
+          className="ml-1 inline-flex items-center gap-1 rounded-full border-[2px] border-[var(--color-ink)] bg-[#2E1547] px-2 py-0.5 text-[11px] text-white"
+        >
+          <LogOut size={11} /> Logout
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function AdminLoginLink() {
+  const { isAdmin, login } = useAdmin();
+  const [open, setOpen] = useState(false);
+  const [code, setCode] = useState("");
+  const [err, setErr] = useState(false);
+
+  if (isAdmin) return null;
+
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    if (login(code)) {
+      setOpen(false);
+      setCode("");
+      setErr(false);
+    } else {
+      setErr(true);
+    }
+  };
+
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        className="text-[11px] text-muted-foreground underline decoration-dotted underline-offset-4 hover:text-[var(--ditto-pink)]"
+      >
+        Admin Access
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-[var(--color-ink)]/70 p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+          >
+            <motion.form
+              onSubmit={submit}
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="card-doodle relative w-full max-w-sm p-6 text-center"
+            >
+              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] text-[#0A0414]">
+                <ShieldCheck size={26} />
+              </div>
+              <h3 className="text-xl font-bold">Admin Access</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Enter the passcode to manage Beni's cards.
+              </p>
+              <input
+                type="password"
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                  setErr(false);
+                }}
+                placeholder="Passcode"
+                className="mt-4 w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-center text-sm text-[#1A122B] outline-none"
+                autoFocus
+              />
+              {err && <p className="mt-2 text-xs text-red-300">Wrong passcode, try again.</p>}
+              <div className="mt-4 flex justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="pill-btn text-sm"
+                  style={{ background: "#4F3A66", color: "#FFFFFF" }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="pill-btn pill-btn-hover text-sm"
+                  style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
+                >
+                  Unlock
+                </button>
+              </div>
+            </motion.form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
