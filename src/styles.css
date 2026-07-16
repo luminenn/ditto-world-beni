@@ -133,7 +133,7 @@
       radial-gradient(circle at 85% 25%, color-mix(in oklab, #F3A5FF 30%, transparent) 0, transparent 50%),
       radial-gradient(circle at 50% 100%, color-mix(in oklab, #FFC8F0 40%, transparent) 0, transparent 55%),
       /* base warmer cosmic gradient */
-      linear-gradient(180deg, #5C4A8C 0%, #4E3E7D 50%, #41326B 100%);
+      linear-gradient(180deg, #3E2F6B 0%, #2F2557 50%, #221B44 100%);
     background-attachment: fixed;
   }
 }
