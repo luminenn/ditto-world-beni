@@ -18,7 +18,7 @@ const e = (text: string, node?: ReactNode): Entry => ({ text, node: node ?? text
 const en = {
   brand: e("Dittoland"),
   welcome: e("Welcome Beni!"),
-  tagline: e("Beni's hand-drawn card shop"),
+  tagline: e("Beni's Pokemon Cards"),
 
   nav_playground: e("Playground"),
   nav_shop: e("The Shop"),
