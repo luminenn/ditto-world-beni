@@ -10,7 +10,7 @@ export function LanguageToggle() {
       whileHover={{ y: -2, rotate: -1.5 }}
       whileTap={{ scale: 0.96 }}
       aria-label="Toggle language"
-      className="relative flex h-9 items-center gap-2 rounded-full px-4 text-sm font-bold transition-colors"
+      className="relative flex h-9 items-center gap-2 rounded-md px-4 text-sm font-bold transition-colors"
       style={{
         background: "#EADCF7",
         color: "#2E1547",
@@ -19,7 +19,7 @@ export function LanguageToggle() {
       }}
     >
       <span
-        className="flex h-6 w-8 items-center justify-center rounded-full text-[11px] font-extrabold"
+        className="flex h-6 w-8 items-center justify-center rounded-sm text-[11px] font-extrabold"
         style={{
           background: "#F3A5FF",
           color: "#2E1547",
