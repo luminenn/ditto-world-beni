@@ -417,16 +417,67 @@ function CardEditor({
               required
             />
           </label>
-          <label className="block">
-            <span className="mb-1 block text-xs font-bold">Image URL (optional)</span>
-            <input
-              type="url"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://…"
-              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
-            />
-          </label>
+          <div>
+            <div className="mb-1 flex items-center justify-between">
+              <span className="text-xs font-bold">Card Photo</span>
+              <button
+                type="button"
+                onClick={() => setUseUrl((v) => !v)}
+                className="text-[11px] font-bold underline decoration-dotted underline-offset-2 text-[var(--ditto-pink)]"
+              >
+                {useUrl ? "← Upload from device" : "Use Image URL instead →"}
+              </button>
+            </div>
+            {useUrl ? (
+              <div className="relative">
+                <LinkIcon size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#1A122B]/60" />
+                <input
+                  type="url"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder="https://…"
+                  className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white pl-8 pr-3 py-2 text-sm text-[#1A122B] outline-none"
+                />
+              </div>
+            ) : (
+              <>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={onFileChange}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="pill-btn pill-btn-hover w-full justify-center text-sm disabled:opacity-70"
+                  style={{ background: "var(--cream)", color: "#1A122B" }}
+                >
+                  {uploading ? (
+                    <><Loader2 size={16} className="animate-spin" /> Compressing…</>
+                  ) : (
+                    <><Camera size={16} /> {imageUrl ? "Change Card Photo" : "📸 Upload Card Photo"}</>
+                  )}
+                </button>
+              </>
+            )}
+            {imageUrl && (
+              <div className="mt-3 flex items-center gap-3">
+                <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border-[2.5px] border-[var(--color-ink)] shadow-[3px_3px_0_0_var(--color-ink)]">
+                  <img src={imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setImageUrl("")}
+                  className="text-xs font-bold text-[var(--ditto-pink)] underline decoration-dotted underline-offset-2"
+                >
+                  Remove photo
+                </button>
+              </div>
+            )}
+          </div>
           <label className="flex items-center gap-2 text-sm font-bold">
             <input
               type="checkbox"
