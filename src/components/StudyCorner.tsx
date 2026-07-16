@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Trophy, Flame, Sparkles, RefreshCw, ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
 
@@ -70,7 +71,6 @@ export function StudyCorner() {
       </div>
 
       <div className="card-doodle p-6 sm:p-8">
-        {/* Wooden scoreboard */}
         <div
           className="mx-auto mb-6 inline-flex w-full max-w-md items-center justify-around rounded-2xl border-[3px] border-[var(--color-ink)] px-4 py-2 text-sm font-bold"
           style={{
@@ -79,12 +79,15 @@ export function StudyCorner() {
             boxShadow: "inset 0 0 0 2px rgba(255,255,255,0.35), 4px 4px 0 0 var(--color-ink)",
           }}
         >
-          <div>🏆 {t("score")}: {score}</div>
-          <div>🔥 {t("streak")}: {streak}</div>
+          <div className="inline-flex items-center gap-1.5">
+            <Trophy size={16} /> {t("score")}: {score}
+          </div>
+          <div className="inline-flex items-center gap-1.5">
+            <Flame size={16} /> {t("streak")}: {streak}
+          </div>
         </div>
 
         <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-center">
-          {/* Ditto reaction */}
           <div className="flex justify-center">
             <div
               key={feedback + idx}
@@ -103,14 +106,13 @@ export function StudyCorner() {
             </div>
           </div>
 
-          {/* Flashcard */}
           <div>
             <motion.div
               key={idx}
               initial={{ scale: 0.7, rotate: -6, opacity: 0 }}
               animate={{ scale: 1, rotate: 0, opacity: 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 18 }}
-              className="mx-auto flex aspect-square w-40 items-center justify-center rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] text-6xl font-bold shadow-[5px_5px_0_0_var(--color-ink)] sm:w-48 sm:text-7xl"
+              className="mx-auto flex aspect-square w-40 items-center justify-center rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] text-6xl font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)] sm:w-48 sm:text-7xl"
             >
               {card.char}
             </motion.div>
@@ -120,11 +122,12 @@ export function StudyCorner() {
                 const isPicked = picked === c;
                 const isAnswer = c === card.answer;
                 const revealed = feedback !== "idle";
-                const bg = revealed && isAnswer
-                  ? "var(--mint)"
-                  : revealed && isPicked
-                    ? "color-mix(in oklab, var(--destructive) 40%, white)"
-                    : "var(--cream)";
+                const bg =
+                  revealed && isAnswer
+                    ? "var(--mint)"
+                    : revealed && isPicked
+                      ? "color-mix(in oklab, var(--destructive) 40%, white)"
+                      : "var(--cream)";
                 return (
                   <motion.button
                     key={c}
@@ -142,9 +145,17 @@ export function StudyCorner() {
             </div>
 
             <div className="mt-4 flex min-h-[2.5rem] items-center justify-between gap-3">
-              <p className="text-sm font-semibold">
-                {feedback === "correct" && `✨ ${t("correct")}`}
-                {feedback === "wrong" && `🌀 ${t("wrong")}`}
+              <p className="inline-flex items-center gap-1.5 text-sm font-semibold">
+                {feedback === "correct" && (
+                  <>
+                    <Sparkles size={14} /> {t("correct")}
+                  </>
+                )}
+                {feedback === "wrong" && (
+                  <>
+                    <RefreshCw size={14} /> {t("wrong")}
+                  </>
+                )}
               </p>
               <button
                 onClick={next}
@@ -152,7 +163,7 @@ export function StudyCorner() {
                 className="pill-btn pill-btn-hover text-sm disabled:opacity-50"
                 style={{ background: "var(--ditto-purple)" }}
               >
-                {t("next")} →
+                {t("next")} <ArrowRight size={14} />
               </button>
             </div>
           </div>

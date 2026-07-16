@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
+import { Sparkles, ShoppingBag, Hand } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
 
 export function Hero() {
   const { t } = useLang();
   return (
-    <section id="top" className="mx-auto mt-10 grid w-[min(1100px,94%)] gap-8 md:mt-16 md:grid-cols-2 md:items-center">
+    <section
+      id="top"
+      className="mx-auto mt-10 grid w-[min(1100px,94%)] gap-8 md:mt-16 md:grid-cols-2 md:items-center"
+    >
       <div>
         <motion.h1
           initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
@@ -13,7 +17,7 @@ export function Hero() {
           transition={{ type: "spring", stiffness: 200, damping: 12 }}
           className="mb-4 inline-block rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] px-5 py-2 text-2xl font-bold text-white shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
         >
-          {t("welcome")} 🎡
+          {t("welcome")}
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -21,18 +25,26 @@ export function Hero() {
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 rounded-full border-[2.5px] border-[var(--color-ink)] bg-[var(--butter)] px-3 py-1 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
         >
-          ✨ Transform · Squish · Play
+          <Sparkles size={14} /> {t("tagline")}
         </motion.div>
-        <h1 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">
+        <h2 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl md:text-[3.25rem]">
           {t("hero_title")}
-        </h1>
+        </h2>
         <p className="mt-4 max-w-md text-base text-muted-foreground sm:text-lg">{t("hero_sub")}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="#playground" className="pill-btn pill-btn-hover" style={{ background: "var(--ditto-pink)" }}>
-            🫧 {t("hero_cta1")}
+          <a
+            href="#playground"
+            className="pill-btn pill-btn-hover"
+            style={{ background: "var(--ditto-pink)", color: "white" }}
+          >
+            <Hand size={16} /> {t("hero_cta1")}
           </a>
-          <a href="#gallery" className="pill-btn pill-btn-hover" style={{ background: "var(--sky)" }}>
-            🎨 {t("hero_cta2")}
+          <a
+            href="#shop"
+            className="pill-btn pill-btn-hover"
+            style={{ background: "var(--sky)" }}
+          >
+            <ShoppingBag size={16} /> {t("hero_cta2")}
           </a>
         </div>
       </div>
@@ -52,18 +64,18 @@ export function Hero() {
           <DittoSVG size={340} />
         </motion.div>
         <motion.span
-          className="absolute left-4 top-6 text-4xl"
+          className="absolute left-4 top-6 text-[var(--ditto-deep)]"
           animate={{ rotate: [0, 20, -10, 0], y: [0, -6, 0] }}
           transition={{ duration: 5, repeat: Infinity }}
         >
-          ✨
+          <Sparkles size={36} />
         </motion.span>
         <motion.span
-          className="absolute right-6 bottom-6 text-4xl"
+          className="absolute right-6 bottom-6 text-[var(--ditto-pink)]"
           animate={{ rotate: [0, -20, 10, 0], y: [0, -8, 0] }}
           transition={{ duration: 6, repeat: Infinity }}
         >
-          🌸
+          <Sparkles size={30} />
         </motion.span>
       </div>
     </section>
