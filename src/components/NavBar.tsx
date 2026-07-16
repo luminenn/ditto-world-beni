@@ -22,11 +22,12 @@ export function NavBar() {
     >
       <button
         onClick={() => setTab("home")}
-        className="flex items-center gap-2 rounded-md border-[2px] border-[var(--color-ink)] px-3 py-1"
+        className="flex items-center gap-2 border-[2px] border-[var(--color-ink)] px-3 py-1"
         style={{
           background: "#EADCF7",
           color: "#2E1547",
           boxShadow: "3px 3px 0 0 var(--color-ink)",
+          borderRadius: 6,
         }}
       >
         <motion.span
@@ -47,11 +48,12 @@ export function NavBar() {
               onClick={() => setTab(tb.key)}
               whileHover={{ y: -2, rotate: i % 2 ? 1.5 : -1.5 }}
               whileTap={{ scale: 0.96 }}
-              className="rounded-md px-4 py-2 text-sm font-bold transition-colors"
+              className="px-4 py-2 text-sm font-bold transition-colors"
               style={{
                 background: active ? "#4F357A" : "#EADCF7",
                 color: active ? "#FFFFFF" : "#2E1547",
                 border: `2px solid #1A122B`,
+                borderRadius: 6,
                 boxShadow: active
                   ? "4px 4px 0 0 #1A122B"
                   : "3px 3px 0 0 #1A122B",

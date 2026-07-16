@@ -25,8 +25,8 @@ const en = {
   nav_study: e("Ditto's Japanese Class"),
 
 
-  hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
-  hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
+  hero_title: e("Hang around with Ditto and check out Beni's Pokemon cards."),
+  hero_sub: e("A cozy little corner of the internet run by Ditto. Play with Ditto, shop Beni's hand-drawn Pokemon cards, and learn Japanese. Feel free to stick around with Ditto for as long as you want!"),
   hero_cta1: e("Play with Ditto"),
   hero_cta2: e("Browse the shop"),
 
@@ -66,7 +66,7 @@ const en = {
   acc_shortcake: e("Strawberry Shortcake"),
 
   shop_title: e("Beni's Pokemon Cards"),
-  shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
+  shop_sub: e("Thanks for stopping by. Every card is carefully hand-drawn and designed by Beni. These cards have received much love and enjoyment from customers from San Francisco to Miami! Beni also accepts custom requests."),
   price_label: e("Price"),
   available: e("Available"),
   sold_out: e("Sold Out"),
@@ -87,7 +87,7 @@ const en = {
   thanks_sub: e("Ditto is sending your message to Beni!"),
 
   study_title: e("Ditto's Japanese School"),
-  study_sub: e("Pick the right meaning. Ditto cheers when you're right!"),
+  study_sub: e("Welcome to Sensei Ditto's Japanese Classroom. Ready to practice your Japanese?"),
   score: e("Score"),
   streak: e("Streak"),
   next: e("Next question"),
