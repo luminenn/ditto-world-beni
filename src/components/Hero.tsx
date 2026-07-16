@@ -6,6 +6,7 @@ import { DittoSVG } from "./DittoSVG";
 
 export function Hero() {
   const { t } = useLang();
+  const { setTab } = useTab();
   return (
     <section
       id="top"
