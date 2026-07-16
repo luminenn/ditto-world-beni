@@ -598,23 +598,25 @@ export function AdminBanner() {
   const { isAdmin, logout } = useAdmin();
   if (!isAdmin) return null;
   return (
-    <div className="fixed left-1/2 top-3 z-40 -translate-x-1/2">
+    <div className="fixed left-1/2 top-3 z-40 -translate-x-1/2 flex items-center gap-2">
       <div
-        className="flex items-center gap-3 rounded-full border-[2.5px] border-[var(--color-ink)] px-4 py-1.5 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
+        className="flex items-center gap-2 rounded-full border-[2.5px] border-[var(--color-ink)] px-4 py-1.5 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
         style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
       >
         <ShieldCheck size={14} />
         Admin Mode Active
-        <button
-          onClick={logout}
-          className="ml-1 inline-flex items-center gap-1 rounded-full border-[2px] border-[var(--color-ink)] bg-[#2E1547] px-2 py-0.5 text-[11px] text-white"
-        >
-          <LogOut size={11} /> Logout
-        </button>
       </div>
+      <button
+        onClick={logout}
+        className="inline-flex items-center gap-1.5 rounded-full border-[2.5px] border-[var(--color-ink)] px-4 py-1.5 text-xs font-extrabold shadow-[3px_3px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5 hover:rotate-[-1.5deg]"
+        style={{ background: "#2E1547", color: "#FFFFFF" }}
+      >
+        <LogOut size={13} /> Exit Admin Mode
+      </button>
     </div>
   );
 }
+
 
 export function AdminLoginLink() {
   const { isAdmin, login } = useAdmin();
