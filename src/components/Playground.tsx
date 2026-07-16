@@ -225,7 +225,13 @@ export function Playground() {
     setPlaced((p) => p.map((a) => (a.id === id ? { ...a, x, y } : a)));
   const remove = (id: string) => setPlaced((p) => p.filter((a) => a.id !== id));
 
-  const keys: AccessoryKey[] = ["hat", "detective", "chef", "beanie", "crown", "glasses", "pixelshades", "ribbon", "scarf", "lollipop"];
+  const keys: AccessoryKey[] = [
+    "hat", "detective", "chef", "beanie", "crown", "propeller", "piratehat", "astrohelmet", "diamondcrown",
+    "glasses", "pixelshades", "hpglasses", "monocle", "moustache", "bunnyears", "catears",
+    "ribbon", "bowtie", "scarf", "greenscarf",
+    "lollipop", "rainbowpop", "pizza", "chocobar", "shortcake", "boba", "rubberduck",
+    "pokeball", "sword", "balloon",
+  ];
 
   return (
     <section id="playground" className="mx-auto mt-16 w-[min(1100px,94%)] scroll-mt-28">
