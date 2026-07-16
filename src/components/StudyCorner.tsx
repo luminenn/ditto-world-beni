@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
+import dittoRetroSprite from "@/assets/ditto-retro-sprite.png";
 
 type VocabCard = {
   char: string;
@@ -228,12 +229,26 @@ export function StudyCorner() {
 
   return (
     <section id="study" className="mx-auto mt-20 w-[min(1100px,94%)] scroll-mt-28">
-      <div className="mb-6 text-center">
-        <h2 className="text-3xl font-bold sm:text-4xl">{t("study_title")}</h2>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
-          {t("study_sub")}
-        </p>
+      <div className="mb-6 flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-4">
+        <motion.img
+          src={dittoRetroSprite}
+          alt="Retro Ditto sprite tutor"
+          width={80}
+          height={80}
+          loading="lazy"
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+          className="h-16 w-16 shrink-0 rounded-xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[3px_3px_0_0_var(--color-ink)] sm:h-20 sm:w-20"
+          style={{ imageRendering: "pixelated" }}
+        />
+        <div>
+          <h2 className="text-3xl font-bold sm:text-4xl">{t("study_title")}</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
+            {t("study_sub")}
+          </p>
+        </div>
       </div>
+
 
       <div className="mb-6 flex flex-wrap justify-center gap-3">
         <ModeBtn active={mode === "flash"} onClick={() => setMode("flash")}>

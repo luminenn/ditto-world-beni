@@ -4,6 +4,7 @@ import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
+import dittoPixelArt from "@/assets/ditto-pixel-art.png";
 
 type Card = {
   id: string;
@@ -184,10 +185,14 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
   const { t, ts } = useLang();
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Formspree endpoint — edit this string to change delivery target
+  const [targetEmail] = useState("beni@example.com");
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgqgppp";
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     const parsed = contactSchema.safeParse({
       name: fd.get("name"),
       email: fd.get("email"),
@@ -203,8 +208,26 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
     }
     setErrors({});
     setState("sending");
-    setTimeout(() => setState("done"), 900);
+    // Attach card metadata + target email so submissions include full context
+    fd.set("card_name", card.title);
+    fd.set("card_price", `$${card.price}`);
+    fd.set("card_id", card.id);
+    fd.set("target_email", targetEmail);
+    fd.set("_subject", `New inquiry: ${card.title} ($${card.price})`);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: fd,
+      });
+      if (!res.ok) throw new Error("send failed");
+      setState("done");
+    } catch {
+      setState("idle");
+      setErrors({ message: "Something went wrong sending your inquiry. Please try again." });
+    }
   };
+
 
   return (
     <motion.div
@@ -238,8 +261,11 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
         <div className="border-t-[3px] border-[var(--color-ink)] p-5">
           {state === "done" ? (
             <div className="py-4 text-center">
-              <h3 className="text-2xl font-bold">{t("thanks_title")}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{t("thanks_sub")}</p>
+              <div className="mx-auto mb-2 text-4xl">💌</div>
+              <h3 className="text-2xl font-bold">Inquiry Sent! Ditto is on it!</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Beni will reply to your email as soon as possible. ✨
+              </p>
               <button
                 onClick={onClose}
                 className="pill-btn pill-btn-hover mx-auto mt-5 text-sm"
@@ -248,6 +274,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                 {t("close")}
               </button>
             </div>
+
           ) : (
             <>
               <div className="mb-3 flex items-start justify-between gap-3">
@@ -603,12 +630,26 @@ export function Shop() {
 
   return (
     <section id="shop" className="mx-auto mt-20 w-[min(1200px,94%)] scroll-mt-28">
-      <div className="mb-6 text-center">
-        <h2 className="text-3xl font-bold sm:text-4xl">{t("shop_title")}</h2>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
-          {t("shop_sub")}
-        </p>
+      <div className="mb-6 flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
+        <motion.img
+          src={dittoPixelArt}
+          alt="Pixel Ditto shopkeeper"
+          width={96}
+          height={96}
+          loading="lazy"
+          animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
+          transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          className="h-20 w-20 shrink-0 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[4px_4px_0_0_var(--color-ink)] sm:h-24 sm:w-24"
+          style={{ imageRendering: "pixelated" }}
+        />
+        <div>
+          <h2 className="text-3xl font-bold sm:text-4xl">{t("shop_title")}</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
+            {t("shop_sub")}
+          </p>
+        </div>
       </div>
+
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c, i) => (
