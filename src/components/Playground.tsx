@@ -246,24 +246,27 @@ export function Playground() {
 
         <aside className="card-doodle-sm flex flex-col gap-3 p-4" style={{ background: "rgba(46,26,64,0.75)", backdropFilter: "blur(6px)", color: "#F4EFFF", boxShadow: "4px 4px 0 0 var(--color-ink), 0 0 22px rgba(215,161,249,0.35)", borderColor: "#D7A1F9" }}>
           <h3 className="text-lg font-bold">{t("accessory_box")}</h3>
-          <div className="grid grid-cols-1 gap-3">
+          <div
+            className="cosmic-scroll grid grid-cols-3 gap-2 overflow-y-auto pr-1"
+            style={{ maxHeight: "296px" }}
+          >
             {keys.map((k) => (
               <motion.button
                 key={k}
                 whileHover={{ y: -3, rotate: -2 }}
                 whileTap={{ scale: 0.94 }}
                 onClick={() => add(k)}
-                className="card-doodle-sm flex items-center gap-3 p-3 text-sm font-semibold"
+                className="card-doodle-sm flex aspect-square flex-col items-center justify-center gap-1 p-2 text-[10px] font-semibold leading-tight"
                 style={{ boxShadow: "3px 3px 0 0 var(--color-ink)", background: "#3A2554", color: "#F4EFFF", borderColor: "#D7A1F9" }}
-
               >
-                <span className="flex h-10 w-14 items-center justify-center">
-                  {ACCESSORIES[k].render(40)}
+                <span className="flex h-9 items-center justify-center">
+                  {ACCESSORIES[k].render(34)}
                 </span>
-                <span>{t(LABELS[k])}</span>
+                <span className="text-center">{t(LABELS[k])}</span>
               </motion.button>
             ))}
           </div>
+
           <button
             onClick={() => setPlaced([])}
             className="pill-btn pill-btn-hover mt-2 justify-center text-sm"
