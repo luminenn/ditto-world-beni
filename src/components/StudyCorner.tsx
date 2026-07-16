@@ -689,7 +689,8 @@ function StoryTime() {
                   ? "var(--mint)"
                   : revealed && isThis
                     ? "color-mix(in oklab, var(--destructive) 40%, white)"
-                    : "var(--butter)";
+                    : "#4F3A66";
+              const fg = revealed && c.correct ? "#1A122B" : "#FFFFFF";
               return (
                 <motion.button
                   key={c.label}
@@ -698,7 +699,7 @@ function StoryTime() {
                   disabled={revealed}
                   onClick={() => choose(c)}
                   className="card-doodle-sm px-4 py-3 text-left text-sm font-bold sm:text-base"
-                  style={{ background: bg }}
+                  style={{ background: bg, color: fg }}
                 >
                   {c.label}
                 </motion.button>
