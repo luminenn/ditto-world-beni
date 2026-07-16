@@ -34,23 +34,24 @@ export function Hero() {
         </h2>
         <p className="mt-4 max-w-md text-base text-muted-foreground sm:text-lg">{t("hero_sub")}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href="#playground"
+          <button
+            onClick={() => setTab("home")}
             className="pill-btn pill-btn-hover"
             style={{ background: "var(--ditto-pink)", color: "white" }}
           >
             <Hand size={16} /> {t("hero_cta1")}
-          </a>
-          <a
-            href="#shop"
+          </button>
+          <button
+            onClick={() => setTab("shop")}
             className="pill-btn pill-btn-hover"
             style={{ background: "var(--sky)" }}
           >
             <ShoppingBag size={16} /> {t("hero_cta2")}
-          </a>
+          </button>
         </div>
       </div>
       <div className="relative flex items-center justify-center">
+
         <motion.div
           aria-hidden
           className="absolute inset-0 -z-10"
