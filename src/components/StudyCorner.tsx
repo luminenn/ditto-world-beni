@@ -10,7 +10,8 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
-import dittoRetroSprite from "@/assets/ditto-retro-sprite.png";
+const dittoRetroSprite =
+  "https://static.wikia.nocookie.net/pokemonwack/images/6/60/132.png/revision/latest?cb=20191119142214";
 
 type VocabCard = {
   char: string;

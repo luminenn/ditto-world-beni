@@ -4,7 +4,8 @@ import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
-import dittoPixelArt from "@/assets/ditto-pixel-art.png";
+const dittoPixelArt =
+  "https://static.wikia.nocookie.net/pokewilds/images/0/03/Ditto.png/revision/latest/thumbnail/width/360/height/360?cb=20230829005808";
 
 type Card = {
   id: string;
@@ -247,7 +248,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
       >
         <button
           onClick={onClose}
-          className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
+          className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-md border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
           aria-label="Close"
         >
           <X size={16} />
@@ -258,13 +259,18 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
           {state === "done" && <FloatingStars />}
         </div>
 
-        <div className="border-t-[3px] border-[var(--color-ink)] p-5">
+        <div className="border-t-[3px] border-[var(--color-ink)] p-5" style={{ background: "#261A36", color: "#F4EFFF" }}>
           {state === "done" ? (
             <div className="py-4 text-center">
-              <div className="mx-auto mb-2 text-4xl">💌</div>
-              <h3 className="text-2xl font-bold">Inquiry Sent! Ditto is on it!</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Beni will reply to your email as soon as possible. ✨
+              <img
+                src={dittoPixelArt}
+                alt="Ditto mascot"
+                className="mx-auto mb-3 h-16 w-16 object-contain"
+                style={{ imageRendering: "pixelated" }}
+              />
+              <h3 className="text-2xl font-bold" style={{ color: "#FFFFFF" }}>Inquiry Sent! Ditto is on it!</h3>
+              <p className="mt-2 text-sm" style={{ color: "#F4EFFF" }}>
+                Beni will reply to your email as soon as possible.
               </p>
               <button
                 onClick={onClose}
