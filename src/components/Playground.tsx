@@ -122,22 +122,49 @@ function DraggableAccessory({
   onRemove: (id: string) => void;
 }) {
   const meta = ACCESSORIES[placed.type];
+  const x = useMotionValue(placed.x);
+  const y = useMotionValue(placed.y);
+
+  // Keep motion values in sync when state changes from an external source (reset, add, etc.)
+  useEffect(() => {
+    x.set(placed.x);
+    y.set(placed.y);
+  }, [placed.x, placed.y, x, y]);
+
   return (
     <motion.button
       drag
       dragConstraints={bounds}
       dragMomentum={false}
       dragElastic={0}
-      onDragEnd={(_, info) =>
-        onMove(placed.id, placed.x + info.offset.x, placed.y + info.offset.y)
-      }
+      onDragEnd={(event, info) => {
+        // Compute drop position relative to the playground bounding rect
+        // using the pointer's final client coordinates so the accessory
+        // stays exactly where the user released it (no jump / teleport).
+        const stage = bounds.current?.getBoundingClientRect();
+        let nx = x.get();
+        let ny = y.get();
+        if (stage) {
+          const btn = (event.currentTarget as HTMLElement | null)?.getBoundingClientRect();
+          if (btn) {
+            nx = btn.left - stage.left;
+            ny = btn.top - stage.top;
+          } else {
+            nx = placed.x + info.offset.x;
+            ny = placed.y + info.offset.y;
+          }
+        }
+        x.set(nx);
+        y.set(ny);
+        onMove(placed.id, nx, ny);
+      }}
       onDoubleClick={() => onRemove(placed.id)}
       whileTap={{ scale: 1.08 }}
       whileHover={{ scale: 1.04 }}
-      className="absolute z-30 cursor-grab bg-transparent active:cursor-grabbing"
+      className="absolute left-0 top-0 z-30 cursor-grab bg-transparent active:cursor-grabbing"
       style={{
-        left: placed.x,
-        top: placed.y,
+        x,
+        y,
         touchAction: "none",
         filter: "drop-shadow(2px 3px 0 rgba(74,44,91,0.35))",
       }}
@@ -147,6 +174,7 @@ function DraggableAccessory({
     </motion.button>
   );
 }
+
 
 export function Playground() {
   const { t } = useLang();
