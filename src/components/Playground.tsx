@@ -1,5 +1,5 @@
 import { motion, useAnimationControls } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { RotateCcw } from "lucide-react";
 import { useLang, type TKey } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
@@ -16,10 +16,19 @@ const LABELS: Record<AccessoryKey, TKey> = {
 
 function SquishyDitto() {
   const controls = useAnimationControls();
-  const [pressed, setPressed] = useState(false);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [rot, setRot] = useState(0);
+  const drag = useRef<{
+    startX: number;
+    startY: number;
+    origX: number;
+    origY: number;
+    origRot: number;
+    shift: boolean;
+    moved: boolean;
+  } | null>(null);
 
   const squish = () => {
-    setPressed(true);
     controls.start({
       scaleX: 1.3,
       scaleY: 0.6,
@@ -27,7 +36,6 @@ function SquishyDitto() {
     });
   };
   const release = () => {
-    setPressed(false);
     controls.start({
       scaleX: [1.15, 0.9, 1.06, 0.98, 1],
       scaleY: [0.88, 1.12, 0.96, 1.02, 1],
@@ -35,17 +43,69 @@ function SquishyDitto() {
     });
   };
 
+  const onPointerDown = (e: React.PointerEvent) => {
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    drag.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: pos.x,
+      origY: pos.y,
+      origRot: rot,
+      shift: e.shiftKey,
+      moved: false,
+    };
+    squish();
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!drag.current) return;
+    const dx = e.clientX - drag.current.startX;
+    const dy = e.clientY - drag.current.startY;
+    if (!drag.current.moved && Math.hypot(dx, dy) > 4) {
+      drag.current.moved = true;
+      // cancel squish visual by resetting scale so rotate/translate reads clean
+      controls.start({ scaleX: 1, scaleY: 1, transition: { duration: 0.15 } });
+    }
+    if (!drag.current.moved) return;
+    if (drag.current.shift) {
+      setPos({ x: drag.current.origX + dx, y: drag.current.origY + dy });
+    } else {
+      // rotate based on horizontal drag primarily, plus vertical for full spin
+      setRot(drag.current.origRot + dx * 0.6 + dy * 0.3);
+    }
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (!drag.current) return;
+    try {
+      (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+    if (!drag.current.moved) {
+      release();
+    } else {
+      controls.start({ scaleX: 1, scaleY: 1, transition: { duration: 0.2 } });
+    }
+    drag.current = null;
+  };
+
   return (
     <motion.div
-      animate={controls}
-      whileHover={pressed ? undefined : { scale: 1.04, y: -6 }}
-      onPointerDown={squish}
-      onPointerUp={release}
-      onPointerLeave={() => pressed && release()}
-      className="pointer-events-auto cursor-grab select-none active:cursor-grabbing"
-      style={{ transformOrigin: "50% 90%", willChange: "transform" }}
+      animate={{ ...{}, x: pos.x, y: pos.y, rotate: rot }}
+      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+      className="pointer-events-auto select-none"
+      style={{ willChange: "transform" }}
     >
-      <DittoSVG size={300} />
+      <motion.div
+        animate={controls}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        className="cursor-grab active:cursor-grabbing"
+        style={{ transformOrigin: "50% 90%", willChange: "transform", touchAction: "none" }}
+      >
+        <DittoSVG size={300} />
+      </motion.div>
     </motion.div>
   );
 }
@@ -67,20 +127,21 @@ function DraggableAccessory({
       drag
       dragConstraints={bounds}
       dragMomentum={false}
-      dragElastic={0.15}
+      dragElastic={0}
       onDragEnd={(_, info) =>
         onMove(placed.id, placed.x + info.offset.x, placed.y + info.offset.y)
       }
       onDoubleClick={() => onRemove(placed.id)}
-      whileTap={{ scale: 1.1 }}
-      whileHover={{ scale: 1.06, rotate: -3 }}
+      whileTap={{ scale: 1.08 }}
+      whileHover={{ scale: 1.04 }}
       className="absolute z-30 cursor-grab bg-transparent active:cursor-grabbing"
       style={{
         left: placed.x,
         top: placed.y,
+        touchAction: "none",
         filter: "drop-shadow(2px 3px 0 rgba(74,44,91,0.35))",
       }}
-      title="Drag to move · Double-click to remove"
+      title="Drag freely · Double-click to remove"
     >
       {meta.render(meta.w)}
     </motion.button>
@@ -91,10 +152,20 @@ export function Playground() {
   const { t } = useLang();
   const stageRef = useRef<HTMLDivElement>(null);
   const [placed, setPlaced] = useState<Placed[]>([]);
+  const [stageSize, setStageSize] = useState({ w: 520, h: 440 });
+
+  useEffect(() => {
+    if (!stageRef.current) return;
+    const rect = stageRef.current.getBoundingClientRect();
+    setStageSize({ w: rect.width, h: rect.height });
+  }, []);
 
   const add = (type: AccessoryKey) => {
-    const pos = ACCESSORIES[type].defaultPos;
-    setPlaced((p) => [...p, { id: crypto.randomUUID(), type, x: pos.x, y: pos.y }]);
+    // Drop new accessories near the center of the stage so users can drag them freely.
+    const w = ACCESSORIES[type].w;
+    const x = Math.max(8, stageSize.w / 2 - w / 2);
+    const y = Math.max(8, stageSize.h / 2 - w / 2);
+    setPlaced((p) => [...p, { id: crypto.randomUUID(), type, x, y }]);
   };
   const move = (id: string, x: number, y: number) =>
     setPlaced((p) => p.map((a) => (a.id === id ? { ...a, x, y } : a)));
@@ -124,7 +195,7 @@ export function Playground() {
           />
 
           <div ref={stageRef} className="relative mx-auto h-[440px] w-full max-w-[520px]">
-            <div className="absolute inset-0 z-10 flex items-end justify-center pb-4">
+            <div className="pointer-events-none absolute inset-0 z-10 flex items-end justify-center pb-4">
               <SquishyDitto />
             </div>
             {placed.map((a) => (
@@ -166,7 +237,7 @@ export function Playground() {
             <RotateCcw size={14} /> {t("reset")}
           </button>
           <p className="text-xs text-muted-foreground">
-            Click Ditto to squish · Drag accessories onto him · Double-click to remove
+            Click + drag Ditto to spin · Shift + drag to move · Tap for squish · Drag accessories freely
           </p>
         </aside>
       </div>
