@@ -9,94 +9,138 @@ import {
   Brush,
   Layers,
   Eraser,
+  BookOpen,
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
 
 type VocabCard = {
-  char: string; // kanji or jukugo
-  reading: string; // hiragana
+  char: string;
+  reading: string;
   romaji: string;
   meaning: string;
-  choices: string[]; // hiragana readings incl. answer
+  choices: string[];
 };
 
-const DECK: VocabCard[] = [
-  { char: "日本語", reading: "にほんご", romaji: "nihongo", meaning: "Japanese language", choices: ["にほんご", "ちゅうごくご", "えいご", "かんこくご"] },
-  { char: "友達", reading: "ともだち", romaji: "tomodachi", meaning: "Friend", choices: ["ともだち", "かぞく", "せんぱい", "こいびと"] },
-  { char: "学校", reading: "がっこう", romaji: "gakkou", meaning: "School", choices: ["がっこう", "きょうしつ", "としょかん", "こうえん"] },
-  { char: "先生", reading: "せんせい", romaji: "sensei", meaning: "Teacher", choices: ["せんせい", "がくせい", "いしゃ", "しゃちょう"] },
-  { char: "本屋", reading: "ほんや", romaji: "hon'ya", meaning: "Bookstore", choices: ["ほんや", "はなや", "パンや", "にくや"] },
+// JLPT N5 elementary-friendly vocab
+const BASE_DECK: VocabCard[] = [
+  { char: "木", reading: "き", romaji: "ki", meaning: "Tree", choices: ["き", "め", "ひ", "て"] },
+  { char: "川", reading: "かわ", romaji: "kawa", meaning: "River", choices: ["かわ", "うみ", "いけ", "みず"] },
+  { char: "山", reading: "やま", romaji: "yama", meaning: "Mountain", choices: ["やま", "かわ", "そら", "もり"] },
+  { char: "魚", reading: "さかな", romaji: "sakana", meaning: "Fish", choices: ["さかな", "とり", "いぬ", "うし"] },
+  { char: "雨", reading: "あめ", romaji: "ame", meaning: "Rain", choices: ["あめ", "ゆき", "くも", "かぜ"] },
+  { char: "犬", reading: "いぬ", romaji: "inu", meaning: "Dog", choices: ["いぬ", "ねこ", "うま", "とり"] },
   { char: "猫", reading: "ねこ", romaji: "neko", meaning: "Cat", choices: ["ねこ", "いぬ", "うま", "とり"] },
-  { char: "水", reading: "みず", romaji: "mizu", meaning: "Water", choices: ["みず", "おん", "かわ", "いし"] },
-  { char: "空", reading: "そら", romaji: "sora", meaning: "Sky", choices: ["うみ", "くも", "そら", "ほし"] },
-  { char: "月曜日", reading: "げつようび", romaji: "getsuyoubi", meaning: "Monday", choices: ["げつようび", "かようび", "すいようび", "きんようび"] },
+  { char: "車", reading: "くるま", romaji: "kuruma", meaning: "Car", choices: ["くるま", "でんしゃ", "ふね", "ひこうき"] },
+  { char: "空", reading: "そら", romaji: "sora", meaning: "Sky", choices: ["そら", "うみ", "くも", "ほし"] },
+  { char: "花", reading: "はな", romaji: "hana", meaning: "Flower", choices: ["はな", "き", "くさ", "は"] },
+  { char: "火山", reading: "かざん", romaji: "kazan", meaning: "Volcano", choices: ["かざん", "ふじさん", "やまび", "かじ"] },
+  { char: "日本", reading: "にほん", romaji: "nihon", meaning: "Japan", choices: ["にほん", "ちゅうごく", "かんこく", "たいわん"] },
+  { char: "子猫", reading: "こねこ", romaji: "koneko", meaning: "Kitten", choices: ["こねこ", "こいぬ", "こうし", "こぶた"] },
   { char: "花火", reading: "はなび", romaji: "hanabi", meaning: "Fireworks", choices: ["はなび", "たきび", "ひばな", "かじ"] },
+  { char: "青空", reading: "あおぞら", romaji: "aozora", meaning: "Blue sky", choices: ["あおぞら", "よぞら", "ゆうぞら", "ほしぞら"] },
 ];
 
-/** Simplified stroke hints: numbered dots + arrow direction per stroke start.
- *  Positions are % of canvas box. Not full stroke paths — a friendly guide. */
 type StrokeHint = { n: number; x: number; y: number; arrow: "→" | "↓" | "↘" | "↙" | "↖" };
 type TraceItem = { char: string; hints: StrokeHint[] };
 
-const TRACE_DECK: TraceItem[] = [
+const BASE_TRACE_DECK: TraceItem[] = [
+  { char: "木", hints: [{ n: 1, x: 22, y: 34, arrow: "→" }, { n: 2, x: 50, y: 20, arrow: "↓" }, { n: 3, x: 44, y: 48, arrow: "↙" }, { n: 4, x: 58, y: 48, arrow: "↘" }] },
+  { char: "川", hints: [{ n: 1, x: 28, y: 22, arrow: "↓" }, { n: 2, x: 50, y: 18, arrow: "↓" }, { n: 3, x: 72, y: 22, arrow: "↓" }] },
+  { char: "山", hints: [{ n: 1, x: 50, y: 22, arrow: "↓" }, { n: 2, x: 26, y: 42, arrow: "↓" }, { n: 3, x: 74, y: 42, arrow: "↓" }] },
+  { char: "火", hints: [{ n: 1, x: 34, y: 28, arrow: "↙" }, { n: 2, x: 62, y: 30, arrow: "↘" }, { n: 3, x: 46, y: 40, arrow: "↓" }, { n: 4, x: 58, y: 58, arrow: "↘" }] },
+  { char: "雨", hints: [{ n: 1, x: 50, y: 14, arrow: "→" }, { n: 2, x: 22, y: 30, arrow: "↓" }, { n: 3, x: 40, y: 50, arrow: "↓" }, { n: 4, x: 60, y: 50, arrow: "↓" }] },
+  { char: "空", hints: [{ n: 1, x: 30, y: 16, arrow: "↘" }, { n: 2, x: 70, y: 16, arrow: "↙" }, { n: 3, x: 50, y: 42, arrow: "↓" }, { n: 4, x: 30, y: 66, arrow: "→" }] },
+  { char: "花", hints: [{ n: 1, x: 26, y: 18, arrow: "→" }, { n: 2, x: 60, y: 18, arrow: "↓" }, { n: 3, x: 32, y: 50, arrow: "↘" }, { n: 4, x: 60, y: 52, arrow: "↓" }] },
+  { char: "犬", hints: [{ n: 1, x: 26, y: 32, arrow: "↘" }, { n: 2, x: 50, y: 20, arrow: "↓" }, { n: 3, x: 40, y: 58, arrow: "↙" }, { n: 4, x: 66, y: 30, arrow: "↘" }] },
+];
+
+type StoryChoice = { label: string; correct: boolean };
+type Story = {
+  passage: React.ReactNode;
+  question: string;
+  choices: StoryChoice[];
+};
+
+const BASE_STORIES: Story[] = [
   {
-    char: "水",
-    hints: [
-      { n: 1, x: 50, y: 18, arrow: "↓" },
-      { n: 2, x: 32, y: 52, arrow: "↙" },
-      { n: 3, x: 62, y: 42, arrow: "↘" },
-      { n: 4, x: 68, y: 62, arrow: "↘" },
+    passage: (
+      <>
+        きょうは <ruby>青空<rt>あおぞら</rt></ruby> です。かわいい{" "}
+        <ruby>子猫<rt>こねこ</rt></ruby> が <ruby>山<rt>やま</rt></ruby> を{" "}
+        <ruby>走<rt>はし</rt></ruby> ります。
+      </>
+    ),
+    question: "Where is the cute kitten running?",
+    choices: [
+      { label: "In the river", correct: false },
+      { label: "Up the mountain", correct: true },
+      { label: "Inside the house", correct: false },
+      { label: "Across the sky", correct: false },
     ],
   },
   {
-    char: "火",
-    hints: [
-      { n: 1, x: 34, y: 28, arrow: "↙" },
-      { n: 2, x: 62, y: 30, arrow: "↘" },
-      { n: 3, x: 46, y: 40, arrow: "↓" },
-      { n: 4, x: 58, y: 58, arrow: "↘" },
+    passage: (
+      <>
+        <ruby>雨<rt>あめ</rt></ruby> の <ruby>日<rt>ひ</rt></ruby> です。
+        <ruby>犬<rt>いぬ</rt></ruby> は おうちで <ruby>寝<rt>ね</rt></ruby> ています。
+      </>
+    ),
+    question: "What is the dog doing?",
+    choices: [
+      { label: "Playing outside", correct: false },
+      { label: "Eating fish", correct: false },
+      { label: "Sleeping at home", correct: true },
+      { label: "Chasing a cat", correct: false },
     ],
   },
   {
-    char: "木",
-    hints: [
-      { n: 1, x: 22, y: 34, arrow: "→" },
-      { n: 2, x: 50, y: 20, arrow: "↓" },
-      { n: 3, x: 44, y: 48, arrow: "↙" },
-      { n: 4, x: 58, y: 48, arrow: "↘" },
+    passage: (
+      <>
+        なつの よる、<ruby>花火<rt>はなび</rt></ruby> が{" "}
+        <ruby>空<rt>そら</rt></ruby> に ひかります。みんなで <ruby>見<rt>み</rt></ruby> ます。
+      </>
+    ),
+    question: "What lights up the sky in the story?",
+    choices: [
+      { label: "Stars", correct: false },
+      { label: "Fireworks", correct: true },
+      { label: "The moon", correct: false },
+      { label: "Lanterns", correct: false },
     ],
   },
   {
-    char: "友",
-    hints: [
-      { n: 1, x: 28, y: 22, arrow: "→" },
-      { n: 2, x: 60, y: 14, arrow: "↙" },
-      { n: 3, x: 30, y: 52, arrow: "↘" },
-      { n: 4, x: 62, y: 62, arrow: "↘" },
+    passage: (
+      <>
+        <ruby>川<rt>かわ</rt></ruby> に ちいさな <ruby>魚<rt>さかな</rt></ruby> が います。
+        <ruby>木<rt>き</rt></ruby> の したで メタモンが <ruby>見<rt>み</rt></ruby> ています。
+      </>
+    ),
+    question: "What is Ditto watching?",
+    choices: [
+      { label: "A little fish in the river", correct: true },
+      { label: "A bird in the tree", correct: false },
+      { label: "A cat on the mountain", correct: false },
+      { label: "A car on the road", correct: false },
     ],
   },
   {
-    char: "花",
-    hints: [
-      { n: 1, x: 26, y: 18, arrow: "→" },
-      { n: 2, x: 60, y: 18, arrow: "↓" },
-      { n: 3, x: 32, y: 50, arrow: "↘" },
-      { n: 4, x: 60, y: 52, arrow: "↓" },
-    ],
-  },
-  {
-    char: "月",
-    hints: [
-      { n: 1, x: 30, y: 22, arrow: "↓" },
-      { n: 2, x: 70, y: 22, arrow: "↙" },
-      { n: 3, x: 32, y: 44, arrow: "→" },
-      { n: 4, x: 32, y: 66, arrow: "→" },
+    passage: (
+      <>
+        <ruby>日本<rt>にほん</rt></ruby> には たくさんの{" "}
+        <ruby>火山<rt>かざん</rt></ruby> が あります。とても きれいです。
+      </>
+    ),
+    question: "What does the story say Japan has many of?",
+    choices: [
+      { label: "Rivers", correct: false },
+      { label: "Volcanoes", correct: true },
+      { label: "Trains", correct: false },
+      { label: "Cats", correct: false },
     ],
   },
 ];
 
-// Encouragement phrases (Japanese)
 const HYPE_CORRECT = ["おめでとう！", "よくできました！", "すごい！", "その調子！"];
 const HYPE_WRONG = ["よくやったけど…", "諦めないで！", "もう一回！", "だいじょうぶ！"];
 const HYPE_IDLE = ["がんばって！", "いっしょに勉強しよう！"];
@@ -114,7 +158,7 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-type Mode = "flash" | "trace";
+type Mode = "flash" | "trace" | "story";
 
 function SpeechBubble({ text, mood }: { text: string; mood: "idle" | "correct" | "wrong" }) {
   const bg =
@@ -155,10 +199,11 @@ function DittoMascot({ mood }: { mood: "idle" | "correct" | "wrong" }) {
   const anim =
     mood === "correct" ? "animate-joy" : mood === "wrong" ? "animate-shake" : "animate-float";
   const face = mood === "correct" ? "joy" : mood === "wrong" ? "sad" : "happy";
-  const bubble =
-    mood === "correct" ? pick(HYPE_CORRECT) : mood === "wrong" ? pick(HYPE_WRONG) : pick(HYPE_IDLE);
-  // Memoize bubble text per mood so it doesn't reshuffle every render
-  const stableBubble = useMemo(() => bubble, [mood]); // eslint-disable-line react-hooks/exhaustive-deps
+  const stableBubble = useMemo(
+    () =>
+      mood === "correct" ? pick(HYPE_CORRECT) : mood === "wrong" ? pick(HYPE_WRONG) : pick(HYPE_IDLE),
+    [mood],
+  );
   return (
     <div className="flex flex-col items-center gap-3">
       <SpeechBubble text={stableBubble} mood={mood} />
@@ -182,44 +227,60 @@ export function StudyCorner() {
         </p>
       </div>
 
-      <div className="mb-6 flex justify-center gap-3">
-        <button
-          onClick={() => setMode("flash")}
-          className="pill-btn pill-btn-hover text-sm"
-          style={{
-            background: mode === "flash" ? "var(--ditto-pink)" : "var(--cream)",
-            color: mode === "flash" ? "#fff" : "var(--ink)",
-          }}
-        >
+      <div className="mb-6 flex flex-wrap justify-center gap-3">
+        <ModeBtn active={mode === "flash"} onClick={() => setMode("flash")}>
           <Layers size={16} /> Kanji Flashcards
-        </button>
-        <button
-          onClick={() => setMode("trace")}
-          className="pill-btn pill-btn-hover text-sm"
-          style={{
-            background: mode === "trace" ? "var(--ditto-pink)" : "var(--cream)",
-            color: mode === "trace" ? "#fff" : "var(--ink)",
-          }}
-        >
+        </ModeBtn>
+        <ModeBtn active={mode === "trace"} onClick={() => setMode("trace")}>
           <Brush size={16} /> Kanji Tracing
-        </button>
+        </ModeBtn>
+        <ModeBtn active={mode === "story"} onClick={() => setMode("story")}>
+          <BookOpen size={16} /> Ditto's Story Time
+        </ModeBtn>
       </div>
 
-      {mode === "flash" ? <Flashcards /> : <TracingCanvas />}
+      {mode === "flash" && <Flashcards />}
+      {mode === "trace" && <TracingCanvas />}
+      {mode === "story" && <StoryTime />}
     </section>
+  );
+}
+
+function ModeBtn({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="pill-btn pill-btn-hover text-sm"
+      style={{
+        background: active ? "var(--ditto-purple)" : "var(--cream)",
+        color: active ? "#fff" : "var(--ink)",
+      }}
+    >
+      {children}
+    </button>
   );
 }
 
 function Flashcards() {
   const { t } = useLang();
+  // Randomize on mount
+  const [deck] = useState(() => shuffle(BASE_DECK));
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
   const [feedback, setFeedback] = useState<"idle" | "correct" | "wrong">("idle");
   const [picked, setPicked] = useState<string | null>(null);
 
-  const card = DECK[idx % DECK.length];
-  const [shuffled, setShuffled] = useState<string[]>(card.choices);
+  const card = deck[idx % deck.length];
+  const [shuffled, setShuffled] = useState<string[]>(() => shuffle(card.choices));
   useEffect(() => {
     setShuffled(shuffle(card.choices));
   }, [idx, card.choices]);
@@ -245,21 +306,7 @@ function Flashcards() {
 
   return (
     <div className="card-doodle p-6 sm:p-8">
-      <div
-        className="mx-auto mb-6 inline-flex w-full max-w-md items-center justify-around rounded-2xl border-[3px] border-[var(--color-ink)] px-4 py-2 text-sm font-bold"
-        style={{
-          background: "linear-gradient(180deg, #D9A46B 0%, #B8814A 100%)",
-          color: "#2D2A2E",
-          boxShadow: "inset 0 0 0 2px rgba(255,255,255,0.35), 4px 4px 0 0 var(--color-ink)",
-        }}
-      >
-        <div className="inline-flex items-center gap-1.5">
-          <Trophy size={16} /> {t("score")}: {score}
-        </div>
-        <div className="inline-flex items-center gap-1.5">
-          <Flame size={16} /> {t("streak")}: {streak}
-        </div>
-      </div>
+      <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
 
       <div className="grid gap-8 md:grid-cols-[260px_1fr] md:items-center">
         <div className="flex justify-center">
@@ -272,7 +319,7 @@ function Flashcards() {
             initial={{ scale: 0.7, rotate: -6, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 260, damping: 18 }}
-            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] px-8 py-4 font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)]"
+            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] bg-[var(--ditto-purple)] px-8 py-4 font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)]"
             style={{ fontSize: card.char.length > 2 ? "3.5rem" : "4.5rem", lineHeight: 1 }}
           >
             {card.char}
@@ -344,7 +391,7 @@ function Flashcards() {
               onClick={next}
               disabled={feedback === "idle"}
               className="pill-btn pill-btn-hover text-sm disabled:opacity-50"
-              style={{ background: "var(--ditto-purple)" }}
+              style={{ background: "var(--ditto-purple)", color: "#fff" }}
             >
               {t("next")} <ArrowRight size={14} />
             </button>
@@ -355,14 +402,45 @@ function Flashcards() {
   );
 }
 
+function ScoreBar({
+  score,
+  streak,
+  scoreLabel,
+  streakLabel,
+}: {
+  score: number;
+  streak: number;
+  scoreLabel: React.ReactNode;
+  streakLabel: React.ReactNode;
+}) {
+  return (
+    <div
+      className="mx-auto mb-6 inline-flex w-full max-w-md items-center justify-around rounded-2xl border-[3px] border-[var(--color-ink)] px-4 py-2 text-sm font-bold"
+      style={{
+        background: "linear-gradient(180deg, #D9A46B 0%, #B8814A 100%)",
+        color: "#2D2A2E",
+        boxShadow: "inset 0 0 0 2px rgba(255,255,255,0.35), 4px 4px 0 0 var(--color-ink)",
+      }}
+    >
+      <div className="inline-flex items-center gap-1.5">
+        <Trophy size={16} /> {scoreLabel}: {score}
+      </div>
+      <div className="inline-flex items-center gap-1.5">
+        <Flame size={16} /> {streakLabel}: {streak}
+      </div>
+    </div>
+  );
+}
+
 function TracingCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawing = useRef(false);
   const last = useRef<{ x: number; y: number } | null>(null);
+  const [deck] = useState(() => shuffle(BASE_TRACE_DECK));
   const [idx, setIdx] = useState(0);
   const [mood, setMood] = useState<"idle" | "correct" | "wrong">("idle");
   const [showHints, setShowHints] = useState(true);
-  const item = TRACE_DECK[idx % TRACE_DECK.length];
+  const item = deck[idx % deck.length];
 
   const size = 420;
 
@@ -434,7 +512,6 @@ function TracingCanvas() {
             className="relative rounded-3xl border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_0_var(--color-ink)] overflow-hidden"
             style={{ background: "var(--cream)", width: "min(100%, 420px)", aspectRatio: "1 / 1" }}
           >
-            {/* Guide kanji */}
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
@@ -447,7 +524,6 @@ function TracingCanvas() {
               {item.char}
             </div>
 
-            {/* Stroke order overlay */}
             {showHints && (
               <div className="pointer-events-none absolute inset-0" aria-hidden>
                 {item.hints.map((h) => (
@@ -507,7 +583,7 @@ function TracingCanvas() {
             <button
               onClick={() => setIdx((i) => i + 1)}
               className="pill-btn pill-btn-hover text-sm"
-              style={{ background: "var(--ditto-pink)", color: "#fff" }}
+              style={{ background: "var(--ditto-purple)", color: "#fff" }}
             >
               Next Kanji <ArrowRight size={14} />
             </button>
@@ -515,6 +591,132 @@ function TracingCanvas() {
           <p className="mt-3 text-center text-xs text-muted-foreground">
             Follow the numbered arrows to trace with proper stroke order.
           </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StoryTime() {
+  const { t } = useLang();
+  const [deck] = useState(() => shuffle(BASE_STORIES));
+  const [idx, setIdx] = useState(0);
+  const story = deck[idx % deck.length];
+  const [shuffledChoices, setShuffledChoices] = useState<StoryChoice[]>(() => shuffle(story.choices));
+  const [picked, setPicked] = useState<StoryChoice | null>(null);
+  const [mood, setMood] = useState<"idle" | "correct" | "wrong">("idle");
+  const [score, setScore] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    setShuffledChoices(shuffle(story.choices));
+    setPicked(null);
+    setMood("idle");
+  }, [idx, story.choices]);
+
+  const choose = (c: StoryChoice) => {
+    if (picked) return;
+    setPicked(c);
+    if (c.correct) {
+      setMood("correct");
+      setScore((s) => s + 10);
+      setStreak((s) => s + 1);
+    } else {
+      setMood("wrong");
+      setStreak(0);
+    }
+  };
+
+  const next = () => setIdx((i) => i + 1);
+
+  return (
+    <div className="card-doodle p-6 sm:p-8">
+      <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
+
+      <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-start">
+        <div className="flex justify-center md:pt-6">
+          <DittoMascot mood={mood} />
+        </div>
+
+        <div>
+          {/* Paper scroll passage */}
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 10, rotate: -1 }}
+            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 220, damping: 20 }}
+            className="relative rounded-[2rem] border-[3px] border-[var(--color-ink)] p-6 sm:p-8 shadow-[6px_6px_0_0_var(--color-ink)]"
+            style={{
+              background:
+                "repeating-linear-gradient(0deg, #FFF8EC 0px, #FFF8EC 28px, #F5EBD3 29px, #FFF8EC 30px)",
+            }}
+          >
+            <div className="absolute -top-3 left-6 rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-purple)] px-3 py-0.5 text-xs font-extrabold text-white">
+              Story Time
+            </div>
+            <p
+              className="text-lg sm:text-xl leading-[2.4] font-semibold text-[var(--color-ink)]"
+              style={{ fontFamily: "inherit" }}
+            >
+              {story.passage}
+            </p>
+          </motion.div>
+
+          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]">
+            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              Question
+            </div>
+            <p className="text-base sm:text-lg font-bold">{story.question}</p>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {shuffledChoices.map((c) => {
+              const revealed = !!picked;
+              const isThis = picked === c;
+              const bg =
+                revealed && c.correct
+                  ? "var(--mint)"
+                  : revealed && isThis
+                    ? "color-mix(in oklab, var(--destructive) 40%, white)"
+                    : "var(--butter)";
+              return (
+                <motion.button
+                  key={c.label}
+                  whileHover={{ y: -3, rotate: -0.5 }}
+                  whileTap={{ scale: 0.96 }}
+                  disabled={revealed}
+                  onClick={() => choose(c)}
+                  className="card-doodle-sm px-4 py-3 text-left text-sm font-bold sm:text-base"
+                  style={{ background: bg }}
+                >
+                  {c.label}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          <div className="mt-4 flex min-h-[2.5rem] items-center justify-between gap-3">
+            <p className="inline-flex items-center gap-1.5 text-sm font-semibold">
+              {mood === "correct" && (
+                <>
+                  <Sparkles size={14} /> {t("correct")}
+                </>
+              )}
+              {mood === "wrong" && (
+                <>
+                  <RefreshCw size={14} /> {t("wrong")}
+                </>
+              )}
+            </p>
+            <button
+              onClick={next}
+              disabled={!picked}
+              className="pill-btn pill-btn-hover text-sm disabled:opacity-50"
+              style={{ background: "var(--ditto-purple)", color: "#fff" }}
+            >
+              Next Story <ArrowRight size={14} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
