@@ -61,7 +61,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20, rotate: 2 }}
           animate={{ opacity: 1, y: 0, rotate: 1.5 }}
-          className="inline-flex items-center gap-2 rounded-full border-[2.5px] border-[var(--color-ink)] px-3 py-1 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
+          className="inline-flex items-center gap-2 rounded-md border-[2.5px] border-[var(--color-ink)] px-3 py-1 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
           style={{ background: "#2E1547", color: "#FFFFFF" }}
         >
           <Sparkles size={14} /> {t("tagline")}

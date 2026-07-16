@@ -10,8 +10,19 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
-const dittoRetroSprite =
+const DITTO_RETRO_PRIMARY =
   "https://static.wikia.nocookie.net/pokemonwack/images/6/60/132.png/revision/latest?cb=20191119142214";
+const DITTO_RETRO_FALLBACK =
+  "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fingame%2Fnormal%2Fpm132.fSPRING_2026_A.icon.png&w=384&q=75";
+const dittoRetroSprite = DITTO_RETRO_PRIMARY;
+
+function handleRetroDittoError(e: React.SyntheticEvent<HTMLImageElement>) {
+  const img = e.currentTarget;
+  if (img.dataset.fallback !== "1") {
+    img.dataset.fallback = "1";
+    img.src = DITTO_RETRO_FALLBACK;
+  }
+}
 
 type VocabCard = {
   char: string;
