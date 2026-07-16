@@ -316,7 +316,8 @@ function Flashcards() {
   };
 
   return (
-    <div className="card-doodle p-6 sm:p-8">
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
+
       <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
 
       <div className="grid gap-8 md:grid-cols-[260px_1fr] md:items-center">
