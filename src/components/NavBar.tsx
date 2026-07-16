@@ -7,8 +7,8 @@ import { LanguageToggle } from "./LanguageToggle";
 export function NavBar() {
   const { t } = useLang();
   const { tab, setTab } = useTab();
-  const tabs: { key: Tab; label: "brand" | "nav_shop" | "nav_study" }[] = [
-    { key: "home", label: "brand" },
+  const tabs: { key: Tab; label: "nav_playground" | "nav_shop" | "nav_study" }[] = [
+    { key: "home", label: "nav_playground" },
     { key: "shop", label: "nav_shop" },
     { key: "study", label: "nav_study" },
   ];

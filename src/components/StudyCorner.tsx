@@ -242,16 +242,15 @@ export function StudyCorner() {
     <section id="study" className="mx-auto mt-20 w-[min(1100px,94%)] scroll-mt-28">
       <div className="mb-6 flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-4">
         <motion.img
-          src={dittoRetroSprite}
-          alt="Retro Ditto sprite tutor"
-          width={80}
-          height={80}
+          src="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fingame%2Fnormal%2Fpm132.fSPRING_2026_A.icon.png&w=384&q=75"
+          alt="Ditto tutor"
           loading="lazy"
           onError={handleRetroDittoError}
           animate={{ y: [0, -4, 0] }}
           transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-          className="h-16 w-16 shrink-0 rounded-xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[3px_3px_0_0_var(--color-ink)] sm:h-20 sm:w-20"
-          style={{ imageRendering: "pixelated" }}
+          className="shrink-0 select-none"
+          style={{ width: 140, height: "auto", background: "transparent", filter: "drop-shadow(4px 6px 0 rgba(0,0,0,0.35))" }}
+          draggable={false}
         />
         <div>
           <h2 className="text-3xl font-bold sm:text-4xl">{t("study_title")}</h2>
