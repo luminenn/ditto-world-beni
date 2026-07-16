@@ -526,14 +526,13 @@ function TracingCanvas() {
         <div className="flex flex-col items-center">
           <div
             className="relative rounded-3xl border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_0_var(--color-ink)] overflow-hidden"
-            style={{ background: "#241534", width: "min(100%, 420px)", aspectRatio: "1 / 1", boxShadow: "6px 6px 0 0 var(--color-ink), inset 0 0 30px rgba(215,161,249,0.15)" }}
+            style={{ background: "#FFFDF6", width: "min(100%, 420px)", aspectRatio: "1 / 1", boxShadow: "6px 6px 0 0 var(--color-ink)" }}
           >
 
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
-                color: "rgba(215,161,249,0.35)",
-                textShadow: "0 0 18px rgba(215,161,249,0.35)",
+                color: "#8A8A8A",
                 fontSize: "min(80vw, 340px)",
                 lineHeight: 1,
               }}
@@ -556,7 +555,7 @@ function TracingCanvas() {
                     >
                       {h.n}
                     </span>
-                    <span className="text-lg font-bold" style={{ color: "#FFFFFF", textShadow: "0 0 6px rgba(215,161,249,0.8)" }}>{h.arrow}</span>
+                    <span className="text-lg font-bold" style={{ color: "#1A122B" }}>{h.arrow}</span>
                   </div>
                 ))}
               </div>
