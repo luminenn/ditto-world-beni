@@ -112,16 +112,17 @@ export function Playground() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-[1fr_260px]">
-        <div className="card-doodle relative overflow-hidden p-6">
+        <div className="card-doodle relative overflow-hidden p-6" style={{ background: "linear-gradient(160deg, #2A1740 0%, #1C0F30 100%)", color: "#F4EFFF" }}>
           <div
             aria-hidden
-            className="absolute inset-0 opacity-40"
+            className="absolute inset-0 opacity-30"
             style={{
               backgroundImage:
-                "radial-gradient(var(--ditto-purple) 1.5px, transparent 1.5px)",
+                "radial-gradient(rgba(215,161,249,0.55) 1.5px, transparent 1.5px)",
               backgroundSize: "22px 22px",
             }}
           />
+
           <div ref={stageRef} className="relative mx-auto h-[440px] w-full max-w-[520px]">
             <div className="absolute inset-0 z-10 flex items-end justify-center pb-4">
               <SquishyDitto />
@@ -138,7 +139,7 @@ export function Playground() {
           </div>
         </div>
 
-        <aside className="card-doodle-sm flex flex-col gap-3 p-4">
+        <aside className="card-doodle-sm flex flex-col gap-3 p-4" style={{ background: "rgba(46,26,64,0.75)", backdropFilter: "blur(6px)", color: "#F4EFFF", boxShadow: "4px 4px 0 0 var(--color-ink), 0 0 22px rgba(215,161,249,0.35)", borderColor: "#D7A1F9" }}>
           <h3 className="text-lg font-bold">{t("accessory_box")}</h3>
           <div className="grid grid-cols-1 gap-3">
             {keys.map((k) => (
@@ -148,7 +149,8 @@ export function Playground() {
                 whileTap={{ scale: 0.94 }}
                 onClick={() => add(k)}
                 className="card-doodle-sm flex items-center gap-3 p-3 text-sm font-semibold"
-                style={{ boxShadow: "3px 3px 0 0 var(--color-ink)" }}
+                style={{ boxShadow: "3px 3px 0 0 var(--color-ink)", background: "#3A2554", color: "#F4EFFF", borderColor: "#D7A1F9" }}
+
               >
                 <span className="flex h-10 w-14 items-center justify-center">
                   {ACCESSORIES[k].render(40)}

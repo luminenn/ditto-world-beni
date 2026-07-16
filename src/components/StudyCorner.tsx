@@ -316,7 +316,8 @@ function Flashcards() {
   };
 
   return (
-    <div className="card-doodle p-6 sm:p-8">
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
+
       <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
 
       <div className="grid gap-8 md:grid-cols-[260px_1fr] md:items-center">
@@ -487,8 +488,11 @@ function TracingCanvas() {
     const c = canvasRef.current!;
     const ctx = c.getContext("2d")!;
     const p = getPos(e);
-    ctx.strokeStyle = "#1A122B";
+    ctx.strokeStyle = "#F3A5FF";
+    ctx.shadowColor = "rgba(243,165,255,0.9)";
+    ctx.shadowBlur = 12;
     ctx.lineWidth = 14;
+
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.beginPath();
@@ -512,7 +516,7 @@ function TracingCanvas() {
   };
 
   return (
-    <div className="card-doodle p-6 sm:p-8">
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
       <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-center">
         <div className="flex justify-center">
           <DittoMascot mood={mood} />
@@ -521,12 +525,14 @@ function TracingCanvas() {
         <div className="flex flex-col items-center">
           <div
             className="relative rounded-3xl border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_0_var(--color-ink)] overflow-hidden"
-            style={{ background: "#F2EBFA", width: "min(100%, 420px)", aspectRatio: "1 / 1" }}
+            style={{ background: "#241534", width: "min(100%, 420px)", aspectRatio: "1 / 1", boxShadow: "6px 6px 0 0 var(--color-ink), inset 0 0 30px rgba(215,161,249,0.15)" }}
           >
+
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
-                color: "#8A8A8A",
+                color: "rgba(215,161,249,0.35)",
+                textShadow: "0 0 18px rgba(215,161,249,0.35)",
                 fontSize: "min(80vw, 340px)",
                 lineHeight: 1,
               }}
@@ -544,16 +550,17 @@ function TracingCanvas() {
                     style={{ left: `${h.x}%`, top: `${h.y}%` }}
                   >
                     <span
-                      className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-ink)] text-[11px] font-extrabold text-[var(--color-ink)]"
-                      style={{ background: "var(--butter)" }}
+                      className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-ink)] text-[11px] font-extrabold"
+                      style={{ background: "var(--butter)", color: "#1A122B" }}
                     >
                       {h.n}
                     </span>
-                    <span className="text-lg font-bold text-[var(--color-ink)]">{h.arrow}</span>
+                    <span className="text-lg font-bold" style={{ color: "#FFFFFF", textShadow: "0 0 6px rgba(215,161,249,0.8)" }}>{h.arrow}</span>
                   </div>
                 ))}
               </div>
             )}
+
 
             <canvas
               ref={canvasRef}
@@ -641,7 +648,8 @@ function StoryTime() {
   const next = () => setIdx((i) => i + 1);
 
   return (
-    <div className="card-doodle p-6 sm:p-8">
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
+
       <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
 
       <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-start">
@@ -673,12 +681,13 @@ function StoryTime() {
             </p>
           </motion.div>
 
-          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]">
-            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]" style={{ background: "#2E1A40", color: "#F4EFFF" }}>
+            <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#D7A1F9" }}>
               Question
             </div>
-            <p className="text-base sm:text-lg font-bold">{story.question}</p>
+            <p className="text-base sm:text-lg font-bold" style={{ color: "#FFFFFF" }}>{story.question}</p>
           </div>
+
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {shuffledChoices.map((c) => {
