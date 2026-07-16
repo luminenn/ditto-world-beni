@@ -38,7 +38,7 @@ const en = {
   acc_scarf: e("Cozy Scarf"),
   acc_lollipop: e("Lollipop"),
 
-  shop_title: e("Beni's Hand-Drawn Custom Cards"),
+  shop_title: e("Beni's Pokemon Cards"),
   shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
   price_label: e("Price"),
   available: e("Available"),
