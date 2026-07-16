@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Trophy,
   Flame,
@@ -13,28 +13,97 @@ import {
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
 
-type KanjiCard = {
-  char: string;
-  reading: string; // hiragana answer
+type VocabCard = {
+  char: string; // kanji or jukugo
+  reading: string; // hiragana
   romaji: string;
   meaning: string;
-  choices: string[]; // hiragana readings
+  choices: string[]; // hiragana readings incl. answer
 };
 
-const DECK: KanjiCard[] = [
+const DECK: VocabCard[] = [
+  { char: "日本語", reading: "にほんご", romaji: "nihongo", meaning: "Japanese language", choices: ["にほんご", "ちゅうごくご", "えいご", "かんこくご"] },
+  { char: "友達", reading: "ともだち", romaji: "tomodachi", meaning: "Friend", choices: ["ともだち", "かぞく", "せんぱい", "こいびと"] },
+  { char: "学校", reading: "がっこう", romaji: "gakkou", meaning: "School", choices: ["がっこう", "きょうしつ", "としょかん", "こうえん"] },
+  { char: "先生", reading: "せんせい", romaji: "sensei", meaning: "Teacher", choices: ["せんせい", "がくせい", "いしゃ", "しゃちょう"] },
+  { char: "本屋", reading: "ほんや", romaji: "hon'ya", meaning: "Bookstore", choices: ["ほんや", "はなや", "パンや", "にくや"] },
+  { char: "猫", reading: "ねこ", romaji: "neko", meaning: "Cat", choices: ["ねこ", "いぬ", "うま", "とり"] },
   { char: "水", reading: "みず", romaji: "mizu", meaning: "Water", choices: ["みず", "おん", "かわ", "いし"] },
-  { char: "火", reading: "ひ", romaji: "hi", meaning: "Fire", choices: ["ひ", "き", "つち", "かぜ"] },
-  { char: "木", reading: "き", romaji: "ki", meaning: "Tree", choices: ["は", "き", "ね", "もり"] },
-  { char: "猫", reading: "ねこ", romaji: "neko", meaning: "Cat", choices: ["いぬ", "うま", "ねこ", "とり"] },
-  { char: "友", reading: "とも", romaji: "tomo", meaning: "Friend", choices: ["とも", "かぞく", "せんせい", "がくせい"] },
-  { char: "花", reading: "はな", romaji: "hana", meaning: "Flower", choices: ["はな", "くさ", "き", "たね"] },
   { char: "空", reading: "そら", romaji: "sora", meaning: "Sky", choices: ["うみ", "くも", "そら", "ほし"] },
-  { char: "月", reading: "つき", romaji: "tsuki", meaning: "Moon", choices: ["ひ", "つき", "ほし", "よる"] },
-  { char: "山", reading: "やま", romaji: "yama", meaning: "Mountain", choices: ["やま", "かわ", "うみ", "みち"] },
-  { char: "川", reading: "かわ", romaji: "kawa", meaning: "River", choices: ["かわ", "うみ", "いけ", "たき"] },
+  { char: "月曜日", reading: "げつようび", romaji: "getsuyoubi", meaning: "Monday", choices: ["げつようび", "かようび", "すいようび", "きんようび"] },
+  { char: "花火", reading: "はなび", romaji: "hanabi", meaning: "Fireworks", choices: ["はなび", "たきび", "ひばな", "かじ"] },
 ];
 
-const TRACE_DECK = ["友", "猫", "木", "水", "火", "花", "空", "月", "山", "川"];
+/** Simplified stroke hints: numbered dots + arrow direction per stroke start.
+ *  Positions are % of canvas box. Not full stroke paths — a friendly guide. */
+type StrokeHint = { n: number; x: number; y: number; arrow: "→" | "↓" | "↘" | "↙" | "↖" };
+type TraceItem = { char: string; hints: StrokeHint[] };
+
+const TRACE_DECK: TraceItem[] = [
+  {
+    char: "水",
+    hints: [
+      { n: 1, x: 50, y: 18, arrow: "↓" },
+      { n: 2, x: 32, y: 52, arrow: "↙" },
+      { n: 3, x: 62, y: 42, arrow: "↘" },
+      { n: 4, x: 68, y: 62, arrow: "↘" },
+    ],
+  },
+  {
+    char: "火",
+    hints: [
+      { n: 1, x: 34, y: 28, arrow: "↙" },
+      { n: 2, x: 62, y: 30, arrow: "↘" },
+      { n: 3, x: 46, y: 40, arrow: "↓" },
+      { n: 4, x: 58, y: 58, arrow: "↘" },
+    ],
+  },
+  {
+    char: "木",
+    hints: [
+      { n: 1, x: 22, y: 34, arrow: "→" },
+      { n: 2, x: 50, y: 20, arrow: "↓" },
+      { n: 3, x: 44, y: 48, arrow: "↙" },
+      { n: 4, x: 58, y: 48, arrow: "↘" },
+    ],
+  },
+  {
+    char: "友",
+    hints: [
+      { n: 1, x: 28, y: 22, arrow: "→" },
+      { n: 2, x: 60, y: 14, arrow: "↙" },
+      { n: 3, x: 30, y: 52, arrow: "↘" },
+      { n: 4, x: 62, y: 62, arrow: "↘" },
+    ],
+  },
+  {
+    char: "花",
+    hints: [
+      { n: 1, x: 26, y: 18, arrow: "→" },
+      { n: 2, x: 60, y: 18, arrow: "↓" },
+      { n: 3, x: 32, y: 50, arrow: "↘" },
+      { n: 4, x: 60, y: 52, arrow: "↓" },
+    ],
+  },
+  {
+    char: "月",
+    hints: [
+      { n: 1, x: 30, y: 22, arrow: "↓" },
+      { n: 2, x: 70, y: 22, arrow: "↙" },
+      { n: 3, x: 32, y: 44, arrow: "→" },
+      { n: 4, x: 32, y: 66, arrow: "→" },
+    ],
+  },
+];
+
+// Encouragement phrases (Japanese)
+const HYPE_CORRECT = ["おめでとう！", "よくできました！", "すごい！", "その調子！"];
+const HYPE_WRONG = ["よくやったけど…", "諦めないで！", "もう一回！", "だいじょうぶ！"];
+const HYPE_IDLE = ["がんばって！", "いっしょに勉強しよう！"];
+
+function pick<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];
@@ -46,6 +115,59 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 type Mode = "flash" | "trace";
+
+function SpeechBubble({ text, mood }: { text: string; mood: "idle" | "correct" | "wrong" }) {
+  const bg =
+    mood === "correct" ? "var(--mint)" : mood === "wrong" ? "var(--butter)" : "var(--cream)";
+  return (
+    <motion.div
+      key={text}
+      initial={{ opacity: 0, scale: 0.85, y: 6 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
+      className="relative rounded-2xl border-[3px] border-[var(--color-ink)] px-4 py-2 text-center text-sm font-bold shadow-[4px_4px_0_0_var(--color-ink)]"
+      style={{ background: bg, maxWidth: 220 }}
+    >
+      {text}
+      <span
+        aria-hidden
+        className="absolute -bottom-3 left-6 h-0 w-0"
+        style={{
+          borderLeft: "10px solid transparent",
+          borderRight: "10px solid transparent",
+          borderTop: "12px solid var(--color-ink)",
+        }}
+      />
+      <span
+        aria-hidden
+        className="absolute -bottom-[7px] left-[27px] h-0 w-0"
+        style={{
+          borderLeft: "7px solid transparent",
+          borderRight: "7px solid transparent",
+          borderTop: `9px solid ${bg}`,
+        }}
+      />
+    </motion.div>
+  );
+}
+
+function DittoMascot({ mood }: { mood: "idle" | "correct" | "wrong" }) {
+  const anim =
+    mood === "correct" ? "animate-joy" : mood === "wrong" ? "animate-shake" : "animate-float";
+  const face = mood === "correct" ? "joy" : mood === "wrong" ? "sad" : "happy";
+  const bubble =
+    mood === "correct" ? pick(HYPE_CORRECT) : mood === "wrong" ? pick(HYPE_WRONG) : pick(HYPE_IDLE);
+  // Memoize bubble text per mood so it doesn't reshuffle every render
+  const stableBubble = useMemo(() => bubble, [mood]); // eslint-disable-line react-hooks/exhaustive-deps
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <SpeechBubble text={stableBubble} mood={mood} />
+      <div key={mood} className={anim}>
+        <DittoSVG size={190} mood={face} />
+      </div>
+    </div>
+  );
+}
 
 export function StudyCorner() {
   const { t } = useLang();
@@ -102,7 +224,7 @@ function Flashcards() {
     setShuffled(shuffle(card.choices));
   }, [idx, card.choices]);
 
-  const pick = (choice: string) => {
+  const choose = (choice: string) => {
     if (feedback !== "idle") return;
     setPicked(choice);
     if (choice === card.reading) {
@@ -139,23 +261,9 @@ function Flashcards() {
         </div>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-center">
+      <div className="grid gap-8 md:grid-cols-[260px_1fr] md:items-center">
         <div className="flex justify-center">
-          <div
-            key={feedback + idx}
-            className={
-              feedback === "correct"
-                ? "animate-joy"
-                : feedback === "wrong"
-                  ? "animate-shake"
-                  : "animate-float"
-            }
-          >
-            <DittoSVG
-              size={200}
-              mood={feedback === "correct" ? "joy" : feedback === "wrong" ? "sad" : "happy"}
-            />
-          </div>
+          <DittoMascot mood={feedback} />
         </div>
 
         <div>
@@ -164,7 +272,8 @@ function Flashcards() {
             initial={{ scale: 0.7, rotate: -6, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 260, damping: 18 }}
-            className="mx-auto flex aspect-square w-40 items-center justify-center rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] text-6xl font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)] sm:w-48 sm:text-7xl"
+            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] px-8 py-4 font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)]"
+            style={{ fontSize: card.char.length > 2 ? "3.5rem" : "4.5rem", lineHeight: 1 }}
           >
             {card.char}
           </motion.div>
@@ -186,7 +295,7 @@ function Flashcards() {
                   whileHover={{ y: -3, rotate: -1 }}
                   whileTap={{ scale: 0.95 }}
                   disabled={revealed}
-                  onClick={() => pick(c)}
+                  onClick={() => choose(c)}
                   className="card-doodle-sm px-3 py-3 text-xl font-bold"
                   style={{ background: bg }}
                 >
@@ -251,7 +360,9 @@ function TracingCanvas() {
   const drawing = useRef(false);
   const last = useRef<{ x: number; y: number } | null>(null);
   const [idx, setIdx] = useState(0);
-  const char = TRACE_DECK[idx % TRACE_DECK.length];
+  const [mood, setMood] = useState<"idle" | "correct" | "wrong">("idle");
+  const [showHints, setShowHints] = useState(true);
+  const item = TRACE_DECK[idx % TRACE_DECK.length];
 
   const size = 420;
 
@@ -264,6 +375,7 @@ function TracingCanvas() {
 
   useEffect(() => {
     clear();
+    setMood("idle");
   }, [idx]);
 
   const getPos = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -286,7 +398,7 @@ function TracingCanvas() {
     const c = canvasRef.current!;
     const ctx = c.getContext("2d")!;
     const p = getPos(e);
-    ctx.strokeStyle = "#EC7CD2";
+    ctx.strokeStyle = "#B892FF";
     ctx.lineWidth = 14;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -302,13 +414,19 @@ function TracingCanvas() {
     last.current = null;
   };
 
+  const done = () => {
+    setMood("correct");
+    setTimeout(() => {
+      setMood("idle");
+      setIdx((i) => i + 1);
+    }, 1400);
+  };
+
   return (
     <div className="card-doodle p-6 sm:p-8">
-      <div className="grid gap-8 md:grid-cols-[220px_1fr] md:items-center">
+      <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-center">
         <div className="flex justify-center">
-          <div className="animate-float">
-            <DittoSVG size={180} mood="happy" />
-          </div>
+          <DittoMascot mood={mood} />
         </div>
 
         <div className="flex flex-col items-center">
@@ -326,8 +444,30 @@ function TracingCanvas() {
               }}
               aria-hidden
             >
-              {char}
+              {item.char}
             </div>
+
+            {/* Stroke order overlay */}
+            {showHints && (
+              <div className="pointer-events-none absolute inset-0" aria-hidden>
+                {item.hints.map((h) => (
+                  <div
+                    key={h.n}
+                    className="absolute flex items-center gap-1 -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${h.x}%`, top: `${h.y}%` }}
+                  >
+                    <span
+                      className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-ink)] text-[11px] font-extrabold text-[var(--color-ink)]"
+                      style={{ background: "var(--butter)" }}
+                    >
+                      {h.n}
+                    </span>
+                    <span className="text-lg font-bold text-[var(--color-ink)]">{h.arrow}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
             <canvas
               ref={canvasRef}
               width={size}
@@ -344,11 +484,25 @@ function TracingCanvas() {
 
           <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
             <button
+              onClick={() => setShowHints((v) => !v)}
+              className="pill-btn pill-btn-hover text-sm"
+              style={{ background: "var(--sky)" }}
+            >
+              {showHints ? "Hide" : "Show"} Stroke Order
+            </button>
+            <button
               onClick={clear}
               className="pill-btn pill-btn-hover text-sm"
               style={{ background: "var(--butter)" }}
             >
-              <Eraser size={14} /> Clear Canvas
+              <Eraser size={14} /> Clear
+            </button>
+            <button
+              onClick={done}
+              className="pill-btn pill-btn-hover text-sm"
+              style={{ background: "var(--mint)" }}
+            >
+              <Sparkles size={14} /> I'm Done!
             </button>
             <button
               onClick={() => setIdx((i) => i + 1)}
@@ -359,7 +513,7 @@ function TracingCanvas() {
             </button>
           </div>
           <p className="mt-3 text-center text-xs text-muted-foreground">
-            Trace the faint kanji with your finger or mouse.
+            Follow the numbered arrows to trace with proper stroke order.
           </p>
         </div>
       </div>
