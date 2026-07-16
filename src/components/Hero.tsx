@@ -17,7 +17,8 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
           animate={{ opacity: 1, scale: 1, rotate: -2 }}
           transition={{ type: "spring", stiffness: 200, damping: 12 }}
-          className="mb-4 inline-block rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] px-5 py-2 text-2xl font-bold text-white shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
+          className="mb-4 inline-block rounded-full border-[3px] border-[var(--color-ink)] px-5 py-2 text-2xl font-bold text-white shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
+          style={{ background: "#2E1547", color: "#FFFFFF" }}
         >
           {t("welcome")}
         </motion.h1>
@@ -57,7 +58,8 @@ export function Hero() {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(circle at 50% 55%, var(--ditto-pink) 0, transparent 60%)",
+              "radial-gradient(ellipse 60% 22% at 50% 88%, rgba(215,161,249,0.75) 0%, rgba(183,140,224,0.45) 35%, transparent 70%)",
+            filter: "blur(14px)",
           }}
         />
         <motion.div

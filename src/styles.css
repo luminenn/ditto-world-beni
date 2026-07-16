@@ -49,18 +49,18 @@
 :root {
   --radius: 1.25rem;
 
-  /* Gengar-purple Dittoland palette */
-  --ditto-pink: #D7A1F9;       /* primary lavender-pink accent */
-  --ditto-pink-soft: #E8C6FF;
+  /* Cosmic deep-purple Dittoland palette */
+  --ditto-pink: #B78CE0;       /* primary glowing lavender */
+  --ditto-pink-soft: #D7B6F5;
   --ditto-purple: #C29EE3;
-  --ditto-deep: #1A122B;
-  --cream: #5B4B7E;            /* card/container plum-slate */
+  --ditto-deep: #0A0414;
+  --cream: #4F3A66;            /* plum tab panel/container */
   --butter: #FDF0A6;           /* pastel yellow highlight */
-  --mint: #A3E6D2;             /* pastel mint correct-state */
+  --mint: #A3E6D2;             /* neon teal correct-state */
   --sky: #B8A6E8;
-  --ink: #1A122B;              /* thick dark outline */
+  --ink: #1A122B;              /* charcoal-violet outline */
   --wood: #D9A46B;
-  --bg-lavender: #3D2F5F;      /* main gengar background */
+  --bg-lavender: #1A0B2E;      /* deep cosmic base */
 
 
   --background: var(--bg-lavender);
@@ -70,13 +70,13 @@
   --popover: var(--cream);
   --popover-foreground: #FFFFFF;
   --primary: var(--ditto-pink);
-  --primary-foreground: #1A122B;
+  --primary-foreground: #0A0414;
   --secondary: var(--ditto-purple);
-  --secondary-foreground: #1A122B;
-  --muted: #4A3B6A;
+  --secondary-foreground: #0A0414;
+  --muted: #3A2A54;
   --muted-foreground: #E0D4F5;
   --accent: var(--mint);
-  --accent-foreground: #1A122B;
+  --accent-foreground: #0A0414;
   --destructive: oklch(0.7 0.18 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: var(--ink);
@@ -96,9 +96,21 @@
   }
   body {
     background-image:
-      radial-gradient(circle at 10% 10%, color-mix(in oklab, var(--ditto-pink-soft) 55%, transparent) 0, transparent 40%),
-      radial-gradient(circle at 90% 20%, color-mix(in oklab, var(--ditto-purple) 55%, transparent) 0, transparent 45%),
-      radial-gradient(circle at 50% 90%, color-mix(in oklab, var(--butter) 70%, transparent) 0, transparent 45%);
+      /* starlight points */
+      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.9), transparent 60%),
+      radial-gradient(1px 1px at 82% 12%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1.5px 1.5px at 26% 74%, rgba(230,210,255,0.8), transparent 60%),
+      radial-gradient(1px 1px at 68% 62%, rgba(255,255,255,0.65), transparent 60%),
+      radial-gradient(1.2px 1.2px at 44% 30%, rgba(220,200,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 92% 82%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1.4px 1.4px at 8% 88%, rgba(230,210,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 56% 8%, rgba(255,255,255,0.55), transparent 60%),
+      /* violet bloom nebulae */
+      radial-gradient(circle at 15% 20%, color-mix(in oklab, #7A3FB8 45%, transparent) 0, transparent 45%),
+      radial-gradient(circle at 85% 30%, color-mix(in oklab, #B78CE0 35%, transparent) 0, transparent 50%),
+      radial-gradient(circle at 50% 100%, color-mix(in oklab, #D7A1F9 40%, transparent) 0, transparent 55%),
+      /* base cosmic gradient */
+      linear-gradient(180deg, #1A0B2E 0%, #241145 45%, #2E1547 100%);
     background-attachment: fixed;
   }
 }
@@ -107,14 +119,14 @@
   background: var(--color-card);
   border: 3px solid var(--color-ink);
   border-radius: 1.75rem;
-  box-shadow: 6px 6px 0 0 var(--color-ink);
+  box-shadow: 6px 6px 0 0 var(--color-ink), 0 0 24px rgba(183, 140, 224, 0.35);
 }
 
 @utility card-doodle-sm {
   background: var(--color-card);
   border: 2.5px solid var(--color-ink);
   border-radius: 1.25rem;
-  box-shadow: 4px 4px 0 0 var(--color-ink);
+  box-shadow: 4px 4px 0 0 var(--color-ink), 0 0 16px rgba(183, 140, 224, 0.28);
 }
 
 @utility pill-btn {
@@ -124,17 +136,19 @@
   padding: 0.55rem 1.1rem;
   border-radius: 9999px;
   border: 2.5px solid var(--color-ink);
-  background: var(--color-card);
-  color: var(--color-ink);
-  font-weight: 600;
-  box-shadow: 3px 3px 0 0 var(--color-ink);
+  background: var(--ditto-pink);
+  color: #0A0414;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 0 var(--color-ink), 0 0 12px rgba(183, 140, 224, 0.4);
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   cursor: pointer;
 }
 @utility pill-btn-hover {
   &:hover {
     transform: translate(-1px, -1px) rotate(-1deg);
-    box-shadow: 5px 5px 0 0 var(--color-ink);
+    background: var(--mint);
+    color: #0A0414;
+    box-shadow: 5px 5px 0 0 var(--color-ink), 0 0 22px rgba(163, 230, 210, 0.55);
   }
   &:active {
     transform: translate(2px, 2px);
