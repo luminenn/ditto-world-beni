@@ -7,6 +7,14 @@ export function Hero() {
   return (
     <section id="top" className="mx-auto mt-10 grid w-[min(1100px,94%)] gap-8 md:mt-16 md:grid-cols-2 md:items-center">
       <div>
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.9, rotate: -3 }}
+          animate={{ opacity: 1, scale: 1, rotate: -2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 12 }}
+          className="mb-4 inline-block rounded-full border-[3px] border-[var(--color-ink)] bg-[var(--ditto-pink)] px-5 py-2 text-2xl font-bold text-white shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
+        >
+          {t("welcome")} 🎡
+        </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

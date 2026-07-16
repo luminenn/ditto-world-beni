@@ -49,36 +49,40 @@
 :root {
   --radius: 1.25rem;
 
-  --ditto-pink: oklch(0.86 0.075 350);
-  --ditto-purple: oklch(0.82 0.11 315);
-  --ditto-deep: oklch(0.66 0.16 340);
-  --cream: oklch(0.985 0.012 85);
-  --butter: oklch(0.94 0.06 90);
-  --mint: oklch(0.9 0.07 165);
-  --sky: oklch(0.9 0.06 230);
-  --ink: oklch(0.28 0.02 320);
-  --wood: oklch(0.72 0.09 55);
+  /* Dittoland palette */
+  --ditto-pink: #EC7CD2;
+  --ditto-pink-soft: #F7B8E3;
+  --ditto-purple: #C9A8E8;
+  --ditto-deep: #4A2C5B;
+  --cream: #FBFAFF;
+  --butter: #FDE9F6;
+  --mint: #C7EED8;
+  --sky: #D6E8FB;
+  --ink: #4A2C5B;
+  --wood: #D9A46B;
+  --bg-lavender: #F2E9F8;
 
-  --background: var(--cream);
+  --background: var(--bg-lavender);
   --foreground: var(--ink);
-  --card: oklch(1 0 0);
+  --card: var(--cream);
   --card-foreground: var(--ink);
-  --popover: oklch(1 0 0);
+  --popover: var(--cream);
   --popover-foreground: var(--ink);
   --primary: var(--ditto-pink);
-  --primary-foreground: var(--ink);
+  --primary-foreground: #FFFFFF;
   --secondary: var(--ditto-purple);
   --secondary-foreground: var(--ink);
   --muted: var(--butter);
-  --muted-foreground: oklch(0.45 0.03 320);
+  --muted-foreground: #6B4A7D;
   --accent: var(--mint);
   --accent-foreground: var(--ink);
   --destructive: oklch(0.7 0.18 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: var(--ink);
   --input: var(--ink);
-  --ring: var(--ditto-deep);
+  --ring: var(--ditto-pink);
 }
+
 
 @layer base {
   * {
@@ -91,9 +95,9 @@
   }
   body {
     background-image:
-      radial-gradient(circle at 10% 10%, color-mix(in oklab, var(--ditto-pink) 45%, transparent) 0, transparent 40%),
-      radial-gradient(circle at 90% 20%, color-mix(in oklab, var(--sky) 55%, transparent) 0, transparent 45%),
-      radial-gradient(circle at 50% 90%, color-mix(in oklab, var(--butter) 60%, transparent) 0, transparent 45%);
+      radial-gradient(circle at 10% 10%, color-mix(in oklab, var(--ditto-pink-soft) 55%, transparent) 0, transparent 40%),
+      radial-gradient(circle at 90% 20%, color-mix(in oklab, var(--ditto-purple) 55%, transparent) 0, transparent 45%),
+      radial-gradient(circle at 50% 90%, color-mix(in oklab, var(--butter) 70%, transparent) 0, transparent 45%);
     background-attachment: fixed;
   }
 }

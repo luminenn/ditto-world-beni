@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
 
@@ -36,7 +36,10 @@ export function StudyCorner() {
   const [picked, setPicked] = useState<string | null>(null);
 
   const card = DECK[idx % DECK.length];
-  const shuffled = useMemo(() => shuffle(card.choices), [idx]);
+  const [shuffled, setShuffled] = useState<string[]>(card.choices);
+  useEffect(() => {
+    setShuffled(shuffle(card.choices));
+  }, [idx, card.choices]);
 
   const pick = (choice: string) => {
     if (feedback !== "idle") return;

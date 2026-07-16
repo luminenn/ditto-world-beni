@@ -4,7 +4,8 @@ export type Lang = "en" | "ja";
 
 export const translations = {
   en: {
-    brand: "Ditto's Playground",
+    brand: "Dittoland",
+    welcome: "Welcome Beni!",
     nav_playground: "Playground",
     nav_gallery: "Gallery",
     nav_study: "Study Corner",
@@ -40,7 +41,8 @@ export const translations = {
     scene_f: "Ditto as a mochi",
   },
   ja: {
-    brand: "メタモンのひろば",
+    brand: "ディットランド",
+    welcome: "ようこそ ベニちゃん!",
     nav_playground: "あそぼう",
     nav_gallery: "ギャラリー",
     nav_study: "べんきょう",
