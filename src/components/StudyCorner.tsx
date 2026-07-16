@@ -248,8 +248,8 @@ export function StudyCorner() {
           onError={handleRetroDittoError}
           animate={{ y: [0, -4, 0] }}
           transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-          className="shrink-0 select-none"
-          style={{ width: 140, height: "auto", background: "transparent", filter: "drop-shadow(4px 6px 0 rgba(0,0,0,0.35))" }}
+          className="shrink-0 select-none self-center"
+          style={{ width: 210, height: "auto", background: "transparent", filter: "drop-shadow(4px 6px 0 rgba(0,0,0,0.35))" }}
           draggable={false}
         />
         <div>
