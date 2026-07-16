@@ -14,7 +14,7 @@ export function NavBar() {
   ];
   return (
     <header
-      className="sticky top-4 z-40 mx-auto mt-4 flex w-[min(1100px,94%)] flex-wrap items-center justify-between gap-3 rounded-[2rem] border-[3px] border-[var(--color-ink)] px-4 py-2 backdrop-blur"
+      className="sticky top-4 z-40 mx-auto mt-4 flex w-[min(1100px,94%)] flex-wrap items-center justify-between gap-3 rounded-md border-[3px] border-[var(--color-ink)] px-4 py-2 backdrop-blur"
       style={{
         background: "rgba(46, 21, 71, 0.85)",
         boxShadow: "5px 5px 0 0 var(--color-ink), 0 0 24px rgba(243,165,255,0.25)",
@@ -22,7 +22,7 @@ export function NavBar() {
     >
       <button
         onClick={() => setTab("home")}
-        className="flex items-center gap-2 rounded-full border-[2px] border-[var(--color-ink)] px-3 py-1"
+        className="flex items-center gap-2 rounded-md border-[2px] border-[var(--color-ink)] px-3 py-1"
         style={{
           background: "#EADCF7",
           color: "#2E1547",
@@ -47,10 +47,10 @@ export function NavBar() {
               onClick={() => setTab(tb.key)}
               whileHover={{ y: -2, rotate: i % 2 ? 1.5 : -1.5 }}
               whileTap={{ scale: 0.96 }}
-              className="rounded-full px-4 py-2 text-sm font-bold transition-colors"
+              className="rounded-md px-4 py-2 text-sm font-bold transition-colors"
               style={{
-                background: active ? "#F3A5FF" : "#EADCF7",
-                color: "#2E1547",
+                background: active ? "#4F357A" : "#EADCF7",
+                color: active ? "#FFFFFF" : "#2E1547",
                 border: `2px solid #1A122B`,
                 boxShadow: active
                   ? "4px 4px 0 0 #1A122B"
