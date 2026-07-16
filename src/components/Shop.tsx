@@ -618,7 +618,7 @@ function hashStr(s: string): number {
 type DbCard = {
   id: string;
   name: string;
-  price: number | string;
+  price: number;
   description: string;
   image_url: string | null;
   availability: string;
