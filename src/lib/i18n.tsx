@@ -24,9 +24,10 @@ const en = {
   nav_shop: e("Beni's Pokemon Cards"),
   nav_study: e("Ditto's Japanese Class"),
 
-
   hero_title: e("Hang around with Ditto and check out Beni's Pokemon cards."),
-  hero_sub: e("A cozy little corner of the internet run by Ditto. Play with Ditto, shop Beni's hand-drawn Pokemon cards, and learn Japanese. Feel free to stick around with Ditto for as long as you want!"),
+  hero_sub: e(
+    "A cozy little corner of the internet run by Ditto. Play with Ditto, shop Beni's hand-drawn Pokemon cards, and learn Japanese. Feel free to stick around with Ditto for as long as you want!",
+  ),
   hero_cta1: e("Play with Ditto"),
   hero_cta2: e("Browse the shop"),
 
@@ -66,7 +67,9 @@ const en = {
   acc_shortcake: e("Strawberry Shortcake"),
 
   shop_title: e("Beni's Pokemon Cards"),
-  shop_sub: e("Thanks for stopping by. Every card is carefully hand-drawn and designed by Beni. These cards have received much love and enjoyment from customers from San Francisco to Miami! Beni also accepts custom requests."),
+  shop_sub: e(
+    "Thanks for stopping by. Every card is carefully hand-drawn and designed by Beni. These cards have received much love and enjoyment from customers from San Francisco to Miami! Beni also accepts custom requests.",
+  ),
   price_label: e("Price"),
   available: e("Available"),
   sold_out: e("Sold Out"),
@@ -86,7 +89,7 @@ const en = {
   thanks_title: e("Thank you!"),
   thanks_sub: e("Ditto is sending your message to Beni!"),
 
-  study_title: e("Ditto's Japanese School"),
+  study_title: e("Ditto's Japanese Class"),
   study_sub: e("Welcome to Sensei Ditto's Japanese Classroom. Ready to practice your Japanese?"),
   score: e("Score"),
   streak: e("Streak"),
@@ -94,7 +97,9 @@ const en = {
   correct: e("Yay! Ditto is so proud!"),
   wrong: e("Oops, try the next one!"),
 
-  footer: e("Made with squishy love. Ditto is © Nintendo / Game Freak — this is a fan-made shop for Beni's original art."),
+  footer: e(
+    "Made with squishy love. Ditto is © Nintendo / Game Freak — this is a fan-made shop for Beni's original art.",
+  ),
 };
 
 const ja: Record<keyof typeof en, Entry> = {
@@ -102,45 +107,80 @@ const ja: Record<keyof typeof en, Entry> = {
   welcome: e("ようこそ ベニちゃん!"),
   tagline: e(
     "ベニちゃんの手描きカードショップ",
-    <>ベニちゃんの<R k="手描" r="てが" />きカードショップ</>,
+    <>
+      ベニちゃんの
+      <R k="手描" r="てが" />
+      きカードショップ
+    </>,
   ),
 
   nav_playground: e(
     "あそび場",
-    <>あそび<R k="場" r="ば" /></>,
+    <>
+      あそび
+      <R k="場" r="ば" />
+    </>,
   ),
   nav_shop: e(
     "お店",
-    <>お<R k="店" r="みせ" /></>,
+    <>
+      お<R k="店" r="みせ" />
+    </>,
   ),
   nav_study: e(
     "メタモンの日本語教室",
-    <>メタモンの<R k="日本語教室" r="にほんごきょうしつ" /></>,
+    <>
+      メタモンの
+      <R k="日本語教室" r="にほんごきょうしつ" />
+    </>,
   ),
 
   hero_title: e(
     "ぷにぷにメタモンとベニちゃんの手描きカード",
-    <>ぷにぷにメタモンと ベニちゃんの<R k="手描" r="てが" />きカード</>,
+    <>
+      ぷにぷにメタモンと ベニちゃんの
+      <R k="手描" r="てが" />
+      きカード
+    </>,
   ),
   hero_sub: e(
     "ちいさな ピンクの ぷにぷにが お店番をする ちいさな おうち。つついて、きせかえて、世界にひとつの ポケモンカードを つれて帰ろう。",
-    <>ちいさな ピンクの ぷにぷにが お<R k="店番" r="みせばん" />を する ちいさな おうち。つついて、きせかえて、<R k="世界" r="せかい" />に ひとつの ポケモンカードを つれて<R k="帰" r="かえ" />ろう。</>,
+    <>
+      ちいさな ピンクの ぷにぷにが お<R k="店番" r="みせばん" />を する ちいさな おうち。つついて、きせかえて、
+      <R k="世界" r="せかい" />に ひとつの ポケモンカードを つれて
+      <R k="帰" r="かえ" />
+      ろう。
+    </>,
   ),
   hero_cta1: e("メタモンとあそぶ"),
   hero_cta2: e(
     "お店をみる",
-    <>お<R k="店" r="みせ" />を みる</>,
+    <>
+      お<R k="店" r="みせ" />を みる
+    </>,
   ),
 
   playground_title: e(
     "ぷにぷにメタモン広場",
-    <>ぷにぷにメタモン<R k="広場" r="ひろば" /></>,
+    <>
+      ぷにぷにメタモン
+      <R k="広場" r="ひろば" />
+    </>,
   ),
   playground_sub: e(
     "メタモンを ひっぱると のびるよ。アクセサリーを タップして、ドラッグで位置を かえてね。",
-    <>メタモンを ひっぱると のびるよ。アクセサリーを タップして、ドラッグで<R k="位置" r="いち" />を かえてね。</>,
+    <>
+      メタモンを ひっぱると のびるよ。アクセサリーを タップして、ドラッグで
+      <R k="位置" r="いち" />を かえてね。
+    </>,
   ),
-  accessory_box: e("アクセサリー箱", <>アクセサリー<R k="箱" r="ばこ" /></>),
+  accessory_box: e(
+    "アクセサリー箱",
+    <>
+      アクセサリー
+      <R k="箱" r="ばこ" />
+    </>,
+  ),
   reset: e("リセット"),
   acc_hat: e("シルクハット"),
   acc_glasses: e("まるメガネ"),
@@ -148,11 +188,29 @@ const ja: Record<keyof typeof en, Entry> = {
   acc_lollipop: e("ロリポップ"),
   acc_detective: e("たんていハット", <>たんていハット</>),
   acc_pixelshades: e("ピクセルサングラス"),
-  acc_chef: e("コックぼう", <>コック<R k="帽" r="ぼう" /></>),
+  acc_chef: e(
+    "コックぼう",
+    <>
+      コック
+      <R k="帽" r="ぼう" />
+    </>,
+  ),
   acc_ribbon: e("リボン"),
   acc_crown: e("おうかん", <>おうかん</>),
-  acc_beanie: e("ニットぼう", <>ニット<R k="帽" r="ぼう" /></>),
-  acc_propeller: e("プロペラぼう", <>プロペラ<R k="帽" r="ぼう" /></>),
+  acc_beanie: e(
+    "ニットぼう",
+    <>
+      ニット
+      <R k="帽" r="ぼう" />
+    </>,
+  ),
+  acc_propeller: e(
+    "プロペラぼう",
+    <>
+      プロペラ
+      <R k="帽" r="ぼう" />
+    </>,
+  ),
   acc_pizza: e("ピザ"),
   acc_pokeball: e("モンスターボール"),
   acc_bowtie: e("ちょうネクタイ"),
@@ -161,7 +219,13 @@ const ja: Record<keyof typeof en, Entry> = {
   acc_catears: e("ねこみみ"),
   acc_monocle: e("かためがね"),
   acc_greenscarf: e("みどりのマフラー"),
-  acc_piratehat: e("かいぞくぼうし", <>かいぞく<R k="帽" r="ぼう" />し</>),
+  acc_piratehat: e(
+    "かいぞくぼうし",
+    <>
+      かいぞく
+      <R k="帽" r="ぼう" />し
+    </>,
+  ),
   acc_astrohelmet: e("うちゅうヘルメット"),
   acc_chocobar: e("チョコレート"),
   acc_sword: e("けん"),
@@ -175,57 +239,158 @@ const ja: Record<keyof typeof en, Entry> = {
 
   shop_title: e(
     "ベニちゃんの手描きカード",
-    <>ベニちゃんの<R k="手描" r="てが" />きカード</>,
+    <>
+      ベニちゃんの
+      <R k="手描" r="てが" />
+      きカード
+    </>,
   ),
   shop_sub: e(
     "一枚ずつ手で描いた、世界にひとつだけのカードです。",
-    <><R k="一枚" r="いちまい" />ずつ<R k="手" r="て" />で<R k="描" r="か" />いた、<R k="世界" r="せかい" />に ひとつだけの カードです。</>,
+    <>
+      <R k="一枚" r="いちまい" />
+      ずつ
+      <R k="手" r="て" />で<R k="描" r="か" />
+      いた、
+      <R k="世界" r="せかい" />に ひとつだけの カードです。
+    </>,
   ),
-  price_label: e("価格", <><R k="価格" r="かかく" /></>),
-  available: e("販売中", <><R k="販売中" r="はんばいちゅう" /></>),
-  sold_out: e("売り切れ", <><R k="売" r="う" />り<R k="切" r="き" />れ</>),
-  view_card: e("カードを見る", <>カードを<R k="見" r="み" />る</>),
-  inquire: e("買う / 相談する", <><R k="買" r="か" />う / <R k="相談" r="そうだん" />する</>),
-  close: e("閉じる", <><R k="閉" r="と" />じる</>),
-  order_title: e(
-    "このカードを おうちへ",
-    <>この カードを おうちへ</>,
+  price_label: e(
+    "価格",
+    <>
+      <R k="価格" r="かかく" />
+    </>,
   ),
+  available: e(
+    "販売中",
+    <>
+      <R k="販売中" r="はんばいちゅう" />
+    </>,
+  ),
+  sold_out: e(
+    "売り切れ",
+    <>
+      <R k="売" r="う" />り<R k="切" r="き" />れ
+    </>,
+  ),
+  view_card: e(
+    "カードを見る",
+    <>
+      カードを
+      <R k="見" r="み" />る
+    </>,
+  ),
+  inquire: e(
+    "買う / 相談する",
+    <>
+      <R k="買" r="か" />う / <R k="相談" r="そうだん" />
+      する
+    </>,
+  ),
+  close: e(
+    "閉じる",
+    <>
+      <R k="閉" r="と" />
+      じる
+    </>,
+  ),
+  order_title: e("このカードを おうちへ", <>この カードを おうちへ</>),
   order_sub: e(
     "少しだけ 自己紹介してくれたら、ベニちゃんが お返事するよ。",
-    <><R k="少" r="すこ" />しだけ <R k="自己紹介" r="じこしょうかい" />してくれたら、ベニちゃんが お<R k="返事" r="へんじ" />するよ。</>,
+    <>
+      <R k="少" r="すこ" />
+      しだけ <R k="自己紹介" r="じこしょうかい" />
+      してくれたら、ベニちゃんが お<R k="返事" r="へんじ" />
+      するよ。
+    </>,
   ),
-  name: e("お名前", <>お<R k="名前" r="なまえ" /></>),
+  name: e(
+    "お名前",
+    <>
+      お<R k="名前" r="なまえ" />
+    </>,
+  ),
   email: e("メール"),
   message: e("メッセージ"),
   name_ph: e("ベニちゃんの大ファン", ""),
   email_ph: e("you@example.com", ""),
   message_ph: e("こんにちは ベニちゃん!このカードが…", ""),
-  send: e("ベニちゃんに送る", <>ベニちゃんに<R k="送" r="おく" />る</>),
-  sending: e("送信中…", <><R k="送信中" r="そうしんちゅう" />…</>),
+  send: e(
+    "ベニちゃんに送る",
+    <>
+      ベニちゃんに
+      <R k="送" r="おく" />る
+    </>,
+  ),
+  sending: e(
+    "送信中…",
+    <>
+      <R k="送信中" r="そうしんちゅう" />…
+    </>,
+  ),
   thanks_title: e("ありがとう!"),
   thanks_sub: e(
     "メタモンが ベニちゃんに メッセージを 届けているよ!",
-    <>メタモンが ベニちゃんに メッセージを <R k="届" r="とど" />けているよ!</>,
+    <>
+      メタモンが ベニちゃんに メッセージを <R k="届" r="とど" />
+      けているよ!
+    </>,
   ),
 
   study_title: e(
     "メタモンの日本語教室",
-    <>メタモンの<R k="日本語教室" r="にほんごきょうしつ" /></>,
+    <>
+      メタモンの
+      <R k="日本語教室" r="にほんごきょうしつ" />
+    </>,
   ),
   study_sub: e(
     "正しい意味を えらんでね。正解でメタモンが よろこぶよ!",
-    <><R k="正" r="ただ" />しい<R k="意味" r="いみ" />を えらんでね。<R k="正解" r="せいかい" />で メタモンが よろこぶよ!</>,
+    <>
+      <R k="正" r="ただ" />
+      しい
+      <R k="意味" r="いみ" />を えらんでね。
+      <R k="正解" r="せいかい" />で メタモンが よろこぶよ!
+    </>,
   ),
   score: e("スコア"),
-  streak: e("連続", <><R k="連続" r="れんぞく" /></>),
-  next: e("次の問題", <><R k="次" r="つぎ" />の<R k="問題" r="もんだい" /></>),
-  correct: e("正解!メタモン大喜び!", <><R k="正解" r="せいかい" />!メタモン<R k="大喜" r="おおよろこ" />び!</>),
-  wrong: e("残念!次がんばろう!", <><R k="残念" r="ざんねん" />!<R k="次" r="つぎ" />がんばろう!</>),
+  streak: e(
+    "連続",
+    <>
+      <R k="連続" r="れんぞく" />
+    </>,
+  ),
+  next: e(
+    "次の問題",
+    <>
+      <R k="次" r="つぎ" />の<R k="問題" r="もんだい" />
+    </>,
+  ),
+  correct: e(
+    "正解!メタモン大喜び!",
+    <>
+      <R k="正解" r="せいかい" />
+      !メタモン
+      <R k="大喜" r="おおよろこ" />
+      び!
+    </>,
+  ),
+  wrong: e(
+    "残念!次がんばろう!",
+    <>
+      <R k="残念" r="ざんねん" />!<R k="次" r="つぎ" />
+      がんばろう!
+    </>,
+  ),
 
   footer: e(
     "ぷにぷにな愛をこめて。メタモンは © 任天堂 / ゲームフリーク — ベニちゃんの手描き作品を集めた ファンショップです。",
-    <>ぷにぷにな<R k="愛" r="あい" />をこめて。メタモンは © <R k="任天堂" r="にんてんどう" /> / ゲームフリーク — ベニちゃんの<R k="手描" r="てが" />き<R k="作品" r="さくひん" />を あつめた ファンショップです。</>,
+    <>
+      ぷにぷにな
+      <R k="愛" r="あい" />
+      をこめて。メタモンは © <R k="任天堂" r="にんてんどう" /> / ゲームフリーク — ベニちゃんの
+      <R k="手描" r="てが" />き<R k="作品" r="さくひん" />を あつめた ファンショップです。
+    </>,
   ),
 };
 
