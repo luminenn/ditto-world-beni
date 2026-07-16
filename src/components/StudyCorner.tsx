@@ -681,12 +681,13 @@ function StoryTime() {
             </p>
           </motion.div>
 
-          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]">
-            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]" style={{ background: "#2E1A40", color: "#F4EFFF" }}>
+            <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#D7A1F9" }}>
               Question
             </div>
-            <p className="text-base sm:text-lg font-bold">{story.question}</p>
+            <p className="text-base sm:text-lg font-bold" style={{ color: "#FFFFFF" }}>{story.question}</p>
           </div>
+
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {shuffledChoices.map((c) => {
