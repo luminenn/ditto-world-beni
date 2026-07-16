@@ -619,7 +619,7 @@ type DbCard = {
   id: string;
   name: string;
   price: number | string;
-  description: string | null;
+  description: string;
   image_url: string | null;
   availability: string;
 };
