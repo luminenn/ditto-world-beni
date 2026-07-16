@@ -103,7 +103,7 @@ const en = {
 };
 
 const ja: Record<keyof typeof en, Entry> = {
-  brand: e("ディットの世界"),
+  brand: e("メタモンの世界"),
   welcome: e("ようこそ ベニちゃん!"),
   tagline: e(
     "ベニちゃんの手描きカードショップ",
