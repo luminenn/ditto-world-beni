@@ -626,18 +626,21 @@ export function Shop() {
             </button>
             <div className="flex flex-1 flex-col gap-2 border-t-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-3">
               <div className="flex items-start justify-between gap-2">
-                <h3 className="text-sm font-bold leading-tight">{c.title}</h3>
+                <h3 className="min-w-0 flex-1 text-sm font-bold leading-tight" style={{ color: "#1A122B" }}>{c.title}</h3>
                 <SoldOutBadge available={c.available} t={t} />
               </div>
-              <p className="line-clamp-2 text-[11px] text-muted-foreground">{c.desc}</p>
-              <div className="mt-1 flex items-center justify-between">
-                <span className="text-base font-bold">${c.price}</span>
-                <button
+              <p className="line-clamp-2 text-[11px]" style={{ color: "#3A2A50" }}>{c.desc}</p>
+              <div className="mt-auto flex items-center justify-between gap-2">
+                <span className="text-base font-bold" style={{ color: "#1A122B" }}>${c.price}</span>
+                <motion.button
+                  whileHover={{ y: -2, brightness: 1.05 }}
+                  whileTap={{ scale: 0.96 }}
                   onClick={() => setOpen(c)}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-[var(--ditto-pink)] hover:underline"
+                  className="inline-flex flex-1 items-center justify-center gap-1 rounded-xl border-[2px] border-[var(--color-ink)] px-3 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110"
+                  style={{ background: "#3A2A50", color: "#FFFFFF" }}
                 >
                   <Mail size={12} /> {t("inquire")}
-                </button>
+                </motion.button>
               </div>
               {isAdmin && (
                 <div className="mt-2 flex gap-2 border-t-[2px] border-dashed border-[var(--color-ink)]/40 pt-2">
