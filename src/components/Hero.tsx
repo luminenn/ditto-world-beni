@@ -51,7 +51,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1, rotate: -2 }}
             whileHover={{ rotate: 1, y: -3 }}
             transition={{ type: "spring", stiffness: 200, damping: 12 }}
-            className="inline-block rounded-full border-[3px] border-[var(--color-ink)] px-5 py-2 text-2xl font-bold shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
+            className="inline-block rounded-md border-[3px] border-[var(--color-ink)] px-5 py-2 text-2xl font-bold shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
             style={{ background: "#2E1547", color: "#FFFFFF" }}
           >
             {t("welcome")}
@@ -61,7 +61,7 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20, rotate: 2 }}
           animate={{ opacity: 1, y: 0, rotate: 1.5 }}
-          className="inline-flex items-center gap-2 rounded-full border-[2.5px] border-[var(--color-ink)] px-3 py-1 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
+          className="inline-flex items-center gap-2 rounded-md border-[2.5px] border-[var(--color-ink)] px-3 py-1 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
           style={{ background: "#2E1547", color: "#FFFFFF" }}
         >
           <Sparkles size={14} /> {t("tagline")}

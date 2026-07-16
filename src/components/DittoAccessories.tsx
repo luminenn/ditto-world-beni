@@ -51,12 +51,9 @@ export function LollipopSVG({ size = 64 }: { size?: number }) {
 export function DetectiveHatSVG({ size = 72 }: { size?: number }) {
   return (
     <svg viewBox="0 0 80 60" width={size} height={size * (60 / 80)} aria-label="Detective hat">
-      {/* Deerstalker: front + back brims */}
       <path d="M6 40 Q40 32 74 40 L74 48 Q40 52 6 48 Z" fill="#8B6B4A" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
       <path d="M14 40 Q40 14 66 40 Z" fill="#A88055" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
-      {/* Checker pattern */}
       <path d="M24 30 h6 v6 h-6z M36 26 h6 v6 h-6z M48 30 h6 v6 h-6z M30 36 h6 v6 h-6z M42 36 h6 v6 h-6z" fill="#6B4A2E" opacity="0.55" />
-      {/* Center button */}
       <circle cx="40" cy="22" r="3" fill="#6B4A2E" stroke={INK} strokeWidth="1.5" />
     </svg>
   );
@@ -65,11 +62,9 @@ export function DetectiveHatSVG({ size = 72 }: { size?: number }) {
 export function PixelSunglassesSVG({ size = 96 }: { size?: number }) {
   return (
     <svg viewBox="0 0 96 36" width={size} height={size * (36 / 96)} aria-label="Pixel sunglasses" shapeRendering="crispEdges">
-      {/* Solid pixel black shades - "deal with it" style */}
       <rect x="4" y="10" width="38" height="18" fill="#111" stroke={INK} strokeWidth="2" />
       <rect x="54" y="10" width="38" height="18" fill="#111" stroke={INK} strokeWidth="2" />
       <rect x="42" y="16" width="12" height="6" fill="#111" stroke={INK} strokeWidth="2" />
-      {/* Pixel highlights */}
       <rect x="8" y="14" width="4" height="4" fill="#fff" />
       <rect x="14" y="14" width="4" height="4" fill="#fff" />
       <rect x="58" y="14" width="4" height="4" fill="#fff" />
@@ -80,11 +75,9 @@ export function PixelSunglassesSVG({ size = 96 }: { size?: number }) {
 export function ChefHatSVG({ size = 72 }: { size?: number }) {
   return (
     <svg viewBox="0 0 72 80" width={size} height={size * (80 / 72)} aria-label="Chef hat">
-      {/* Puffy top */}
       <circle cx="22" cy="28" r="16" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
       <circle cx="50" cy="28" r="16" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
       <circle cx="36" cy="18" r="16" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
-      {/* Band */}
       <rect x="14" y="46" width="44" height="20" rx="3" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
       <path d="M14 54 h44" stroke={INK} strokeWidth="1.5" strokeDasharray="3 3" />
     </svg>
@@ -110,9 +103,6 @@ export function CrownSVG({ size = 84 }: { size?: number }) {
       <circle cx="14" cy="16" r="3.5" fill="#EC7CD2" stroke={INK} strokeWidth="1.8" />
       <circle cx="42" cy="10" r="3.5" fill="#7AD1F5" stroke={INK} strokeWidth="1.8" />
       <circle cx="70" cy="16" r="3.5" fill="#A3E6D2" stroke={INK} strokeWidth="1.8" />
-      <circle cx="24" cy="50" r="2.5" fill="#B57F1F" />
-      <circle cx="42" cy="50" r="2.5" fill="#B57F1F" />
-      <circle cx="60" cy="50" r="2.5" fill="#B57F1F" />
     </svg>
   );
 }
@@ -124,7 +114,246 @@ export function BeanieSVG({ size = 72 }: { size?: number }) {
       <rect x="6" y="42" width="60" height="14" rx="4" fill="#8FB0EC" stroke={INK} strokeWidth="2.5" />
       <path d="M6 50 h60" stroke={INK} strokeWidth="1.5" strokeDasharray="3 3" />
       <circle cx="36" cy="8" r="7" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
-      <path d="M32 6 q4 -3 8 0 M32 10 q4 3 8 0" stroke={INK} strokeWidth="1.2" fill="none" />
+    </svg>
+  );
+}
+
+/* --- NEW 20 ACCESSORIES --- */
+
+export function PropellerHatSVG({ size = 84 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 84 74" width={size} height={size * (74 / 84)} aria-label="Propeller hat">
+      <path d="M14 48 Q42 22 70 48 Z" fill="#EC5B5B" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="8" y="46" width="68" height="8" rx="3" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
+      <circle cx="42" cy="20" r="3" fill="#4A2C5B" stroke={INK} strokeWidth="1.5" />
+      <path d="M42 20 L18 12 Q14 20 42 20 L66 12 Q70 20 42 20" fill="#F6C948" stroke={INK} strokeWidth="2" />
+      <circle cx="42" cy="20" r="1.5" fill={INK} />
+      <path d="M20 46 h44" stroke="#EC5B5B" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+    </svg>
+  );
+}
+
+export function PizzaSVG({ size = 76 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 80 76" width={size} height={size * (76 / 80)} aria-label="Pizza slice">
+      <path d="M8 8 L72 8 L40 68 Z" fill="#F6C948" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M14 14 L66 14 L40 62 Z" fill="#EC5B5B" opacity="0.85" />
+      <circle cx="30" cy="26" r="5" fill="#A82929" stroke={INK} strokeWidth="1.5" />
+      <circle cx="50" cy="30" r="5" fill="#A82929" stroke={INK} strokeWidth="1.5" />
+      <circle cx="38" cy="46" r="4.5" fill="#A82929" stroke={INK} strokeWidth="1.5" />
+      <circle cx="42" cy="20" r="2" fill="#FBFAFF" opacity="0.9" />
+    </svg>
+  );
+}
+
+export function PokeballSVG({ size = 68 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 68 68" width={size} height={size} aria-label="Pokeball">
+      <circle cx="34" cy="34" r="30" fill="#FBFAFF" stroke={INK} strokeWidth="3" />
+      <path d="M4 34 A30 30 0 0 1 64 34 Z" fill="#EC3B3B" stroke={INK} strokeWidth="3" />
+      <rect x="4" y="30" width="60" height="8" fill={INK} />
+      <circle cx="34" cy="34" r="8" fill="#FBFAFF" stroke={INK} strokeWidth="3" />
+      <circle cx="34" cy="34" r="3" fill="#FBFAFF" stroke={INK} strokeWidth="2" />
+    </svg>
+  );
+}
+
+export function BowtieSVG({ size = 76 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 80 48" width={size} height={size * (48 / 80)} aria-label="Bowtie">
+      <path d="M40 24 L10 6 L14 24 L10 42 Z" fill="#A82929" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M40 24 L70 6 L66 24 L70 42 Z" fill="#A82929" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="34" y="16" width="12" height="16" rx="2" fill="#7A1F1F" stroke={INK} strokeWidth="2" />
+    </svg>
+  );
+}
+
+export function MoustacheSVG({ size = 84 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 84 36" width={size} height={size * (36 / 84)} aria-label="Moustache">
+      <path d="M42 18 Q30 4 14 8 Q4 12 8 20 Q14 30 26 26 Q36 22 42 18 Q48 22 58 26 Q70 30 76 20 Q80 12 70 8 Q54 4 42 18 Z" fill="#3A2515" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function BunnyEarsSVG({ size = 72 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 72 84" width={size} height={size * (84 / 72)} aria-label="Bunny ears">
+      <ellipse cx="20" cy="34" rx="10" ry="28" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
+      <ellipse cx="52" cy="34" rx="10" ry="28" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
+      <ellipse cx="20" cy="38" rx="4" ry="18" fill="#F8B4D9" />
+      <ellipse cx="52" cy="38" rx="4" ry="18" fill="#F8B4D9" />
+    </svg>
+  );
+}
+
+export function CatEarsSVG({ size = 84 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 84 56" width={size} height={size * (56 / 84)} aria-label="Cat ears">
+      <path d="M8 50 L22 8 L36 50 Z" fill="#3A2148" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M48 50 L62 8 L76 50 Z" fill="#3A2148" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M16 42 L22 22 L28 42 Z" fill="#F8B4D9" />
+      <path d="M56 42 L62 22 L68 42 Z" fill="#F8B4D9" />
+    </svg>
+  );
+}
+
+export function MonocleSVG({ size = 68 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 72 72" width={size} height={size} aria-label="Monocle">
+      <circle cx="34" cy="34" r="24" fill="rgba(255,255,255,0.4)" stroke="#C9A83A" strokeWidth="4" />
+      <circle cx="34" cy="34" r="24" fill="none" stroke={INK} strokeWidth="1.5" />
+      <path d="M34 58 Q34 66 46 68" stroke="#C9A83A" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <circle cx="24" cy="24" r="4" fill="#FBFAFF" opacity="0.85" />
+    </svg>
+  );
+}
+
+export function GreenScarfSVG({ size = 84 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 84 60" width={size} height={size * (60 / 84)} aria-label="Green winter scarf">
+      <path d="M6 22 Q42 6 78 22 L74 34 Q42 20 10 34 Z" fill="#3F9E6E" stroke={INK} strokeWidth="2.8" strokeLinejoin="round" />
+      <path d="M22 32 L14 56 L28 50 L26 32 Z" fill="#66C48E" stroke={INK} strokeWidth="2.8" strokeLinejoin="round" />
+      <path d="M18 26 q30 -8 48 0" stroke="#FBFAFF" strokeWidth="1.5" fill="none" strokeDasharray="3 4" />
+      <path d="M22 40 h4 M30 40 h4 M42 38 h4 M54 40 h4" stroke="#FBFAFF" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+export function PirateHatSVG({ size = 96 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 96 60" width={size} height={size * (60 / 96)} aria-label="Pirate hat">
+      <path d="M8 44 Q48 12 88 44 Q80 52 48 52 Q16 52 8 44 Z" fill="#161122" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="48" cy="30" r="7" fill="#FBFAFF" stroke={INK} strokeWidth="1.8" />
+      <circle cx="45" cy="29" r="1.4" fill={INK} />
+      <circle cx="51" cy="29" r="1.4" fill={INK} />
+      <path d="M40 40 L56 40 M42 38 L54 42 M42 42 L54 38" stroke="#FBFAFF" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function AstroHelmetSVG({ size = 92 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 92 92" width={size} height={size} aria-label="Astronaut helmet">
+      <circle cx="46" cy="46" r="40" fill="rgba(200,220,255,0.35)" stroke={INK} strokeWidth="3" />
+      <circle cx="46" cy="46" r="40" fill="none" stroke="#FBFAFF" strokeWidth="1.5" opacity="0.7" />
+      <path d="M20 30 Q36 18 52 22" stroke="#FBFAFF" strokeWidth="4" fill="none" strokeLinecap="round" opacity="0.8" />
+      <path d="M22 36 Q34 28 46 30" stroke="#FBFAFF" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.5" />
+      <rect x="12" y="42" width="8" height="10" rx="2" fill="#C9A8E8" stroke={INK} strokeWidth="2" />
+      <rect x="72" y="42" width="8" height="10" rx="2" fill="#C9A8E8" stroke={INK} strokeWidth="2" />
+    </svg>
+  );
+}
+
+export function ChocobarSVG({ size = 76 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 60 88" width={size} height={size * (88 / 60)} aria-label="Chocolate bar">
+      <path d="M6 4 L54 4 L58 20 L54 84 L6 84 L2 20 Z" fill="#C9A8E8" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M14 24 L46 24 L46 80 L14 80 Z" fill="#5A3520" stroke={INK} strokeWidth="2" />
+      <path d="M14 40 h32 M14 56 h32 M14 72 h32 M22 24 v56 M30 24 v56 M38 24 v56" stroke="#3A2515" strokeWidth="1.8" />
+      <path d="M8 4 L54 4 L52 20 L10 20 Z" fill="#E5D0FA" opacity="0.6" />
+    </svg>
+  );
+}
+
+export function SwordSVG({ size = 88 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 32 96" width={size} height={size * (96 / 32)} aria-label="Toy sword">
+      <path d="M16 4 L22 60 L10 60 Z" fill="#DDE4F0" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
+      <rect x="4" y="60" width="24" height="6" rx="2" fill="#C9A83A" stroke={INK} strokeWidth="2" />
+      <rect x="13" y="66" width="6" height="20" fill="#7A4E2E" stroke={INK} strokeWidth="2" />
+      <circle cx="16" cy="90" r="4" fill="#C9A83A" stroke={INK} strokeWidth="2" />
+      <path d="M16 10 L18 40" stroke="#FBFAFF" strokeWidth="1.5" opacity="0.8" />
+    </svg>
+  );
+}
+
+export function RainbowLollipopSVG({ size = 68 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 64 88" width={size} height={size * (88 / 64)} aria-label="Rainbow lollipop">
+      <rect x="30" y="40" width="4" height="44" rx="2" fill="#FBFAFF" stroke={INK} strokeWidth="2.2" />
+      <circle cx="32" cy="26" r="22" fill="#FBFAFF" stroke={INK} strokeWidth="2.6" />
+      <path d="M32 26 m-16 0 a16 16 0 0 1 32 0" fill="none" stroke="#EC5B5B" strokeWidth="4" />
+      <path d="M32 26 m-12 0 a12 12 0 0 1 24 0" fill="none" stroke="#F6C948" strokeWidth="4" />
+      <path d="M32 26 m-8 0 a8 8 0 0 1 16 0" fill="none" stroke="#3F9E6E" strokeWidth="4" />
+      <path d="M32 26 m-4 0 a4 4 0 0 1 8 0" fill="none" stroke="#5A8CE0" strokeWidth="4" />
+    </svg>
+  );
+}
+
+export function RubberDuckSVG({ size = 80 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 88 76" width={size} height={size * (76 / 88)} aria-label="Rubber duck">
+      <ellipse cx="46" cy="52" rx="34" ry="18" fill="#F6C948" stroke={INK} strokeWidth="2.5" />
+      <circle cx="66" cy="30" r="16" fill="#F6C948" stroke={INK} strokeWidth="2.5" />
+      <path d="M78 30 L88 32 L78 38 Z" fill="#EC7A1F" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+      <circle cx="70" cy="26" r="2.5" fill={INK} />
+      <path d="M20 46 q6 -4 12 0" stroke={INK} strokeWidth="2" fill="none" opacity="0.6" />
+    </svg>
+  );
+}
+
+export function BobaSVG({ size = 72 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 60 86" width={size} height={size * (86 / 60)} aria-label="Boba milk tea">
+      <path d="M8 22 L52 22 L48 82 Q30 86 12 82 Z" fill="#E5C9A3" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="4" y="16" width="52" height="8" rx="2" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
+      <rect x="32" y="4" width="6" height="30" rx="2" fill="#EC7CD2" stroke={INK} strokeWidth="2" />
+      <circle cx="20" cy="60" r="4" fill={INK} />
+      <circle cx="32" cy="66" r="4" fill={INK} />
+      <circle cx="42" cy="58" r="4" fill={INK} />
+      <circle cx="26" cy="72" r="4" fill={INK} />
+      <circle cx="38" cy="74" r="4" fill={INK} />
+    </svg>
+  );
+}
+
+export function BalloonSVG({ size = 68 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 48 88" width={size} height={size * (88 / 48)} aria-label="Balloon">
+      <ellipse cx="24" cy="30" rx="20" ry="24" fill="#EC3B3B" stroke={INK} strokeWidth="2.5" />
+      <path d="M20 54 L28 54 L26 60 L22 60 Z" fill="#A82929" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+      <path d="M24 60 Q30 70 20 78 Q30 82 24 88" stroke={INK} strokeWidth="1.8" fill="none" />
+      <ellipse cx="16" cy="20" rx="4" ry="6" fill="#FBFAFF" opacity="0.7" />
+    </svg>
+  );
+}
+
+export function HPGlassesSVG({ size = 96 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 96 44" width={size} height={size * (44 / 96)} aria-label="Round glasses">
+      <circle cx="24" cy="22" r="18" fill="rgba(255,255,255,0.25)" stroke={INK} strokeWidth="3.5" />
+      <circle cx="72" cy="22" r="18" fill="rgba(255,255,255,0.25)" stroke={INK} strokeWidth="3.5" />
+      <path d="M42 22 h12" stroke={INK} strokeWidth="3.5" strokeLinecap="round" />
+      <path d="M6 18 q-6 0 -6 6" stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M90 18 q6 0 6 6" stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function DiamondCrownSVG({ size = 88 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 88 62" width={size} height={size * (62 / 88)} aria-label="Diamond crown">
+      <path d="M8 50 L14 14 L30 34 L44 8 L58 34 L74 14 L80 50 Z" fill="#F6E048" stroke={INK} strokeWidth="2.8" strokeLinejoin="round" />
+      <rect x="8" y="48" width="72" height="8" fill="#E4B93A" stroke={INK} strokeWidth="2.5" />
+      <path d="M14 14 L10 22 L18 22 Z M44 8 L38 20 L50 20 Z M74 14 L70 22 L78 22 Z" fill="#FBFAFF" opacity="0.7" />
+      <circle cx="14" cy="14" r="3.5" fill="#B8ECFF" stroke={INK} strokeWidth="1.5" />
+      <circle cx="44" cy="8" r="4" fill="#B8ECFF" stroke={INK} strokeWidth="1.5" />
+      <circle cx="74" cy="14" r="3.5" fill="#B8ECFF" stroke={INK} strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+export function ShortcakeSVG({ size = 78 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 78 78" width={size} height={size} aria-label="Strawberry shortcake">
+      <path d="M8 66 L70 66 L44 12 Z" fill="#F6E5C4" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M12 60 L66 60 L42 22 Z" fill="#FBFAFF" opacity="0.85" />
+      <path d="M20 44 L58 44 M18 52 L60 52" stroke="#EC7CD2" strokeWidth="3" strokeLinecap="round" opacity="0.7" />
+      <path d="M36 20 Q44 8 52 20 Q48 26 44 20 Q40 26 36 20 Z" fill="#FBFAFF" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+      <circle cx="30" cy="42" r="4" fill="#EC3B3B" stroke={INK} strokeWidth="1.5" />
+      <circle cx="48" cy="38" r="4" fill="#EC3B3B" stroke={INK} strokeWidth="1.5" />
+      <circle cx="40" cy="54" r="4" fill="#EC3B3B" stroke={INK} strokeWidth="1.5" />
     </svg>
   );
 }
@@ -139,7 +368,27 @@ export type AccessoryKey =
   | "chef"
   | "ribbon"
   | "crown"
-  | "beanie";
+  | "beanie"
+  | "propeller"
+  | "pizza"
+  | "pokeball"
+  | "bowtie"
+  | "moustache"
+  | "bunnyears"
+  | "catears"
+  | "monocle"
+  | "greenscarf"
+  | "piratehat"
+  | "astrohelmet"
+  | "chocobar"
+  | "sword"
+  | "rainbowpop"
+  | "rubberduck"
+  | "boba"
+  | "balloon"
+  | "hpglasses"
+  | "diamondcrown"
+  | "shortcake";
 
 export const ACCESSORIES: Record<
   AccessoryKey,
@@ -155,4 +404,24 @@ export const ACCESSORIES: Record<
   ribbon: { w: 96, render: (s) => <RibbonBowSVG size={s} />, defaultPos: { x: 150, y: 40 } },
   crown: { w: 100, render: (s) => <CrownSVG size={s} />, defaultPos: { x: 145, y: 12 } },
   beanie: { w: 96, render: (s) => <BeanieSVG size={s} />, defaultPos: { x: 145, y: 10 } },
+  propeller: { w: 100, render: (s) => <PropellerHatSVG size={s} />, defaultPos: { x: 145, y: 4 } },
+  pizza: { w: 88, render: (s) => <PizzaSVG size={s} />, defaultPos: { x: 150, y: 120 } },
+  pokeball: { w: 80, render: (s) => <PokeballSVG size={s} />, defaultPos: { x: 250, y: 150 } },
+  bowtie: { w: 90, render: (s) => <BowtieSVG size={s} />, defaultPos: { x: 150, y: 210 } },
+  moustache: { w: 100, render: (s) => <MoustacheSVG size={s} />, defaultPos: { x: 145, y: 160 } },
+  bunnyears: { w: 88, render: (s) => <BunnyEarsSVG size={s} />, defaultPos: { x: 150, y: 0 } },
+  catears: { w: 100, render: (s) => <CatEarsSVG size={s} />, defaultPos: { x: 145, y: 8 } },
+  monocle: { w: 76, render: (s) => <MonocleSVG size={s} />, defaultPos: { x: 160, y: 120 } },
+  greenscarf: { w: 100, render: (s) => <GreenScarfSVG size={s} />, defaultPos: { x: 140, y: 210 } },
+  piratehat: { w: 110, render: (s) => <PirateHatSVG size={s} />, defaultPos: { x: 135, y: 12 } },
+  astrohelmet: { w: 110, render: (s) => <AstroHelmetSVG size={s} />, defaultPos: { x: 135, y: 60 } },
+  chocobar: { w: 76, render: (s) => <ChocobarSVG size={s} />, defaultPos: { x: 255, y: 140 } },
+  sword: { w: 60, render: (s) => <SwordSVG size={s} />, defaultPos: { x: 280, y: 100 } },
+  rainbowpop: { w: 74, render: (s) => <RainbowLollipopSVG size={s} />, defaultPos: { x: 260, y: 170 } },
+  rubberduck: { w: 92, render: (s) => <RubberDuckSVG size={s} />, defaultPos: { x: 150, y: 240 } },
+  boba: { w: 72, render: (s) => <BobaSVG size={s} />, defaultPos: { x: 265, y: 160 } },
+  balloon: { w: 60, render: (s) => <BalloonSVG size={s} />, defaultPos: { x: 280, y: 90 } },
+  hpglasses: { w: 110, render: (s) => <HPGlassesSVG size={s} />, defaultPos: { x: 140, y: 115 } },
+  diamondcrown: { w: 104, render: (s) => <DiamondCrownSVG size={s} />, defaultPos: { x: 140, y: 10 } },
+  shortcake: { w: 84, render: (s) => <ShortcakeSVG size={s} />, defaultPos: { x: 150, y: 220 } },
 };

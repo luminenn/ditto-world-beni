@@ -4,8 +4,19 @@ import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
-const dittoPixelArt =
+const DITTO_MASCOT_PRIMARY =
   "https://static.wikia.nocookie.net/pokewilds/images/0/03/Ditto.png/revision/latest/thumbnail/width/360/height/360?cb=20230829005808";
+const DITTO_MASCOT_FALLBACK =
+  "https://static.wikia.nocookie.net/omniversal-battlefield/images/5/5b/460.png/revision/latest/scale-to-width-down/400?cb=20190323171728";
+const dittoPixelArt = DITTO_MASCOT_PRIMARY;
+
+function handleDittoMascotError(e: React.SyntheticEvent<HTMLImageElement>) {
+  const img = e.currentTarget;
+  if (img.dataset.fallback !== "1") {
+    img.dataset.fallback = "1";
+    img.src = DITTO_MASCOT_FALLBACK;
+  }
+}
 
 type Card = {
   id: string;
@@ -265,6 +276,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
               <img
                 src={dittoPixelArt}
                 alt="Ditto mascot"
+                onError={handleDittoMascotError}
                 className="mx-auto mb-3 h-16 w-16 object-contain"
                 style={{ imageRendering: "pixelated" }}
               />
@@ -643,9 +655,10 @@ export function Shop() {
           width={96}
           height={96}
           loading="lazy"
+          onError={handleDittoMascotError}
           animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-          className="h-20 w-20 shrink-0 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[4px_4px_0_0_var(--color-ink)] sm:h-24 sm:w-24"
+          className="h-20 w-20 shrink-0 rounded-md border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[4px_4px_0_0_var(--color-ink)] sm:h-24 sm:w-24"
           style={{ imageRendering: "pixelated" }}
         />
         <div>

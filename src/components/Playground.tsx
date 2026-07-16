@@ -18,6 +18,26 @@ const LABELS: Record<AccessoryKey, TKey> = {
   ribbon: "acc_ribbon",
   crown: "acc_crown",
   beanie: "acc_beanie",
+  propeller: "acc_propeller",
+  pizza: "acc_pizza",
+  pokeball: "acc_pokeball",
+  bowtie: "acc_bowtie",
+  moustache: "acc_moustache",
+  bunnyears: "acc_bunnyears",
+  catears: "acc_catears",
+  monocle: "acc_monocle",
+  greenscarf: "acc_greenscarf",
+  piratehat: "acc_piratehat",
+  astrohelmet: "acc_astrohelmet",
+  chocobar: "acc_chocobar",
+  sword: "acc_sword",
+  rainbowpop: "acc_rainbowpop",
+  rubberduck: "acc_rubberduck",
+  boba: "acc_boba",
+  balloon: "acc_balloon",
+  hpglasses: "acc_hpglasses",
+  diamondcrown: "acc_diamondcrown",
+  shortcake: "acc_shortcake",
 };
 
 function SquishyDitto() {
@@ -205,7 +225,13 @@ export function Playground() {
     setPlaced((p) => p.map((a) => (a.id === id ? { ...a, x, y } : a)));
   const remove = (id: string) => setPlaced((p) => p.filter((a) => a.id !== id));
 
-  const keys: AccessoryKey[] = ["hat", "detective", "chef", "beanie", "crown", "glasses", "pixelshades", "ribbon", "scarf", "lollipop"];
+  const keys: AccessoryKey[] = [
+    "hat", "detective", "chef", "beanie", "crown", "propeller", "piratehat", "astrohelmet", "diamondcrown",
+    "glasses", "pixelshades", "hpglasses", "monocle", "moustache", "bunnyears", "catears",
+    "ribbon", "bowtie", "scarf", "greenscarf",
+    "lollipop", "rainbowpop", "pizza", "chocobar", "shortcake", "boba", "rubberduck",
+    "pokeball", "sword", "balloon",
+  ];
 
   return (
     <section id="playground" className="mx-auto mt-16 w-[min(1100px,94%)] scroll-mt-28">
