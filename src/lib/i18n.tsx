@@ -20,9 +20,9 @@ const en = {
   welcome: e("Welcome Beni!"),
   tagline: e("Beni's Pokemon Cards"),
 
-  nav_playground: e("Playground"),
-  nav_shop: e("The Shop"),
-  nav_study: e("Study Corner"),
+  nav_playground: e("Dittoland"),
+  nav_shop: e("Beni's Pokemon Cards"),
+  nav_study: e("Japanese Study Corner"),
 
   hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
   hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
