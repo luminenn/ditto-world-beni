@@ -51,7 +51,7 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1, rotate: -2 }}
             whileHover={{ rotate: 1, y: -3 }}
             transition={{ type: "spring", stiffness: 200, damping: 12 }}
-            className="inline-block rounded-full border-[3px] border-[var(--color-ink)] px-5 py-2 text-2xl font-bold shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
+            className="inline-block rounded-md border-[3px] border-[var(--color-ink)] px-5 py-2 text-2xl font-bold shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
             style={{ background: "#2E1547", color: "#FFFFFF" }}
           >
             {t("welcome")}
