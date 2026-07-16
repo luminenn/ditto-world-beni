@@ -276,6 +276,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
               <img
                 src={dittoPixelArt}
                 alt="Ditto mascot"
+                onError={handleDittoMascotError}
                 className="mx-auto mb-3 h-16 w-16 object-contain"
                 style={{ imageRendering: "pixelated" }}
               />
