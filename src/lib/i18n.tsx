@@ -87,8 +87,8 @@ const ja: Record<keyof typeof en, Entry> = {
     <>お<R k="店" r="みせ" /></>,
   ),
   nav_study: e(
-    "勉強コーナー",
-    <><R k="勉強" r="べんきょう" />コーナー</>,
+    "メタモンの日本語教室",
+    <>メタモンの<R k="日本語教室" r="にほんごきょうしつ" /></>,
   ),
 
   hero_title: e(
