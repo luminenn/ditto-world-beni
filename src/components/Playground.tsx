@@ -139,7 +139,7 @@ export function Playground() {
           </div>
         </div>
 
-        <aside className="card-doodle-sm flex flex-col gap-3 p-4">
+        <aside className="card-doodle-sm flex flex-col gap-3 p-4" style={{ background: "rgba(46,26,64,0.75)", backdropFilter: "blur(6px)", color: "#F4EFFF", boxShadow: "4px 4px 0 0 var(--color-ink), 0 0 22px rgba(215,161,249,0.35)", borderColor: "#D7A1F9" }}>
           <h3 className="text-lg font-bold">{t("accessory_box")}</h3>
           <div className="grid grid-cols-1 gap-3">
             {keys.map((k) => (
