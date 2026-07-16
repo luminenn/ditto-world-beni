@@ -745,7 +745,8 @@ export function Shop() {
 
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {cards.map((c, i) => (
+        {loading && Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={`sk-${i}`} />)}
+        {!loading && cards.map((c, i) => (
           <motion.div
             key={c.id}
             whileHover={{ y: -4, rotate: i % 2 ? 0.8 : -0.8 }}
