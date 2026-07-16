@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
+import dittoRetroSprite from "@/assets/ditto-retro-sprite.png";
 
 type VocabCard = {
   char: string;
