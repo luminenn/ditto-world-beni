@@ -41,7 +41,8 @@ export const translations = {
     scene_f: "Ditto as a mochi",
   },
   ja: {
-    brand: "メタモンのひろば",
+    brand: "ディットランド",
+    welcome: "ようこそ ベニちゃん!",
     nav_playground: "あそぼう",
     nav_gallery: "ギャラリー",
     nav_study: "べんきょう",
