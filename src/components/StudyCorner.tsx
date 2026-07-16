@@ -10,7 +10,8 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
-import dittoRetroSprite from "@/assets/ditto-retro-sprite.png";
+const dittoRetroSprite =
+  "https://static.wikia.nocookie.net/pokemonwack/images/6/60/132.png/revision/latest?cb=20191119142214";
 
 type VocabCard = {
   char: string;
@@ -281,7 +282,7 @@ function ModeBtn({
   return (
     <button
       onClick={onClick}
-      className="pill-btn pill-btn-hover text-sm"
+      className="pill-btn pill-btn-hover !rounded-full text-sm"
       style={{
         background: active ? "var(--ditto-purple)" : "var(--cream)",
         color: active ? "#fff" : "var(--ink)",
@@ -415,7 +416,7 @@ function Flashcards() {
             <button
               onClick={next}
               disabled={feedback === "idle"}
-              className="pill-btn pill-btn-hover text-sm disabled:opacity-50"
+              className="pill-btn pill-btn-hover !rounded-full text-sm disabled:opacity-50"
               style={{ background: "var(--ditto-purple)", color: "#fff" }}
             >
               {t("next")} <ArrowRight size={14} />
@@ -591,28 +592,28 @@ function TracingCanvas() {
           <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={() => setShowHints((v) => !v)}
-              className="pill-btn pill-btn-hover text-sm"
+              className="pill-btn pill-btn-hover !rounded-full text-sm"
               style={{ background: "var(--sky)" }}
             >
               {showHints ? "Hide" : "Show"} Stroke Order
             </button>
             <button
               onClick={clear}
-              className="pill-btn pill-btn-hover text-sm"
+              className="pill-btn pill-btn-hover !rounded-full text-sm"
               style={{ background: "var(--butter)" }}
             >
               <Eraser size={14} /> Clear
             </button>
             <button
               onClick={done}
-              className="pill-btn pill-btn-hover text-sm"
+              className="pill-btn pill-btn-hover !rounded-full text-sm"
               style={{ background: "var(--mint)" }}
             >
               <Sparkles size={14} /> I'm Done!
             </button>
             <button
               onClick={() => setIdx((i) => i + 1)}
-              className="pill-btn pill-btn-hover text-sm"
+              className="pill-btn pill-btn-hover !rounded-full text-sm"
               style={{ background: "var(--ditto-purple)", color: "#fff" }}
             >
               Next Kanji <ArrowRight size={14} />
@@ -744,7 +745,7 @@ function StoryTime() {
             <button
               onClick={next}
               disabled={!picked}
-              className="pill-btn pill-btn-hover text-sm disabled:opacity-50"
+              className="pill-btn pill-btn-hover !rounded-full text-sm disabled:opacity-50"
               style={{ background: "var(--ditto-purple)", color: "#fff" }}
             >
               Next Story <ArrowRight size={14} />

@@ -4,7 +4,8 @@ import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
-import dittoPixelArt from "@/assets/ditto-pixel-art.png";
+const dittoPixelArt =
+  "https://static.wikia.nocookie.net/pokewilds/images/0/03/Ditto.png/revision/latest/thumbnail/width/360/height/360?cb=20230829005808";
 
 type Card = {
   id: string;
@@ -247,7 +248,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
       >
         <button
           onClick={onClose}
-          className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
+          className="absolute right-3 top-3 z-30 flex h-9 w-9 items-center justify-center rounded-md border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
           aria-label="Close"
         >
           <X size={16} />
@@ -255,16 +256,21 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
 
         <div className="relative aspect-[5/3]">
           <CardArt card={card} />
-          {state === "done" && <FloatingStars />}
         </div>
 
-        <div className="border-t-[3px] border-[var(--color-ink)] p-5">
+
+        <div className="border-t-[3px] border-[var(--color-ink)] p-5" style={{ background: "#261A36", color: "#F4EFFF" }}>
           {state === "done" ? (
             <div className="py-4 text-center">
-              <div className="mx-auto mb-2 text-4xl">💌</div>
-              <h3 className="text-2xl font-bold">Inquiry Sent! Ditto is on it!</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Beni will reply to your email as soon as possible. ✨
+              <img
+                src={dittoPixelArt}
+                alt="Ditto mascot"
+                className="mx-auto mb-3 h-16 w-16 object-contain"
+                style={{ imageRendering: "pixelated" }}
+              />
+              <h3 className="text-2xl font-bold" style={{ color: "#FFFFFF" }}>Inquiry Sent! Ditto is on it!</h3>
+              <p className="mt-2 text-sm" style={{ color: "#F4EFFF" }}>
+                Beni will reply to your email as soon as possible.
               </p>
               <button
                 onClick={onClose}
@@ -300,7 +306,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     name="name"
                     maxLength={80}
                     placeholder={ts("name_ph")}
-                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
+                    className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
                   />
                   {errors.name && <p className="mt-1 text-xs text-red-300">{errors.name}</p>}
                 </label>
@@ -311,7 +317,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     type="email"
                     maxLength={200}
                     placeholder={ts("email_ph")}
-                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
+                    className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
                   />
                   {errors.email && <p className="mt-1 text-xs text-red-300">{errors.email}</p>}
                 </label>
@@ -322,7 +328,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                     rows={3}
                     maxLength={1000}
                     placeholder={ts("message_ph")}
-                    className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
+                    className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
                   />
                   {errors.message && (
                     <p className="mt-1 text-xs text-red-300">{errors.message}</p>
@@ -450,7 +456,7 @@ function CardEditor({
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
+          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-md border-[2.5px] border-[var(--color-ink)] bg-white text-[#1A122B] shadow-[2px_2px_0_0_var(--color-ink)]"
           aria-label="Close"
         >
           <X size={16} />
@@ -462,7 +468,7 @@ function CardEditor({
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+              className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
               maxLength={100}
               required
             />
@@ -473,7 +479,7 @@ function CardEditor({
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
               rows={3}
-              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+              className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
               maxLength={500}
             />
           </label>
@@ -485,7 +491,7 @@ function CardEditor({
               step="1"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
-              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
+              className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
               required
             />
           </label>
@@ -508,7 +514,7 @@ function CardEditor({
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                   placeholder="https://…"
-                  className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white pl-8 pr-3 py-2 text-sm text-[#1A122B] outline-none"
+                  className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white pl-8 pr-3 py-2 text-sm text-[#1A122B] outline-none"
                 />
               </div>
             ) : (
@@ -537,7 +543,7 @@ function CardEditor({
             )}
             {imageUrl && (
               <div className="mt-3 flex items-center gap-3">
-                <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border-[2.5px] border-[var(--color-ink)] shadow-[3px_3px_0_0_var(--color-ink)]">
+                <div className="h-20 w-20 shrink-0 overflow-hidden rounded-md border-[2.5px] border-[var(--color-ink)] shadow-[3px_3px_0_0_var(--color-ink)]">
                   <img src={imageUrl} alt="Preview" className="h-full w-full object-cover" />
                 </div>
                 <button
@@ -677,7 +683,7 @@ export function Shop() {
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.96 }}
                   onClick={() => setOpen(c)}
-                  className="inline-flex flex-1 items-center justify-center gap-1 rounded-xl border-[2px] border-[var(--color-ink)] px-3 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110"
+                  className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border-[2px] border-[var(--color-ink)] px-3 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110"
                   style={{ background: "#3A2A50", color: "#FFFFFF" }}
                 >
                   <Mail size={12} /> {t("inquire")}
@@ -817,7 +823,7 @@ export function AdminLoginLink() {
                   setErr(false);
                 }}
                 placeholder="Passcode"
-                className="mt-4 w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-center text-sm text-[#1A122B] outline-none"
+                className="mt-4 w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-center text-sm text-[#1A122B] outline-none"
                 autoFocus
               />
               {err && <p className="mt-2 text-xs text-red-300">Wrong passcode, try again.</p>}

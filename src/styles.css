@@ -157,7 +157,7 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.55rem 1.1rem;
-  border-radius: 9999px;
+  border-radius: 6px;
   border: 2px solid var(--color-ink);
   background: var(--ditto-pink);
   color: #1A122B;

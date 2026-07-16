@@ -3,7 +3,10 @@ import { Sparkles, ShoppingBag, Hand, Star } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useTab } from "@/lib/tabs";
 import { DittoSVG } from "./DittoSVG";
-import dittoWaving3d from "@/assets/ditto-waving-3d.png";
+
+const dittoWaving3d =
+  "https://marriland.com/wp-content/plugins/marriland-core/images/pokemon/sprites/home/full/ditto.png";
+
 
 export function Hero() {
   const { t } = useLang();
