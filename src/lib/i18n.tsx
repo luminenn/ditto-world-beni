@@ -4,7 +4,8 @@ export type Lang = "en" | "ja";
 
 export const translations = {
   en: {
-    brand: "Ditto's Playground",
+    brand: "Dittoland",
+    welcome: "Welcome Beni!",
     nav_playground: "Playground",
     nav_gallery: "Gallery",
     nav_study: "Study Corner",
