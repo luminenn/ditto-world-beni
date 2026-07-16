@@ -5,9 +5,8 @@ import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
 const DITTO_MASCOT_PRIMARY =
-  "https://static.wikia.nocookie.net/pokewilds/images/0/03/Ditto.png/revision/latest/thumbnail/width/360/height/360?cb=20230829005808";
-const DITTO_MASCOT_FALLBACK =
   "https://static.wikia.nocookie.net/omniversal-battlefield/images/5/5b/460.png/revision/latest/scale-to-width-down/400?cb=20190323171728";
+const DITTO_MASCOT_FALLBACK = DITTO_MASCOT_PRIMARY;
 const dittoPixelArt = DITTO_MASCOT_PRIMARY;
 
 function handleDittoMascotError(e: React.SyntheticEvent<HTMLImageElement>) {
