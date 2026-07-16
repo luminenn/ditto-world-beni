@@ -38,6 +38,12 @@ const en = {
   acc_glasses: e("Round Glasses"),
   acc_scarf: e("Cozy Scarf"),
   acc_lollipop: e("Lollipop"),
+  acc_detective: e("Detective Hat"),
+  acc_pixelshades: e("Pixel Shades"),
+  acc_chef: e("Chef's Hat"),
+  acc_ribbon: e("Ribbon Bow"),
+  acc_crown: e("Golden Crown"),
+  acc_beanie: e("Winter Beanie"),
 
   shop_title: e("Beni's Pokemon Cards"),
   shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
