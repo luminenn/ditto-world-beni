@@ -112,16 +112,17 @@ export function Playground() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-[1fr_260px]">
-        <div className="card-doodle relative overflow-hidden p-6">
+        <div className="card-doodle relative overflow-hidden p-6" style={{ background: "linear-gradient(160deg, #2A1740 0%, #1C0F30 100%)", color: "#F4EFFF" }}>
           <div
             aria-hidden
-            className="absolute inset-0 opacity-40"
+            className="absolute inset-0 opacity-30"
             style={{
               backgroundImage:
-                "radial-gradient(var(--ditto-purple) 1.5px, transparent 1.5px)",
+                "radial-gradient(rgba(215,161,249,0.55) 1.5px, transparent 1.5px)",
               backgroundSize: "22px 22px",
             }}
           />
+
           <div ref={stageRef} className="relative mx-auto h-[440px] w-full max-w-[520px]">
             <div className="absolute inset-0 z-10 flex items-end justify-center pb-4">
               <SquishyDitto />
