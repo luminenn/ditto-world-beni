@@ -22,11 +22,12 @@ export function NavBar() {
     >
       <button
         onClick={() => setTab("home")}
-        className="flex items-center gap-2 rounded-md border-[2px] border-[var(--color-ink)] px-3 py-1"
+        className="flex items-center gap-2 border-[2px] border-[var(--color-ink)] px-3 py-1"
         style={{
           background: "#EADCF7",
           color: "#2E1547",
           boxShadow: "3px 3px 0 0 var(--color-ink)",
+          borderRadius: 6,
         }}
       >
         <motion.span
