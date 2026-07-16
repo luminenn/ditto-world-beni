@@ -182,15 +182,16 @@ type Mode = "flash" | "trace" | "story";
 
 function SpeechBubble({ text, mood }: { text: string; mood: "idle" | "correct" | "wrong" }) {
   const bg =
-    mood === "correct" ? "var(--mint)" : mood === "wrong" ? "var(--butter)" : "var(--cream)";
+    mood === "correct" ? "#3D2A5C" : mood === "wrong" ? "#4A2A5C" : "#2E1547";
+  const fg = mood === "wrong" ? "#F8C8FF" : "#FFFFFF";
   return (
     <motion.div
       key={text}
       initial={{ opacity: 0, scale: 0.85, y: 6 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 260, damping: 18 }}
-      className="relative rounded-2xl border-[3px] border-[var(--color-ink)] px-4 py-2 text-center text-sm font-bold shadow-[4px_4px_0_0_var(--color-ink)]"
-      style={{ background: bg, maxWidth: 220 }}
+      className="relative border-[3px] border-[var(--color-ink)] px-4 py-2 text-center text-sm font-bold shadow-[4px_4px_0_0_var(--color-ink)]"
+      style={{ background: bg, color: fg, maxWidth: 220, borderRadius: 6 }}
     >
       {text}
       <span
