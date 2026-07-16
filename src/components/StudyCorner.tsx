@@ -513,7 +513,7 @@ function TracingCanvas() {
   };
 
   return (
-    <div className="card-doodle p-6 sm:p-8">
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
       <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-center">
         <div className="flex justify-center">
           <DittoMascot mood={mood} />
@@ -522,8 +522,9 @@ function TracingCanvas() {
         <div className="flex flex-col items-center">
           <div
             className="relative rounded-3xl border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_0_var(--color-ink)] overflow-hidden"
-            style={{ background: "#F2EBFA", width: "min(100%, 420px)", aspectRatio: "1 / 1" }}
+            style={{ background: "#241534", width: "min(100%, 420px)", aspectRatio: "1 / 1", boxShadow: "6px 6px 0 0 var(--color-ink), inset 0 0 30px rgba(215,161,249,0.15)" }}
           >
+
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
