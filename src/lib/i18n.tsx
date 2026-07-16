@@ -18,11 +18,11 @@ const e = (text: string, node?: ReactNode): Entry => ({ text, node: node ?? text
 const en = {
   brand: e("Dittoland"),
   welcome: e("Welcome Beni!"),
-  tagline: e("Beni's hand-drawn card shop"),
+  tagline: e("Beni's Pokemon Cards"),
 
-  nav_playground: e("Playground"),
-  nav_shop: e("The Shop"),
-  nav_study: e("Study Corner"),
+  nav_playground: e("Dittoland"),
+  nav_shop: e("Beni's Pokemon Cards"),
+  nav_study: e("Japanese Study Corner"),
 
   hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
   hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
@@ -38,7 +38,7 @@ const en = {
   acc_scarf: e("Cozy Scarf"),
   acc_lollipop: e("Lollipop"),
 
-  shop_title: e("Beni's Hand-Drawn Custom Cards"),
+  shop_title: e("Beni's Pokemon Cards"),
   shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
   price_label: e("Price"),
   available: e("Available"),

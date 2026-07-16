@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
 import { LangProvider, useLang } from "@/lib/i18n";
+import { TabProvider, useTab } from "@/lib/tabs";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
 import { Playground } from "@/components/Playground";
@@ -19,19 +21,42 @@ function Footer() {
   );
 }
 
+function TabbedContent() {
+  const { tab } = useTab();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={tab}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.28, ease: "easeOut" }}
+      >
+        {tab === "home" && (
+          <>
+            <Hero />
+            <Playground />
+          </>
+        )}
+        {tab === "shop" && <Shop />}
+        {tab === "study" && <StudyCorner />}
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function Index() {
   return (
     <LangProvider>
-      <div className="min-h-screen pb-10">
-        <NavBar />
-        <main>
-          <Hero />
-          <Playground />
-          <Shop />
-          <StudyCorner />
-        </main>
-        <Footer />
-      </div>
+      <TabProvider>
+        <div className="min-h-screen pb-10">
+          <NavBar />
+          <main>
+            <TabbedContent />
+          </main>
+          <Footer />
+        </div>
+      </TabProvider>
     </LangProvider>
   );
 }
