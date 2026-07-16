@@ -633,7 +633,7 @@ export function Shop() {
               <div className="mt-auto flex items-center justify-between gap-2">
                 <span className="text-base font-bold" style={{ color: "#1A122B" }}>${c.price}</span>
                 <motion.button
-                  whileHover={{ y: -2, brightness: 1.05 }}
+                  whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.96 }}
                   onClick={() => setOpen(c)}
                   className="inline-flex flex-1 items-center justify-center gap-1 rounded-xl border-[2px] border-[var(--color-ink)] px-3 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110"
