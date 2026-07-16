@@ -655,9 +655,10 @@ export function Shop() {
           width={96}
           height={96}
           loading="lazy"
+          onError={handleDittoMascotError}
           animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
-          className="h-20 w-20 shrink-0 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[4px_4px_0_0_var(--color-ink)] sm:h-24 sm:w-24"
+          className="h-20 w-20 shrink-0 rounded-md border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[4px_4px_0_0_var(--color-ink)] sm:h-24 sm:w-24"
           style={{ imageRendering: "pixelated" }}
         />
         <div>
