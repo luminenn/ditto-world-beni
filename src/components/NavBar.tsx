@@ -53,7 +53,7 @@ export function NavBar() {
                 color: "#2E1547",
                 border: `2px solid #1A122B`,
                 boxShadow: active
-                  ? "4px 4px 0 0 #1A122B, 0 0 18px rgba(243,165,255,0.6)"
+                  ? "4px 4px 0 0 #1A122B"
                   : "3px 3px 0 0 #1A122B",
               }}
             >
