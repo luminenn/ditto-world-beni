@@ -10,20 +10,22 @@ export function LanguageToggle() {
       whileHover={{ y: -2, rotate: -1.5 }}
       whileTap={{ scale: 0.96 }}
       aria-label="Toggle language"
-      className="relative flex h-9 items-center gap-2 rounded-md px-4 text-sm font-bold transition-colors"
+      className="relative flex h-9 items-center gap-2 rounded-md px-3 text-sm font-bold transition-colors"
       style={{
         background: "#EADCF7",
         color: "#2E1547",
         border: "2px solid #1A122B",
         boxShadow: "3px 3px 0 0 #1A122B",
+        borderRadius: 6,
       }}
     >
       <span
-        className="flex h-6 w-8 items-center justify-center rounded-sm text-[11px] font-extrabold"
+        className="flex h-6 w-8 items-center justify-center text-[11px] font-extrabold"
         style={{
-          background: "#F3A5FF",
-          color: "#2E1547",
+          background: "#4F357A",
+          color: "#FFFFFF",
           border: "2px solid #1A122B",
+          borderRadius: 4,
         }}
       >
         {isJa ? "JA" : "EN"}

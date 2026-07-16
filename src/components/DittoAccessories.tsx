@@ -272,11 +272,14 @@ export function RainbowLollipopSVG({ size = 68 }: { size?: number }) {
   return (
     <svg viewBox="0 0 64 88" width={size} height={size * (88 / 64)} aria-label="Rainbow lollipop">
       <rect x="30" y="40" width="4" height="44" rx="2" fill="#FBFAFF" stroke={INK} strokeWidth="2.2" />
-      <circle cx="32" cy="26" r="22" fill="#FBFAFF" stroke={INK} strokeWidth="2.6" />
-      <path d="M32 26 m-16 0 a16 16 0 0 1 32 0" fill="none" stroke="#EC5B5B" strokeWidth="4" />
-      <path d="M32 26 m-12 0 a12 12 0 0 1 24 0" fill="none" stroke="#F6C948" strokeWidth="4" />
-      <path d="M32 26 m-8 0 a8 8 0 0 1 16 0" fill="none" stroke="#3F9E6E" strokeWidth="4" />
-      <path d="M32 26 m-4 0 a4 4 0 0 1 8 0" fill="none" stroke="#5A8CE0" strokeWidth="4" />
+      <circle cx="32" cy="26" r="22" fill="#EC5B5B" stroke={INK} strokeWidth="2.6" />
+      <circle cx="32" cy="26" r="18" fill="#F39C3B" />
+      <circle cx="32" cy="26" r="14.5" fill="#F6C948" />
+      <circle cx="32" cy="26" r="11" fill="#3F9E6E" />
+      <circle cx="32" cy="26" r="7.5" fill="#5A8CE0" />
+      <circle cx="32" cy="26" r="4" fill="#A56BD6" />
+      <circle cx="32" cy="26" r="22" fill="none" stroke={INK} strokeWidth="2.6" />
+      <ellipse cx="24" cy="16" rx="5" ry="3" fill="#FBFAFF" opacity="0.55" />
     </svg>
   );
 }
