@@ -126,6 +126,12 @@ const ja: Record<keyof typeof en, Entry> = {
   acc_glasses: e("まるメガネ"),
   acc_scarf: e("マフラー"),
   acc_lollipop: e("ロリポップ"),
+  acc_detective: e("たんていハット", <>たんていハット</>),
+  acc_pixelshades: e("ピクセルサングラス"),
+  acc_chef: e("コックぼう", <>コック<R k="帽" r="ぼう" /></>),
+  acc_ribbon: e("リボン"),
+  acc_crown: e("おうかん", <>おうかん</>),
+  acc_beanie: e("ニットぼう", <>ニット<R k="帽" r="ぼう" /></>),
 
   shop_title: e(
     "ベニちゃんの手描きカード",
