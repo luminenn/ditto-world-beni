@@ -649,14 +649,13 @@ export function Shop() {
     <section id="shop" className="mx-auto mt-20 w-[min(1200px,94%)] scroll-mt-28">
       <div className="mb-6 flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
         <motion.img
-          src="https://static.wikia.nocookie.net/omniversal-battlefield/images/5/5b/460.png/revision/latest/scale-to-width-down/400?cb=20190323171728"
+          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
           alt="Ditto shopkeeper"
           loading="lazy"
-          onError={handleDittoMascotError}
           animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
           transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
           className="shrink-0 select-none"
-          style={{ width: 80, height: "auto", background: "transparent", filter: "drop-shadow(4px 6px 0 rgba(0,0,0,0.35))" }}
+          style={{ width: 120, height: "auto", background: "transparent", filter: "drop-shadow(4px 6px 0 rgba(0,0,0,0.35))" }}
           draggable={false}
         />
         <div>
