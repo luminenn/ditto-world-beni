@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState, type FormEvent } from "react";
-import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck } from "lucide-react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck, Camera, Link as LinkIcon } from "lucide-react";
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
@@ -340,6 +340,51 @@ function CardEditor({
   const [price, setPrice] = useState<string>(String(initial?.price ?? 20));
   const [imageUrl, setImageUrl] = useState(initial?.imageUrl ?? "");
   const [available, setAvailable] = useState<boolean>(initial?.available ?? true);
+  const [useUrl, setUseUrl] = useState<boolean>(
+    !!initial?.imageUrl && /^https?:\/\//i.test(initial.imageUrl),
+  );
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const compressImage = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("read failed"));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error("decode failed"));
+        img.onload = () => {
+          const MAX = 600;
+          const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+          const w = Math.round(img.width * scale);
+          const h = Math.round(img.height * scale);
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) return reject(new Error("no ctx"));
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL("image/jpeg", 0.7));
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+
+  const onFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const dataUrl = await compressImage(file);
+      setImageUrl(dataUrl);
+    } catch {
+      /* noop */
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -417,16 +462,67 @@ function CardEditor({
               required
             />
           </label>
-          <label className="block">
-            <span className="mb-1 block text-xs font-bold">Image URL (optional)</span>
-            <input
-              type="url"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://…"
-              className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none"
-            />
-          </label>
+          <div>
+            <div className="mb-1 flex items-center justify-between">
+              <span className="text-xs font-bold">Card Photo</span>
+              <button
+                type="button"
+                onClick={() => setUseUrl((v) => !v)}
+                className="text-[11px] font-bold underline decoration-dotted underline-offset-2 text-[var(--ditto-pink)]"
+              >
+                {useUrl ? "← Upload from device" : "Use Image URL instead →"}
+              </button>
+            </div>
+            {useUrl ? (
+              <div className="relative">
+                <LinkIcon size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#1A122B]/60" />
+                <input
+                  type="url"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder="https://…"
+                  className="w-full rounded-xl border-[2.5px] border-[var(--color-ink)] bg-white pl-8 pr-3 py-2 text-sm text-[#1A122B] outline-none"
+                />
+              </div>
+            ) : (
+              <>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={onFileChange}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="pill-btn pill-btn-hover w-full justify-center text-sm disabled:opacity-70"
+                  style={{ background: "var(--cream)", color: "#1A122B" }}
+                >
+                  {uploading ? (
+                    <><Loader2 size={16} className="animate-spin" /> Compressing…</>
+                  ) : (
+                    <><Camera size={16} /> {imageUrl ? "Change Card Photo" : "📸 Upload Card Photo"}</>
+                  )}
+                </button>
+              </>
+            )}
+            {imageUrl && (
+              <div className="mt-3 flex items-center gap-3">
+                <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border-[2.5px] border-[var(--color-ink)] shadow-[3px_3px_0_0_var(--color-ink)]">
+                  <img src={imageUrl} alt="Preview" className="h-full w-full object-cover" />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setImageUrl("")}
+                  className="text-xs font-bold text-[var(--ditto-pink)] underline decoration-dotted underline-offset-2"
+                >
+                  Remove photo
+                </button>
+              </div>
+            )}
+          </div>
           <label className="flex items-center gap-2 text-sm font-bold">
             <input
               type="checkbox"
