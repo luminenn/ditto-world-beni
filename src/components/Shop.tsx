@@ -598,20 +598,20 @@ export function AdminBanner() {
   const { isAdmin, logout } = useAdmin();
   if (!isAdmin) return null;
   return (
-    <div className="fixed left-1/2 top-3 z-40 -translate-x-1/2 flex items-center gap-2">
+    <div className="fixed top-4 right-4 z-50 flex items-center gap-2">
       <div
-        className="flex items-center gap-2 rounded-full border-[2.5px] border-[var(--color-ink)] px-4 py-1.5 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
-        style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
+        className="hidden sm:inline-flex items-center gap-1.5 rounded-full border-[2px] border-[var(--color-ink)] px-3 py-1 text-[11px] font-bold shadow-[2px_2px_0_0_var(--color-ink)]"
+        style={{ background: "#FFFDF6", color: "#1A122B" }}
       >
-        <ShieldCheck size={14} />
+        <ShieldCheck size={12} />
         Admin Mode Active
       </div>
       <button
         onClick={logout}
-        className="inline-flex items-center gap-1.5 rounded-full border-[2.5px] border-[var(--color-ink)] px-4 py-1.5 text-xs font-extrabold shadow-[3px_3px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5 hover:rotate-[-1.5deg]"
-        style={{ background: "#2E1547", color: "#FFFFFF" }}
+        className="inline-flex items-center gap-1.5 rounded-full border-[2px] border-[var(--color-ink)] px-3 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+        style={{ background: "#1A122B", color: "#FFFFFF" }}
       >
-        <LogOut size={13} /> Exit Admin Mode
+        <LogOut size={12} /> Exit Admin
       </button>
     </div>
   );
