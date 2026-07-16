@@ -184,10 +184,14 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
   const { t, ts } = useLang();
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Formspree endpoint — edit this string to change delivery target
+  const [targetEmail] = useState("beni@example.com");
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgqgppp";
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const fd = new FormData(form);
     const parsed = contactSchema.safeParse({
       name: fd.get("name"),
       email: fd.get("email"),
@@ -203,8 +207,26 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
     }
     setErrors({});
     setState("sending");
-    setTimeout(() => setState("done"), 900);
+    // Attach card metadata + target email so submissions include full context
+    fd.set("card_name", card.title);
+    fd.set("card_price", `$${card.price}`);
+    fd.set("card_id", card.id);
+    fd.set("target_email", targetEmail);
+    fd.set("_subject", `New inquiry: ${card.title} ($${card.price})`);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: fd,
+      });
+      if (!res.ok) throw new Error("send failed");
+      setState("done");
+    } catch {
+      setState("idle");
+      setErrors({ message: "Something went wrong sending your inquiry. Please try again." });
+    }
   };
+
 
   return (
     <motion.div
