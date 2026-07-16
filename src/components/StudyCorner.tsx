@@ -68,7 +68,9 @@ const BASE_STORIES: Story[] = [
       <>
         きょうは <ruby>青空<rt>あおぞら</rt></ruby> です。かわいい{" "}
         <ruby>子猫<rt>こねこ</rt></ruby> が <ruby>山<rt>やま</rt></ruby> を{" "}
-        <ruby>走<rt>はし</rt></ruby> ります。
+        <ruby>走<rt>はし</rt></ruby> ります。<ruby>山<rt>やま</rt></ruby> のうえには、きれいな{" "}
+        <ruby>花<rt>はな</rt></ruby> が たくさん <ruby>咲<rt>さ</rt></ruby> いています。みんなで
+        いっしょに <ruby>遊<rt>あそ</rt></ruby> びましょう！
       </>
     ),
     question: "Where is the cute kitten running?",
@@ -82,8 +84,10 @@ const BASE_STORIES: Story[] = [
   {
     passage: (
       <>
-        <ruby>雨<rt>あめ</rt></ruby> の <ruby>日<rt>ひ</rt></ruby> です。
-        <ruby>犬<rt>いぬ</rt></ruby> は おうちで <ruby>寝<rt>ね</rt></ruby> ています。
+        <ruby>雨<rt>あめ</rt></ruby> の <ruby>日<rt>ひ</rt></ruby> です。ちいさな{" "}
+        <ruby>犬<rt>いぬ</rt></ruby> は おうちで しずかに <ruby>寝<rt>ね</rt></ruby> ています。
+        まどの そとでは <ruby>雨<rt>あめ</rt></ruby> の <ruby>音<rt>おと</rt></ruby> が
+        きこえます。あしたは <ruby>晴<rt>は</rt></ruby> れると いいですね。
       </>
     ),
     question: "What is the dog doing?",
@@ -97,8 +101,10 @@ const BASE_STORIES: Story[] = [
   {
     passage: (
       <>
-        なつの よる、<ruby>花火<rt>はなび</rt></ruby> が{" "}
-        <ruby>空<rt>そら</rt></ruby> に ひかります。みんなで <ruby>見<rt>み</rt></ruby> ます。
+        なつの よる、たくさんの <ruby>花火<rt>はなび</rt></ruby> が{" "}
+        <ruby>夜空<rt>よぞら</rt></ruby> に ひかります。<ruby>子<rt>こ</rt></ruby> どもたちは
+        ゆかたを きて わらっています。メタモンも いっしょに{" "}
+        <ruby>見<rt>み</rt></ruby> あげています。とても きれいな よるです。
       </>
     ),
     question: "What lights up the sky in the story?",
@@ -112,8 +118,10 @@ const BASE_STORIES: Story[] = [
   {
     passage: (
       <>
-        <ruby>川<rt>かわ</rt></ruby> に ちいさな <ruby>魚<rt>さかな</rt></ruby> が います。
-        <ruby>木<rt>き</rt></ruby> の したで メタモンが <ruby>見<rt>み</rt></ruby> ています。
+        <ruby>川<rt>かわ</rt></ruby> に ちいさな <ruby>魚<rt>さかな</rt></ruby> が
+        およいでいます。<ruby>木<rt>き</rt></ruby> の したで メタモンは そっと{" "}
+        <ruby>見<rt>み</rt></ruby> ています。<ruby>魚<rt>さかな</rt></ruby> は キラキラ
+        ひかって とても きれいです。メタモンは しずかに ほほえみます。
       </>
     ),
     question: "What is Ditto watching?",
@@ -128,7 +136,10 @@ const BASE_STORIES: Story[] = [
     passage: (
       <>
         <ruby>日本<rt>にほん</rt></ruby> には たくさんの{" "}
-        <ruby>火山<rt>かざん</rt></ruby> が あります。とても きれいです。
+        <ruby>火山<rt>かざん</rt></ruby> が あります。<ruby>山<rt>やま</rt></ruby> のうえから
+        <ruby>見<rt>み</rt></ruby> る <ruby>景色<rt>けしき</rt></ruby> は
+        とても きれいです。はるには <ruby>花<rt>はな</rt></ruby> が さきます。
+        あなたも いつか いっしょに <ruby>行<rt>い</rt></ruby> きましょう。
       </>
     ),
     question: "What does the story say Japan has many of?",

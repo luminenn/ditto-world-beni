@@ -49,34 +49,34 @@
 :root {
   --radius: 1.25rem;
 
-  /* Dittoland palette */
-  --ditto-pink: #B892FF;       /* primary lavender (kept var name for compat) */
-  --ditto-pink-soft: #D9C6FF;
+  /* Gengar-purple Dittoland palette */
+  --ditto-pink: #D7A1F9;       /* primary lavender-pink accent */
+  --ditto-pink-soft: #E8C6FF;
   --ditto-purple: #C29EE3;
-  --ditto-deep: #4A2C5B;
-  --cream: #FBF8FF;
-  --butter: #EFE4FB;
-  --mint: #C7EED8;
-  --sky: #D6E8FB;
-  --ink: #4A2C5B;
+  --ditto-deep: #1A122B;
+  --cream: #5B4B7E;            /* card/container plum-slate */
+  --butter: #FDF0A6;           /* pastel yellow highlight */
+  --mint: #A3E6D2;             /* pastel mint correct-state */
+  --sky: #B8A6E8;
+  --ink: #1A122B;              /* thick dark outline */
   --wood: #D9A46B;
-  --bg-lavender: #F6F2FA;
+  --bg-lavender: #3D2F5F;      /* main gengar background */
 
 
   --background: var(--bg-lavender);
-  --foreground: var(--ink);
+  --foreground: #F4EFFF;
   --card: var(--cream);
-  --card-foreground: var(--ink);
+  --card-foreground: #FFFFFF;
   --popover: var(--cream);
-  --popover-foreground: var(--ink);
+  --popover-foreground: #FFFFFF;
   --primary: var(--ditto-pink);
-  --primary-foreground: #FFFFFF;
+  --primary-foreground: #1A122B;
   --secondary: var(--ditto-purple);
-  --secondary-foreground: var(--ink);
-  --muted: var(--butter);
-  --muted-foreground: #6B4A7D;
+  --secondary-foreground: #1A122B;
+  --muted: #4A3B6A;
+  --muted-foreground: #E0D4F5;
   --accent: var(--mint);
-  --accent-foreground: var(--ink);
+  --accent-foreground: #1A122B;
   --destructive: oklch(0.7 0.18 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: var(--ink);
