@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Sparkles, ShoppingBag, Hand } from "lucide-react";
 import { useLang } from "@/lib/i18n";
+import { useTab } from "@/lib/tabs";
 import { DittoSVG } from "./DittoSVG";
 
 export function Hero() {
