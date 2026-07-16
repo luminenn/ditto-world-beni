@@ -3,7 +3,7 @@ import { LangProvider, useLang } from "@/lib/i18n";
 import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
 import { Playground } from "@/components/Playground";
-import { Gallery } from "@/components/Gallery";
+import { Shop } from "@/components/Shop";
 import { StudyCorner } from "@/components/StudyCorner";
 
 export const Route = createFileRoute("/")({
@@ -27,7 +27,7 @@ function Index() {
         <main>
           <Hero />
           <Playground />
-          <Gallery />
+          <Shop />
           <StudyCorner />
         </main>
         <Footer />
