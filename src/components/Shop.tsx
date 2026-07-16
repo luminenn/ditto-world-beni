@@ -4,6 +4,7 @@ import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck
 import { z } from "zod";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
+import dittoPixelArt from "@/assets/ditto-pixel-art.png";
 
 type Card = {
   id: string;
