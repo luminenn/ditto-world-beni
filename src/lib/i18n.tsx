@@ -25,8 +25,8 @@ const en = {
   nav_study: e("Ditto's Japanese Class"),
 
 
-  hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
-  hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
+  hero_title: e("Hang around with Ditto and check out Beni's Pokemon cards."),
+  hero_sub: e("A cozy little corner of the internet run by Ditto. Play with Ditto, shop Beni's hand-drawn Pokemon cards, and learn Japanese. Feel free to stick around with Ditto for as long as you want!"),
   hero_cta1: e("Play with Ditto"),
   hero_cta2: e("Browse the shop"),
 
