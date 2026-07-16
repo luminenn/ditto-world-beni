@@ -22,7 +22,7 @@ const en = {
 
   nav_playground: e("Dittoland"),
   nav_shop: e("Beni's Pokemon Cards"),
-  nav_study: e("Japanese Study Corner"),
+  nav_study: e("Ditto's Japanese School"),
 
   hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
   hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
@@ -87,8 +87,8 @@ const ja: Record<keyof typeof en, Entry> = {
     <>お<R k="店" r="みせ" /></>,
   ),
   nav_study: e(
-    "勉強コーナー",
-    <><R k="勉強" r="べんきょう" />コーナー</>,
+    "メタモンの日本語教室",
+    <>メタモンの<R k="日本語教室" r="にほんごきょうしつ" /></>,
   ),
 
   hero_title: e(

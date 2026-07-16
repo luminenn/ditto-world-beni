@@ -50,17 +50,18 @@
   --radius: 1.25rem;
 
   /* Dittoland palette */
-  --ditto-pink: #EC7CD2;
-  --ditto-pink-soft: #F7B8E3;
-  --ditto-purple: #C9A8E8;
+  --ditto-pink: #B892FF;       /* primary lavender (kept var name for compat) */
+  --ditto-pink-soft: #D9C6FF;
+  --ditto-purple: #C29EE3;
   --ditto-deep: #4A2C5B;
-  --cream: #FBFAFF;
-  --butter: #FDE9F6;
+  --cream: #FBF8FF;
+  --butter: #EFE4FB;
   --mint: #C7EED8;
   --sky: #D6E8FB;
   --ink: #4A2C5B;
   --wood: #D9A46B;
-  --bg-lavender: #F7F3FA;
+  --bg-lavender: #F6F2FA;
+
 
   --background: var(--bg-lavender);
   --foreground: var(--ink);
