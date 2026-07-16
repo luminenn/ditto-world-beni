@@ -66,7 +66,7 @@ const en = {
   acc_shortcake: e("Strawberry Shortcake"),
 
   shop_title: e("Beni's Pokemon Cards"),
-  shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
+  shop_sub: e("Thanks for stopping by. Every card is carefully hand-drawn and designed by Beni. These cards have received much love and enjoyment from customers from San Francisco to Miami! Beni also accepts custom requests."),
   price_label: e("Price"),
   available: e("Available"),
   sold_out: e("Sold Out"),
@@ -87,7 +87,7 @@ const en = {
   thanks_sub: e("Ditto is sending your message to Beni!"),
 
   study_title: e("Ditto's Japanese School"),
-  study_sub: e("Pick the right meaning. Ditto cheers when you're right!"),
+  study_sub: e("Welcome to Sensei Ditto's Japanese Classroom. Ready to practice your Japanese?"),
   score: e("Score"),
   streak: e("Streak"),
   next: e("Next question"),
