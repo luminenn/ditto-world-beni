@@ -260,8 +260,11 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
         <div className="border-t-[3px] border-[var(--color-ink)] p-5">
           {state === "done" ? (
             <div className="py-4 text-center">
-              <h3 className="text-2xl font-bold">{t("thanks_title")}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{t("thanks_sub")}</p>
+              <div className="mx-auto mb-2 text-4xl">💌</div>
+              <h3 className="text-2xl font-bold">Inquiry Sent! Ditto is on it!</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Beni will reply to your email as soon as possible. ✨
+              </p>
               <button
                 onClick={onClose}
                 className="pill-btn pill-btn-hover mx-auto mt-5 text-sm"
@@ -270,6 +273,7 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
                 {t("close")}
               </button>
             </div>
+
           ) : (
             <>
               <div className="mb-3 flex items-start justify-between gap-3">
