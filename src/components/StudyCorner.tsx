@@ -528,7 +528,8 @@ function TracingCanvas() {
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
-                color: "#8A8A8A",
+                color: "rgba(215,161,249,0.35)",
+                textShadow: "0 0 18px rgba(215,161,249,0.35)",
                 fontSize: "min(80vw, 340px)",
                 lineHeight: 1,
               }}
@@ -546,16 +547,17 @@ function TracingCanvas() {
                     style={{ left: `${h.x}%`, top: `${h.y}%` }}
                   >
                     <span
-                      className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-ink)] text-[11px] font-extrabold text-[var(--color-ink)]"
-                      style={{ background: "var(--butter)" }}
+                      className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-[var(--color-ink)] text-[11px] font-extrabold"
+                      style={{ background: "var(--butter)", color: "#1A122B" }}
                     >
                       {h.n}
                     </span>
-                    <span className="text-lg font-bold text-[var(--color-ink)]">{h.arrow}</span>
+                    <span className="text-lg font-bold" style={{ color: "#FFFFFF", textShadow: "0 0 6px rgba(215,161,249,0.8)" }}>{h.arrow}</span>
                   </div>
                 ))}
               </div>
             )}
+
 
             <canvas
               ref={canvasRef}
