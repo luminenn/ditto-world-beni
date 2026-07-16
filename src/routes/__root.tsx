@@ -77,9 +77,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Dittoland — A Cozy Ditto Theme Park" },
-      { name: "description", content: "Welcome to Dittoland: squish a jelly Ditto, dress it up with cute accessories, browse fanart, and study Japanese in a cozy pink theme-park world." },
-      { property: "og:title", content: "Dittoland" },
+      { title: "DittoWorld — A Cozy Ditto Theme Park" },
+      { name: "description", content: "Welcome to DittoWorld: squish a jelly Ditto, dress it up with cute accessories, browse fanart, and study Japanese in a cozy pink theme-park world." },
+      { property: "og:title", content: "DittoWorld" },
       { property: "og:description", content: "A cozy Ditto theme park: squish, dress-up, and study Japanese with a wobbly pink blob." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
