@@ -248,6 +248,7 @@ export function StudyCorner() {
           width={80}
           height={80}
           loading="lazy"
+          onError={handleRetroDittoError}
           animate={{ y: [0, -4, 0] }}
           transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
           className="h-16 w-16 shrink-0 rounded-xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[3px_3px_0_0_var(--color-ink)] sm:h-20 sm:w-20"
