@@ -16,7 +16,7 @@ type Entry = { node: ReactNode; text: string };
 const e = (text: string, node?: ReactNode): Entry => ({ text, node: node ?? text });
 
 const en = {
-  brand: e("Ditto's Playground"),
+  brand: e("Ditto's World"),
   welcome: e("Welcome Beni!"),
   tagline: e("Beni's Pokemon Cards"),
 
@@ -98,7 +98,7 @@ const en = {
 };
 
 const ja: Record<keyof typeof en, Entry> = {
-  brand: e("ディットランド"),
+  brand: e("ディットの世界"),
   welcome: e("ようこそ ベニちゃん!"),
   tagline: e(
     "ベニちゃんの手描きカードショップ",
