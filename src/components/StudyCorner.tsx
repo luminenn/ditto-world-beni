@@ -489,10 +489,10 @@ function TracingCanvas() {
     const c = canvasRef.current!;
     const ctx = c.getContext("2d")!;
     const p = getPos(e);
-    ctx.strokeStyle = "#F3A5FF";
-    ctx.shadowColor = "rgba(243,165,255,0.9)";
-    ctx.shadowBlur = 12;
-    ctx.lineWidth = 14;
+    ctx.strokeStyle = "#1A122B";
+    ctx.shadowColor = "transparent";
+    ctx.shadowBlur = 0;
+    ctx.lineWidth = 12;
 
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
