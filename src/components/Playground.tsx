@@ -1,4 +1,4 @@
-import { motion, useAnimationControls } from "framer-motion";
+import { motion, useAnimationControls, useMotionValue } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { RotateCcw } from "lucide-react";
 import { useLang, type TKey } from "@/lib/i18n";
