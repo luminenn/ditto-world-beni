@@ -5,28 +5,30 @@ export function LanguageToggle() {
   const { lang, setLang } = useLang();
   const isJa = lang === "ja";
   return (
-    <button
+    <motion.button
       onClick={() => setLang(isJa ? "en" : "ja")}
-      className="relative flex h-11 w-32 items-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-card px-1 shadow-[3px_3px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+      whileHover={{ y: -2, rotate: -1.5 }}
+      whileTap={{ scale: 0.96 }}
       aria-label="Toggle language"
+      className="relative flex h-9 items-center gap-2 rounded-full px-4 text-sm font-bold transition-colors"
+      style={{
+        background: "#EADCF7",
+        color: "#2E1547",
+        border: "2px solid #1A122B",
+        boxShadow: "3px 3px 0 0 #1A122B",
+      }}
     >
-      <motion.span
-        layout
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-        className="absolute top-1 flex h-8 w-8 items-center justify-center rounded-full border-[2.5px] border-[var(--color-ink)] bg-[var(--ditto-pink)] text-[11px] font-bold text-white z-10"
-        style={{ left: isJa ? "calc(100% - 2.25rem)" : "0.25rem" }}
-      >
-        {isJa ? "JA" : "EN"}
-      </motion.span>
       <span
-        className="w-full text-center text-xs font-semibold tracking-wide"
+        className="flex h-6 w-8 items-center justify-center rounded-full text-[11px] font-extrabold"
         style={{
-          paddingLeft: isJa ? "0.75rem" : "2.5rem",
-          paddingRight: isJa ? "2.5rem" : "0.75rem",
+          background: "#F3A5FF",
+          color: "#2E1547",
+          border: "2px solid #1A122B",
         }}
       >
-        {isJa ? "日本語" : "EN"}
+        {isJa ? "JA" : "EN"}
       </span>
-    </button>
+      <span className="tracking-wide">{isJa ? "日本語" : "English"}</span>
+    </motion.button>
   );
 }

@@ -12,6 +12,12 @@ const LABELS: Record<AccessoryKey, TKey> = {
   glasses: "acc_glasses",
   scarf: "acc_scarf",
   lollipop: "acc_lollipop",
+  detective: "acc_detective",
+  pixelshades: "acc_pixelshades",
+  chef: "acc_chef",
+  ribbon: "acc_ribbon",
+  crown: "acc_crown",
+  beanie: "acc_beanie",
 };
 
 function SquishyDitto() {
@@ -199,7 +205,7 @@ export function Playground() {
     setPlaced((p) => p.map((a) => (a.id === id ? { ...a, x, y } : a)));
   const remove = (id: string) => setPlaced((p) => p.filter((a) => a.id !== id));
 
-  const keys: AccessoryKey[] = ["hat", "glasses", "scarf", "lollipop"];
+  const keys: AccessoryKey[] = ["hat", "detective", "chef", "beanie", "crown", "glasses", "pixelshades", "ribbon", "scarf", "lollipop"];
 
   return (
     <section id="playground" className="mx-auto mt-16 w-[min(1100px,94%)] scroll-mt-28">

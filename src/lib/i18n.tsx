@@ -38,6 +38,12 @@ const en = {
   acc_glasses: e("Round Glasses"),
   acc_scarf: e("Cozy Scarf"),
   acc_lollipop: e("Lollipop"),
+  acc_detective: e("Detective Hat"),
+  acc_pixelshades: e("Pixel Shades"),
+  acc_chef: e("Chef's Hat"),
+  acc_ribbon: e("Ribbon Bow"),
+  acc_crown: e("Golden Crown"),
+  acc_beanie: e("Winter Beanie"),
 
   shop_title: e("Beni's Pokemon Cards"),
   shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
@@ -120,6 +126,12 @@ const ja: Record<keyof typeof en, Entry> = {
   acc_glasses: e("まるメガネ"),
   acc_scarf: e("マフラー"),
   acc_lollipop: e("ロリポップ"),
+  acc_detective: e("たんていハット", <>たんていハット</>),
+  acc_pixelshades: e("ピクセルサングラス"),
+  acc_chef: e("コックぼう", <>コック<R k="帽" r="ぼう" /></>),
+  acc_ribbon: e("リボン"),
+  acc_crown: e("おうかん", <>おうかん</>),
+  acc_beanie: e("ニットぼう", <>ニット<R k="帽" r="ぼう" /></>),
 
   shop_title: e(
     "ベニちゃんの手描きカード",

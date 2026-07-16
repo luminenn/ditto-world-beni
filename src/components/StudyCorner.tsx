@@ -6,10 +6,7 @@ import {
   Sparkles,
   RefreshCw,
   ArrowRight,
-  Brush,
-  Layers,
   Eraser,
-  BookOpen,
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
@@ -240,13 +237,13 @@ export function StudyCorner() {
 
       <div className="mb-6 flex flex-wrap justify-center gap-3">
         <ModeBtn active={mode === "flash"} onClick={() => setMode("flash")}>
-          <Layers size={16} /> Kanji Flashcards
+          Kanji Flashcards
         </ModeBtn>
         <ModeBtn active={mode === "trace"} onClick={() => setMode("trace")}>
-          <Brush size={16} /> Kanji Tracing
+          Kanji Tracing
         </ModeBtn>
         <ModeBtn active={mode === "story"} onClick={() => setMode("story")}>
-          <BookOpen size={16} /> Ditto's Story Time
+          Ditto's Story Time
         </ModeBtn>
       </div>
 
@@ -373,16 +370,16 @@ function Flashcards() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ type: "spring", stiffness: 240, damping: 18 }}
                 className="mt-5 rounded-2xl border-[3px] border-[var(--color-ink)] p-4 text-center shadow-[5px_5px_0_0_var(--color-ink)]"
-                style={{ background: "var(--butter)" }}
+                style={{ background: "var(--butter)", color: "#1A122B" }}
               >
-                <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#1A122B", opacity: 0.75 }}>
                   Meaning
                 </div>
-                <div className="text-2xl font-extrabold">{card.meaning}</div>
-                <div className="mt-1 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                <div className="text-2xl font-extrabold" style={{ color: "#1A122B" }}>{card.meaning}</div>
+                <div className="mt-1 text-xs font-bold uppercase tracking-wider" style={{ color: "#1A122B", opacity: 0.75 }}>
                   Romaji
                 </div>
-                <div className="text-lg font-bold italic">{card.romaji}</div>
+                <div className="text-lg font-bold italic" style={{ color: "#1A122B" }}>{card.romaji}</div>
               </motion.div>
             )}
           </AnimatePresence>
