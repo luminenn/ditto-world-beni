@@ -16,13 +16,14 @@ type Entry = { node: ReactNode; text: string };
 const e = (text: string, node?: ReactNode): Entry => ({ text, node: node ?? text });
 
 const en = {
-  brand: e("Dittoland"),
+  brand: e("Ditto's Playground"),
   welcome: e("Welcome Beni!"),
   tagline: e("Beni's Pokemon Cards"),
 
-  nav_playground: e("Dittoland"),
+  nav_playground: e("Ditto's Playground"),
   nav_shop: e("Beni's Pokemon Cards"),
-  nav_study: e("Ditto's Japanese School"),
+  nav_study: e("Ditto's Japanese Class"),
+
 
   hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
   hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
