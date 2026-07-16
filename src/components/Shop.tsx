@@ -600,51 +600,127 @@ function CardEditor({
   );
 }
 
-function loadCards(): Card[] {
-  if (typeof window === "undefined") return DEFAULT_CARDS;
-  try {
-    const raw = localStorage.getItem(CARDS_KEY);
-    if (!raw) return DEFAULT_CARDS;
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) return parsed as Card[];
-  } catch {
-    /* noop */
-  }
-  return DEFAULT_CARDS;
+const PALETTE: Array<{ bg: string; ink: string }> = [
+  { bg: "linear-gradient(160deg, #FFD9A8 0%, #F4A6C0 100%)", ink: "#7A3A5B" },
+  { bg: "linear-gradient(160deg, #FFCBB3 0%, #FF9C7A 100%)", ink: "#7A2E1B" },
+  { bg: "linear-gradient(160deg, #D6F0C9 0%, #A9D8B0 100%)", ink: "#2E5B3A" },
+  { bg: "linear-gradient(160deg, #CDE4F5 0%, #99C6E8 100%)", ink: "#1E3E63" },
+  { bg: "linear-gradient(160deg, #F3DFC7 0%, #D8B37A 100%)", ink: "#5B3B1E" },
+  { bg: "linear-gradient(160deg, #FBD3E4 0%, #EC7CD2 100%)", ink: "#4A2C5B" },
+];
+
+function hashStr(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+type DbCard = {
+  id: string;
+  name: string;
+  price: number | string;
+  description: string | null;
+  image_url: string | null;
+  availability: string;
+};
+
+function rowToCard(r: DbCard): Card {
+  const palette = PALETTE[hashStr(r.id) % PALETTE.length];
+  return {
+    id: r.id,
+    title: r.name,
+    desc: r.description ?? "",
+    price: Number(r.price),
+    available: r.availability !== "sold_out",
+    bg: palette.bg,
+    ink: palette.ink,
+    monogram: (r.name.trim()[0] ?? "?").toUpperCase(),
+    imageUrl: r.image_url ?? undefined,
+  };
+}
+
+function cardToRow(c: Card): Omit<DbCard, "id"> & { id?: string } {
+  return {
+    name: c.title,
+    price: c.price,
+    description: c.desc,
+    image_url: c.imageUrl ?? null,
+    availability: c.available ? "available" : "sold_out",
+  };
+}
+
+function CardSkeleton() {
+  return (
+    <div className="card-doodle relative flex flex-col overflow-hidden p-0">
+      <div className="aspect-[4/5] w-full animate-pulse bg-[var(--muted)]" />
+      <div className="flex flex-1 flex-col gap-2 border-t-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-3">
+        <div className="h-4 w-3/4 animate-pulse rounded bg-black/10" />
+        <div className="h-3 w-full animate-pulse rounded bg-black/10" />
+        <div className="h-3 w-1/2 animate-pulse rounded bg-black/10" />
+        <div className="mt-2 h-7 w-full animate-pulse rounded bg-black/10" />
+      </div>
+    </div>
+  );
 }
 
 export function Shop() {
   const { t } = useLang();
   const { isAdmin } = useAdmin();
-  const [cards, setCards] = useState<Card[]>(DEFAULT_CARDS);
+  const [cards, setCards] = useState<Card[]>([]);
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState<Card | null>(null);
   const [editing, setEditing] = useState<Card | null>(null);
   const [adding, setAdding] = useState(false);
 
   useEffect(() => {
-    setCards(loadCards());
+    let active = true;
+    (async () => {
+      const { data, error } = await supabase
+        .from("cards")
+        .select("id, name, price, description, image_url, availability")
+        .order("created_at", { ascending: true });
+      if (!active) return;
+      if (!error && data) setCards(data.map((r) => rowToCard(r as DbCard)));
+      setLoading(false);
+    })();
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const persist = (next: Card[]) => {
-    setCards(next);
-    try {
-      localStorage.setItem(CARDS_KEY, JSON.stringify(next));
-    } catch {
-      /* noop */
-    }
-  };
-
-  const upsert = (c: Card) => {
+  const upsert = async (c: Card) => {
     const exists = cards.some((x) => x.id === c.id);
-    persist(exists ? cards.map((x) => (x.id === c.id ? c : x)) : [...cards, c]);
+    const row = cardToRow(c);
+    if (exists) {
+      const { data, error } = await supabase
+        .from("cards")
+        .update(row)
+        .eq("id", c.id)
+        .select("id, name, price, description, image_url, availability")
+        .single();
+      if (!error && data) {
+        setCards((prev) => prev.map((x) => (x.id === c.id ? rowToCard(data as DbCard) : x)));
+      }
+    } else {
+      const { data, error } = await supabase
+        .from("cards")
+        .insert(row)
+        .select("id, name, price, description, image_url, availability")
+        .single();
+      if (!error && data) {
+        setCards((prev) => [...prev, rowToCard(data as DbCard)]);
+      }
+    }
     setEditing(null);
     setAdding(false);
   };
 
-  const remove = (id: string) => {
+  const remove = async (id: string) => {
     if (!confirm("Delete this card?")) return;
-    persist(cards.filter((c) => c.id !== id));
+    const { error } = await supabase.from("cards").delete().eq("id", id);
+    if (!error) setCards((prev) => prev.filter((c) => c.id !== id));
   };
+
 
   return (
     <section id="shop" className="mx-auto mt-20 w-[min(1200px,94%)] scroll-mt-28">
