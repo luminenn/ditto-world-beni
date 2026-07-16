@@ -58,7 +58,8 @@ export function Hero() {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(circle at 50% 55%, var(--ditto-pink) 0, transparent 60%)",
+              "radial-gradient(ellipse 60% 22% at 50% 88%, rgba(215,161,249,0.75) 0%, rgba(183,140,224,0.45) 35%, transparent 70%)",
+            filter: "blur(14px)",
           }}
         />
         <motion.div
