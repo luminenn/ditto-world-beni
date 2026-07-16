@@ -12,6 +12,12 @@ const LABELS: Record<AccessoryKey, TKey> = {
   glasses: "acc_glasses",
   scarf: "acc_scarf",
   lollipop: "acc_lollipop",
+  detective: "acc_detective",
+  pixelshades: "acc_pixelshades",
+  chef: "acc_chef",
+  ribbon: "acc_ribbon",
+  crown: "acc_crown",
+  beanie: "acc_beanie",
 };
 
 function SquishyDitto() {
