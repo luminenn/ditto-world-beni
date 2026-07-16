@@ -22,7 +22,7 @@ const en = {
 
   nav_playground: e("Dittoland"),
   nav_shop: e("Beni's Pokemon Cards"),
-  nav_study: e("Japanese Study Corner"),
+  nav_study: e("Ditto's Japanese School"),
 
   hero_title: e("Squish a jelly Ditto & shop Beni's hand-drawn cards"),
   hero_sub: e("A cozy little corner of the internet where a wobbly pink blob keeps shop. Poke it, dress it up, and take home a one-of-a-kind Pokémon card."),
