@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 const STORAGE_KEY = "dittoland_admin_v1";
-const PASSCODE = "ditto2026";
+const PASSCODE = "oshawottditto2026";
 
 type AdminCtx = {
   isAdmin: boolean;
