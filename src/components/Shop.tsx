@@ -256,8 +256,8 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
 
         <div className="relative aspect-[5/3]">
           <CardArt card={card} />
-          {state === "done" && <FloatingStars />}
         </div>
+
 
         <div className="border-t-[3px] border-[var(--color-ink)] p-5" style={{ background: "#261A36", color: "#F4EFFF" }}>
           {state === "done" ? (
