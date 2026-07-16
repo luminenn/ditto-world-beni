@@ -49,34 +49,34 @@
 :root {
   --radius: 1.25rem;
 
-  /* Cosmic deep-purple Dittoland palette */
-  --ditto-pink: #B78CE0;       /* primary glowing lavender */
-  --ditto-pink-soft: #D7B6F5;
+  /* Warmer, lighter cosmic lavender palette */
+  --ditto-pink: #F3A5FF;
+  --ditto-pink-soft: #F8C8FF;
   --ditto-purple: #C29EE3;
-  --ditto-deep: #0A0414;
-  --cream: #4F3A66;            /* plum tab panel/container */
-  --butter: #FDF0A6;           /* pastel yellow highlight */
-  --mint: #A3E6D2;             /* neon teal correct-state */
-  --sky: #B8A6E8;
-  --ink: #1A122B;              /* charcoal-violet outline */
+  --ditto-deep: #2E1547;
+  --cream: #EADCF7;            /* soft pastel lavender panels */
+  --butter: #FDF0A6;
+  --mint: #A3E6D2;
+  --sky: #C8B6F0;
+  --ink: #1A122B;
   --wood: #D9A46B;
-  --bg-lavender: #1A0B2E;      /* deep cosmic base */
+  --bg-lavender: #5C4A8C;      /* warmer royal grape */
 
 
   --background: var(--bg-lavender);
-  --foreground: #F4EFFF;
+  --foreground: #FBF6FF;
   --card: var(--cream);
-  --card-foreground: #FFFFFF;
+  --card-foreground: #1A122B;
   --popover: var(--cream);
-  --popover-foreground: #FFFFFF;
+  --popover-foreground: #1A122B;
   --primary: var(--ditto-pink);
-  --primary-foreground: #0A0414;
+  --primary-foreground: #1A122B;
   --secondary: var(--ditto-purple);
-  --secondary-foreground: #0A0414;
-  --muted: #3A2A54;
-  --muted-foreground: #E0D4F5;
+  --secondary-foreground: #1A122B;
+  --muted: #4A3B75;
+  --muted-foreground: #E8DFFA;
   --accent: var(--mint);
-  --accent-foreground: #0A0414;
+  --accent-foreground: #1A122B;
   --destructive: oklch(0.7 0.18 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: var(--ink);
@@ -96,21 +96,33 @@
   }
   body {
     background-image:
-      /* starlight points */
-      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255,255,255,0.9), transparent 60%),
-      radial-gradient(1px 1px at 82% 12%, rgba(255,255,255,0.7), transparent 60%),
-      radial-gradient(1.5px 1.5px at 26% 74%, rgba(230,210,255,0.8), transparent 60%),
-      radial-gradient(1px 1px at 68% 62%, rgba(255,255,255,0.65), transparent 60%),
-      radial-gradient(1.2px 1.2px at 44% 30%, rgba(220,200,255,0.7), transparent 60%),
-      radial-gradient(1px 1px at 92% 82%, rgba(255,255,255,0.6), transparent 60%),
-      radial-gradient(1.4px 1.4px at 8% 88%, rgba(230,210,255,0.7), transparent 60%),
-      radial-gradient(1px 1px at 56% 8%, rgba(255,255,255,0.55), transparent 60%),
-      /* violet bloom nebulae */
-      radial-gradient(circle at 15% 20%, color-mix(in oklab, #7A3FB8 45%, transparent) 0, transparent 45%),
-      radial-gradient(circle at 85% 30%, color-mix(in oklab, #B78CE0 35%, transparent) 0, transparent 50%),
-      radial-gradient(circle at 50% 100%, color-mix(in oklab, #D7A1F9 40%, transparent) 0, transparent 55%),
-      /* base cosmic gradient */
-      linear-gradient(180deg, #1A0B2E 0%, #241145 45%, #2E1547 100%);
+      /* dense starlight points */
+      radial-gradient(1.6px 1.6px at 6% 12%, rgba(255,255,255,0.95), transparent 60%),
+      radial-gradient(1.2px 1.2px at 14% 32%, rgba(255,240,255,0.75), transparent 60%),
+      radial-gradient(1px 1px at 22% 8%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1.4px 1.4px at 32% 22%, rgba(240,220,255,0.85), transparent 60%),
+      radial-gradient(1px 1px at 42% 6%, rgba(255,255,255,0.55), transparent 60%),
+      radial-gradient(1.5px 1.5px at 52% 38%, rgba(255,255,255,0.9), transparent 60%),
+      radial-gradient(1px 1px at 62% 14%, rgba(255,240,255,0.65), transparent 60%),
+      radial-gradient(1.4px 1.4px at 72% 26%, rgba(255,255,255,0.85), transparent 60%),
+      radial-gradient(1px 1px at 82% 10%, rgba(240,220,255,0.7), transparent 60%),
+      radial-gradient(1.3px 1.3px at 92% 34%, rgba(255,255,255,0.75), transparent 60%),
+      radial-gradient(1.2px 1.2px at 8% 58%, rgba(255,240,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 18% 74%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1.5px 1.5px at 28% 88%, rgba(240,220,255,0.85), transparent 60%),
+      radial-gradient(1px 1px at 38% 62%, rgba(255,255,255,0.55), transparent 60%),
+      radial-gradient(1.4px 1.4px at 48% 82%, rgba(255,240,255,0.8), transparent 60%),
+      radial-gradient(1px 1px at 58% 68%, rgba(255,255,255,0.6), transparent 60%),
+      radial-gradient(1.3px 1.3px at 68% 92%, rgba(240,220,255,0.75), transparent 60%),
+      radial-gradient(1.2px 1.2px at 78% 60%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 88% 78%, rgba(255,240,255,0.6), transparent 60%),
+      radial-gradient(1.5px 1.5px at 96% 96%, rgba(255,255,255,0.85), transparent 60%),
+      /* warm pastel nebula blooms */
+      radial-gradient(circle at 15% 20%, color-mix(in oklab, #E4B8FF 45%, transparent) 0, transparent 45%),
+      radial-gradient(circle at 85% 25%, color-mix(in oklab, #F3A5FF 30%, transparent) 0, transparent 50%),
+      radial-gradient(circle at 50% 100%, color-mix(in oklab, #FFC8F0 40%, transparent) 0, transparent 55%),
+      /* base warmer cosmic gradient */
+      linear-gradient(180deg, #5C4A8C 0%, #4E3E7D 50%, #41326B 100%);
     background-attachment: fixed;
   }
 }
@@ -119,14 +131,14 @@
   background: var(--color-card);
   border: 3px solid var(--color-ink);
   border-radius: 1.75rem;
-  box-shadow: 6px 6px 0 0 var(--color-ink), 0 0 24px rgba(183, 140, 224, 0.35);
+  box-shadow: 6px 6px 0 0 var(--color-ink), 0 0 28px rgba(243, 165, 255, 0.28);
 }
 
 @utility card-doodle-sm {
   background: var(--color-card);
   border: 2.5px solid var(--color-ink);
   border-radius: 1.25rem;
-  box-shadow: 4px 4px 0 0 var(--color-ink), 0 0 16px rgba(183, 140, 224, 0.28);
+  box-shadow: 4px 4px 0 0 var(--color-ink), 0 0 18px rgba(243, 165, 255, 0.22);
 }
 
 @utility pill-btn {
@@ -135,20 +147,20 @@
   gap: 0.4rem;
   padding: 0.55rem 1.1rem;
   border-radius: 9999px;
-  border: 2.5px solid var(--color-ink);
+  border: 2px solid var(--color-ink);
   background: var(--ditto-pink);
-  color: #0A0414;
+  color: #1A122B;
   font-weight: 700;
-  box-shadow: 3px 3px 0 0 var(--color-ink), 0 0 12px rgba(183, 140, 224, 0.4);
+  box-shadow: 3px 3px 0 0 var(--color-ink);
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
   cursor: pointer;
 }
 @utility pill-btn-hover {
   &:hover {
-    transform: translate(-1px, -1px) rotate(-1deg);
-    background: var(--mint);
-    color: #0A0414;
-    box-shadow: 5px 5px 0 0 var(--color-ink), 0 0 22px rgba(163, 230, 210, 0.55);
+    transform: translate(-1px, -2px) rotate(-1.5deg);
+    background: var(--ditto-pink-soft);
+    color: #1A122B;
+    box-shadow: 5px 6px 0 0 var(--color-ink), 0 0 22px rgba(243, 165, 255, 0.45);
   }
   &:active {
     transform: translate(2px, 2px);
@@ -179,8 +191,13 @@
   0% { opacity: 1; transform: translate(-50%, 0) scale(0.5); }
   100% { opacity: 0; transform: translate(var(--dx, -50%), -120px) scale(1.2); }
 }
+@keyframes twinkle {
+  0%, 100% { opacity: var(--tw-min, 0.25); transform: scale(0.9) rotate(0deg); }
+  50% { opacity: var(--tw-max, 1); transform: scale(1.15) rotate(12deg); }
+}
 
 @utility animate-wobble { animation: wobble 0.6s ease-in-out; }
 @utility animate-joy { animation: bounce-joy 0.7s ease-out; }
 @utility animate-shake { animation: shake-x 0.5s ease-in-out; }
 @utility animate-float { animation: float-y 3s ease-in-out infinite; }
+@utility animate-twinkle { animation: twinkle var(--tw-dur, 3.5s) ease-in-out infinite; }
