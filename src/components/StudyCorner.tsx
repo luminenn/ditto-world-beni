@@ -6,10 +6,7 @@ import {
   Sparkles,
   RefreshCw,
   ArrowRight,
-  Brush,
-  Layers,
   Eraser,
-  BookOpen,
 } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
