@@ -521,12 +521,12 @@ function TracingCanvas() {
         <div className="flex flex-col items-center">
           <div
             className="relative rounded-3xl border-[3px] border-[var(--color-ink)] shadow-[6px_6px_0_0_var(--color-ink)] overflow-hidden"
-            style={{ background: "var(--cream)", width: "min(100%, 420px)", aspectRatio: "1 / 1" }}
+            style={{ background: "#F2EBFA", width: "min(100%, 420px)", aspectRatio: "1 / 1" }}
           >
             <div
               className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-bold"
               style={{
-                color: "rgba(74,44,91,0.14)",
+                color: "#8A8A8A",
                 fontSize: "min(80vw, 340px)",
                 lineHeight: 1,
               }}
