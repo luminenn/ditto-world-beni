@@ -629,12 +629,26 @@ export function Shop() {
 
   return (
     <section id="shop" className="mx-auto mt-20 w-[min(1200px,94%)] scroll-mt-28">
-      <div className="mb-6 text-center">
-        <h2 className="text-3xl font-bold sm:text-4xl">{t("shop_title")}</h2>
-        <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
-          {t("shop_sub")}
-        </p>
+      <div className="mb-6 flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
+        <motion.img
+          src={dittoPixelArt}
+          alt="Pixel Ditto shopkeeper"
+          width={96}
+          height={96}
+          loading="lazy"
+          animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
+          transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          className="h-20 w-20 shrink-0 rounded-2xl border-[3px] border-[var(--color-ink)] bg-[var(--cream)] p-1 shadow-[4px_4px_0_0_var(--color-ink)] sm:h-24 sm:w-24"
+          style={{ imageRendering: "pixelated" }}
+        />
+        <div>
+          <h2 className="text-3xl font-bold sm:text-4xl">{t("shop_title")}</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
+            {t("shop_sub")}
+          </p>
+        </div>
       </div>
+
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {cards.map((c, i) => (
