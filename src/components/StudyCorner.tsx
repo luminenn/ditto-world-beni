@@ -331,8 +331,8 @@ function Flashcards() {
             initial={{ scale: 0.7, rotate: -6, opacity: 0 }}
             animate={{ scale: 1, rotate: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 260, damping: 18 }}
-            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] bg-[var(--ditto-purple)] px-8 py-4 font-bold text-white shadow-[5px_5px_0_0_var(--color-ink)]"
-            style={{ fontSize: card.char.length > 2 ? "3.5rem" : "4.5rem", lineHeight: 1 }}
+            className="mx-auto flex min-h-[10rem] w-fit items-center justify-center rounded-[2rem] border-[3px] border-[var(--color-ink)] px-8 py-4 font-bold shadow-[5px_5px_0_0_var(--color-ink)]"
+            style={{ fontSize: card.char.length > 2 ? "3.5rem" : "4.5rem", lineHeight: 1, background: "#FFFDF6", color: "#1A122B" }}
           >
             {card.char}
           </motion.div>
@@ -347,7 +347,8 @@ function Flashcards() {
                   ? "var(--mint)"
                   : revealed && isPicked
                     ? "color-mix(in oklab, var(--destructive) 40%, white)"
-                    : "var(--cream)";
+                    : "#3A2A50";
+              const fg = revealed && isAnswer ? "#1A122B" : "#FFFFFF";
               return (
                 <motion.button
                   key={c}
@@ -356,7 +357,7 @@ function Flashcards() {
                   disabled={revealed}
                   onClick={() => choose(c)}
                   className="card-doodle-sm px-3 py-3 text-xl font-bold"
-                  style={{ background: bg }}
+                  style={{ background: bg, color: fg }}
                 >
                   {c}
                 </motion.button>
