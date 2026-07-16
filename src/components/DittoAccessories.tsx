@@ -51,7 +51,24 @@ export function ScarfSVG({ size = 84 }: { size?: number }) {
   );
 }
 
-export type AccessoryKey = "hat" | "glasses" | "scarf";
+export function LollipopSVG({ size = 64 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 64 80" width={size} height={size * (80 / 64)} aria-label="Lollipop">
+      <rect x="30" y="34" width="4" height="42" rx="2" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
+      <circle cx="32" cy="24" r="20" fill="#EC7CD2" stroke={INK} strokeWidth="2.8" />
+      <path
+        d="M32 8 q10 6 6 16 q-4 10 -14 6 q-10 -4 -6 -14 q4 -10 14 -8"
+        fill="none"
+        stroke="#FBFAFF"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <circle cx="24" cy="18" r="3" fill="#FBFAFF" opacity="0.8" />
+    </svg>
+  );
+}
+
+export type AccessoryKey = "hat" | "glasses" | "scarf" | "lollipop";
 
 export const ACCESSORIES: Record<
   AccessoryKey,
@@ -60,4 +77,5 @@ export const ACCESSORIES: Record<
   hat: { w: 84, render: (s) => <HatSVG size={s} />, defaultPos: { x: 155, y: 8 } },
   glasses: { w: 110, render: (s) => <GlassesSVG size={s} />, defaultPos: { x: 140, y: 110 } },
   scarf: { w: 130, render: (s) => <ScarfSVG size={s} />, defaultPos: { x: 130, y: 220 } },
+  lollipop: { w: 70, render: (s) => <LollipopSVG size={s} />, defaultPos: { x: 260, y: 180 } },
 };
