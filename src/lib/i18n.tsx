@@ -36,6 +36,7 @@ const en = {
   acc_hat: e("Top Hat"),
   acc_glasses: e("Round Glasses"),
   acc_scarf: e("Cozy Scarf"),
+  acc_lollipop: e("Lollipop"),
 
   shop_title: e("Beni's Hand-Drawn Custom Cards"),
   shop_sub: e("Every card is drawn by hand, one at a time, with lots of love and a little bit of Ditto goo."),
@@ -117,6 +118,7 @@ const ja: Record<keyof typeof en, Entry> = {
   acc_hat: e("シルクハット"),
   acc_glasses: e("まるメガネ"),
   acc_scarf: e("マフラー"),
+  acc_lollipop: e("ロリポップ"),
 
   shop_title: e(
     "ベニちゃんの手描きカード",
