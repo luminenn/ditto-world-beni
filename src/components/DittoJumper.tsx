@@ -15,19 +15,28 @@ const MAX_FALL_SPEED = 900;
 const SPIKE_W = 30;
 const SPIKE_H = 44;
 const BASE_SPEED = 230; // px/s
-const SPEED_PER_POINT = 5; // difficulty ramps up as score increases
+const SPEED_PER_SECOND = 8; // difficulty ramps up the longer you survive
 const MAX_SPEED = 420;
 const SPAWN_DISTANCE = 230; // min px between obstacle spawns
 const SPIN_RATE = 480; // deg/s while airborne
-const BEST_KEY = "dittoland_jumper_best_v1";
+const BEST_KEY = "dittoland_jumper_best_time_v1";
 
 // The sandbox stage renders Ditto at size 300 within a 520x440 box, bottom-aligned with 16px padding.
 const SANDBOX_DITTO_SIZE = 300;
 const SANDBOX_DITTO_LEFT = (STAGE_W - SANDBOX_DITTO_SIZE) / 2;
 const SANDBOX_DITTO_TOP = STAGE_H - SANDBOX_DITTO_SIZE - 16;
 
-type Obstacle = { id: number; x: number; width: number; count: number; passed: boolean };
+type Obstacle = { id: number; x: number; width: number; count: number };
 type GameState = "ready" | "playing" | "over";
+
+function formatTime(seconds: number): string {
+  if (seconds >= 60) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds - m * 60;
+    return `${m}:${s.toFixed(1).padStart(4, "0")}`;
+  }
+  return `${seconds.toFixed(1)}s`;
+}
 
 function MiniCustomDitto({ size }: { size: number }) {
   const { placed } = useDittoCustomization();
@@ -78,7 +87,7 @@ const groundedY = () => GROUND_Y - DITTO_SIZE;
 
 export function DittoJumper() {
   const [state, setState] = useState<GameState>("ready");
-  const [score, setScore] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
   const [best, setBest] = useState(0);
   const [dittoY, setDittoY] = useState(groundedY());
   const [obstacles, setObstacles] = useState<Obstacle[]>([]);
@@ -89,7 +98,11 @@ export function DittoJumper() {
   const dittoYRef = useRef(dittoY);
   const groundedRef = useRef(true);
   const spinRef = useRef(0);
-  const scoreRef = useRef(0);
+  const elapsedRef = useRef(0);
+  // Obstacles live here as the source of truth so collision can be checked
+  // synchronously within the same tick — React state updates (even functional
+  // updaters) aren't guaranteed to run before the next line of code.
+  const obstaclesRef = useRef<Obstacle[]>([]);
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
   const nextObstacleId = useRef(0);
@@ -115,10 +128,10 @@ export function DittoJumper() {
 
   const dittoX = areaW * DITTO_X_RATIO;
 
-  const endGame = useCallback((finalScore: number) => {
+  const endGame = useCallback((finalTime: number) => {
     setState("over");
     setBest((prevBest) => {
-      const next = Math.max(prevBest, finalScore);
+      const next = Math.max(prevBest, finalTime);
       localStorage.setItem(BEST_KEY, String(next));
       return next;
     });
@@ -129,11 +142,12 @@ export function DittoJumper() {
     velocityRef.current = 0;
     groundedRef.current = true;
     spinRef.current = 0;
-    scoreRef.current = 0;
+    elapsedRef.current = 0;
     nextObstacleId.current = 0;
+    obstaclesRef.current = [];
     setDittoY(dittoYRef.current);
     setObstacles([]);
-    setScore(0);
+    setElapsed(0);
     setState("playing");
   }, []);
 
@@ -150,10 +164,11 @@ export function DittoJumper() {
     velocityRef.current = 0;
     groundedRef.current = true;
     spinRef.current = 0;
-    scoreRef.current = 0;
+    elapsedRef.current = 0;
+    obstaclesRef.current = [];
     setDittoY(dittoYRef.current);
     setObstacles([]);
-    setScore(0);
+    setElapsed(0);
   }, []);
 
   useEffect(() => {
@@ -167,6 +182,9 @@ export function DittoJumper() {
       if (lastTsRef.current == null) lastTsRef.current = ts;
       const dt = Math.min((ts - lastTsRef.current) / 1000, 0.05);
       lastTsRef.current = ts;
+
+      elapsedRef.current += dt;
+      setElapsed(elapsedRef.current);
 
       velocityRef.current = Math.min(velocityRef.current + GRAVITY * dt, MAX_FALL_SPEED);
       dittoYRef.current += velocityRef.current * dt;
@@ -187,42 +205,34 @@ export function DittoJumper() {
 
       setDittoY(dittoYRef.current);
 
-      const speed = Math.min(BASE_SPEED + scoreRef.current * SPEED_PER_POINT, MAX_SPEED);
+      const speed = Math.min(BASE_SPEED + elapsedRef.current * SPEED_PER_SECOND, MAX_SPEED);
+
+      obstaclesRef.current = obstaclesRef.current
+        .map((o) => ({ ...o, x: o.x - speed * dt }))
+        .filter((o) => o.x + o.width > -20);
+
       let collided = false;
-
-      setObstacles((prev) => {
-        let scoredThisFrame = 0;
-        const next = prev
-          .map((o) => ({ ...o, x: o.x - speed * dt }))
-          .filter((o) => o.x + o.width > -20);
-
-        for (const o of next) {
-          const overlapsX = dittoX + DITTO_SIZE - 8 > o.x + 6 && dittoX + 8 < o.x + o.width - 6;
-          if (overlapsX) {
-            const dittoBottom = dittoYRef.current + DITTO_SIZE;
-            if (dittoBottom > GROUND_Y - SPIKE_H + 8) collided = true;
-          }
-          if (!o.passed && o.x + o.width < dittoX) {
-            o.passed = true;
-            scoredThisFrame += 1;
-          }
+      for (const o of obstaclesRef.current) {
+        const overlapsX = dittoX + DITTO_SIZE - 8 > o.x + 6 && dittoX + 8 < o.x + o.width - 6;
+        if (overlapsX) {
+          const dittoBottom = dittoYRef.current + DITTO_SIZE;
+          if (dittoBottom > GROUND_Y - SPIKE_H + 8) collided = true;
         }
+      }
 
-        const last = next[next.length - 1];
-        if (!last || last.x < areaW - SPAWN_DISTANCE) {
-          const count = Math.random() < 0.3 ? 2 : 1;
-          next.push({ id: nextObstacleId.current++, x: areaW + 40, width: count * SPIKE_W, count, passed: false });
-        }
+      const last = obstaclesRef.current[obstaclesRef.current.length - 1];
+      if (!last || last.x < areaW - SPAWN_DISTANCE) {
+        const count = Math.random() < 0.3 ? 2 : 1;
+        obstaclesRef.current = [
+          ...obstaclesRef.current,
+          { id: nextObstacleId.current++, x: areaW + 40, width: count * SPIKE_W, count },
+        ];
+      }
 
-        if (scoredThisFrame > 0) {
-          scoreRef.current += scoredThisFrame;
-          setScore(scoreRef.current);
-        }
-        return next;
-      });
+      setObstacles(obstaclesRef.current);
 
       if (collided) {
-        endGame(scoreRef.current);
+        endGame(elapsedRef.current);
         return;
       }
 
@@ -261,7 +271,7 @@ export function DittoJumper() {
           Ditto Dash
         </h3>
         <div className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#6B5A85" }}>
-          <Trophy size={13} /> Best: {best}
+          <Trophy size={13} /> Best: {formatTime(best)}
         </div>
       </div>
       <p className="mb-3 text-xs" style={{ color: "#6B5A85" }}>
@@ -297,7 +307,7 @@ export function DittoJumper() {
         </div>
 
         <div className="absolute left-3 top-2 rounded-full border-[2px] border-[#1A122B] bg-white/85 px-2.5 py-0.5 text-sm font-extrabold" style={{ color: "#1A122B" }}>
-          {score}
+          {formatTime(elapsed)}
         </div>
 
         {state !== "playing" && (
@@ -312,7 +322,7 @@ export function DittoJumper() {
               ) : (
                 <>
                   <p className="text-sm font-bold" style={{ color: "#1A122B" }}>
-                    Game over — score {score}
+                    Game over — survived {formatTime(elapsed)}
                   </p>
                   <button
                     onClick={(e) => {

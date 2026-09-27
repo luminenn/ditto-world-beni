@@ -578,12 +578,9 @@ function ShopBanner() {
         onError={() => setBroken(true)}
       />
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 flex h-28 items-end justify-between gap-3 p-3 sm:h-36 sm:p-4"
+        className="pointer-events-none absolute inset-x-0 bottom-0 flex h-28 items-end justify-end gap-3 p-3 sm:h-36 sm:p-4"
         style={{ background: "linear-gradient(0deg, rgba(20,14,36,0.85) 0%, rgba(20,14,36,0.5) 45%, transparent 100%)" }}
       >
-        <span className="text-xs font-bold text-white sm:text-sm">
-          Beni meeting fans &amp; their original cards ✨
-        </span>
         <a
           href={BENI_INSTAGRAM_URL}
           target="_blank"

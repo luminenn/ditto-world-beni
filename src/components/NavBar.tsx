@@ -17,8 +17,8 @@ function CartButton() {
         whileTap={{ scale: 0.94 }}
         className="flex h-9 w-9 items-center justify-center border-[2px] border-[var(--color-ink)]"
         style={{
-          background: "var(--ditto-deep)",
-          color: "#FFFFFF",
+          background: "var(--ditto-purple)",
+          color: "#2E1547",
           boxShadow: "3px 3px 0 0 var(--color-ink)",
           borderRadius: 6,
         }}
@@ -43,8 +43,8 @@ export function NavBar() {
   const tabs: { key: Tab; label: "nav_playground" | "nav_shop" | "nav_study" | "nav_events" | "nav_about" }[] = [
     { key: "home", label: "nav_playground" },
     { key: "shop", label: "nav_shop" },
-    { key: "study", label: "nav_study" },
     { key: "events", label: "nav_events" },
+    { key: "study", label: "nav_study" },
     { key: "about", label: "nav_about" },
   ];
   return (
@@ -109,7 +109,7 @@ export function NavBar() {
           whileTap={{ scale: 0.94 }}
           className="flex h-9 w-9 items-center justify-center border-[2px] border-[var(--color-ink)]"
           style={{
-            background: "linear-gradient(135deg, #F3A5FF 0%, #C29EE3 100%)",
+            background: "linear-gradient(135deg, #C24FC2 0%, #6B3FA0 100%)",
             color: "#FFFFFF",
             boxShadow: "3px 3px 0 0 var(--color-ink)",
             borderRadius: 6,
