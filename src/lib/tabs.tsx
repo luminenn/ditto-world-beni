@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-export type Tab = "home" | "shop" | "study";
+export type Tab = "home" | "shop" | "study" | "events" | "about";
 
 const TabCtx = createContext<{ tab: Tab; setTab: (t: Tab) => void }>({
   tab: "home",

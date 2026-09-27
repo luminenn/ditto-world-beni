@@ -17,12 +17,13 @@ const e = (text: string, node?: ReactNode): Entry => ({ text, node: node ?? text
 
 const en = {
   brand: e("DittoWorld"),
-  welcome: e("Welcome Beni!"),
   tagline: e("Beni's Pokemon Cards"),
 
   nav_playground: e("Ditto's Playground"),
   nav_shop: e("Beni's Pokemon Cards"),
   nav_study: e("Ditto's Japanese Class"),
+  nav_events: e("Upcoming Events"),
+  nav_about: e("About Beni"),
 
   hero_title: e("Hang around with Ditto and check out Beni's Pokemon cards."),
   hero_sub: e(
@@ -97,6 +98,20 @@ const en = {
   correct: e("Yay! Ditto is so proud!"),
   wrong: e("Oops, try the next one!"),
 
+  events_title: e("Upcoming Events"),
+  events_sub: e(
+    "Come meet Beni in-person at upcoming events where she will be present. Purchase cards, place orders, and have a nice chat with Beni!",
+  ),
+  events_upcoming: e("Upcoming"),
+  events_archive: e("Past Events"),
+  events_empty: e("No events posted yet — check back soon!"),
+  events_archive_empty: e("No past events yet."),
+  events_add: e("Add Event"),
+  events_edit: e("Edit"),
+  events_delete: e("Delete"),
+
+  about_title: e("About Beni"),
+
   footer: e(
     "Made with squishy love. Ditto is © Nintendo / Game Freak — this is a fan-made shop for Beni's original art.",
   ),
@@ -104,7 +119,6 @@ const en = {
 
 const ja: Record<keyof typeof en, Entry> = {
   brand: e("メタモンの世界"),
-  welcome: e("ようこそ ベニちゃん!"),
   tagline: e(
     "ベニちゃんの手描きカードショップ",
     <>
@@ -132,6 +146,19 @@ const ja: Record<keyof typeof en, Entry> = {
     <>
       メタモンの
       <R k="日本語教室" r="にほんごきょうしつ" />
+    </>,
+  ),
+  nav_events: e(
+    "イベント情報",
+    <>
+      イベント
+      <R k="情報" r="じょうほう" />
+    </>,
+  ),
+  nav_about: e(
+    "ベニちゃんについて",
+    <>
+      ベニちゃんについて
     </>,
   ),
 
@@ -410,6 +437,54 @@ const ja: Record<keyof typeof en, Entry> = {
       <R k="残念" r="ざんねん" />!<R k="次" r="つぎ" />
       がんばろう!
     </>,
+  ),
+
+  events_title: e(
+    "イベント情報",
+    <>
+      イベント
+      <R k="情報" r="じょうほう" />
+    </>,
+  ),
+  events_sub: e(
+    "ベニちゃんに直接会えるイベントに遊びに来てね。カードを買ったり、注文したり、ベニちゃんとおしゃべりしよう！",
+    <>
+      ベニちゃんに
+      <R k="直接" r="ちょくせつ" />
+      <R k="会" r="あ" />
+      えるイベントに
+      <R k="遊" r="あそ" />
+      びに
+      <R k="来" r="き" />
+      てね。カードを
+      <R k="買" r="か" />
+      ったり、
+      <R k="注文" r="ちゅうもん" />
+      したり、ベニちゃんとおしゃべりしよう！
+    </>,
+  ),
+  events_upcoming: e(
+    "開催予定",
+    <>
+      <R k="開催予定" r="かいさいよてい" />
+    </>,
+  ),
+  events_archive: e(
+    "過去のイベント",
+    <>
+      <R k="過去" r="かこ" />
+      のイベント
+    </>,
+  ),
+  events_empty: e("まだイベントの予定はありません。またチェックしてね！", <>まだイベントの<R k="予定" r="よてい" />はありません。またチェックしてね！</>),
+  events_archive_empty: e("過去のイベントはまだありません。", <><R k="過去" r="かこ" />のイベントはまだありません。</>),
+  events_add: e("イベントを追加", <>イベントを<R k="追加" r="ついか" /></>),
+  events_edit: e("編集", <><R k="編集" r="へんしゅう" /></>),
+  events_delete: e("削除", <><R k="削除" r="さくじょ" /></>),
+
+  about_title: e(
+    "ベニちゃんについて",
+    <>ベニちゃんについて</>,
   ),
 
   footer: e(

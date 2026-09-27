@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      about_content: {
+        Row: {
+          bio: string
+          id: number
+          photo_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string
+          id?: number
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string
+          id?: number
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          banner_url: string | null
+          created_at: string
+          end_date: string
+          format: string
+          icon_url: string | null
+          id: string
+          location: string
+          name: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          banner_url?: string | null
+          created_at?: string
+          end_date: string
+          format?: string
+          icon_url?: string | null
+          id?: string
+          location?: string
+          name: string
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          banner_url?: string | null
+          created_at?: string
+          end_date?: string
+          format?: string
+          icon_url?: string | null
+          id?: string
+          location?: string
+          name?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       cards: {
         Row: {
           availability: string

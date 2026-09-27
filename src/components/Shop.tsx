@@ -1,23 +1,12 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { Star, X, Mail, Send, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck, Camera, Link as LinkIcon } from "lucide-react";
-import { z } from "zod";
+import { Star, X, ShoppingCart, Zap, Check, Loader2, Pencil, Trash2, Plus, LogOut, ShieldCheck, Camera, Link as LinkIcon, Instagram } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { useAdmin } from "@/lib/admin";
+import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
-const DITTO_MASCOT_PRIMARY =
-  "https://static.wikia.nocookie.net/omniversal-battlefield/images/5/5b/460.png/revision/latest/scale-to-width-down/400?cb=20190323171728";
-const DITTO_MASCOT_FALLBACK = DITTO_MASCOT_PRIMARY;
-const dittoPixelArt = DITTO_MASCOT_PRIMARY;
-
-function handleDittoMascotError(e: React.SyntheticEvent<HTMLImageElement>) {
-  const img = e.currentTarget;
-  if (img.dataset.fallback !== "1") {
-    img.dataset.fallback = "1";
-    img.src = DITTO_MASCOT_FALLBACK;
-  }
-}
-
+import { BENI_INSTAGRAM_URL, BENI_INSTAGRAM_HANDLE } from "@/lib/constants";
 type Card = {
   id: string;
   title: string;
@@ -94,12 +83,6 @@ const DEFAULT_CARDS: Card[] = [
 ];
 
 const CARDS_KEY = "dittoland_cards_v1";
-
-const contactSchema = z.object({
-  name: z.string().trim().min(1).max(80),
-  email: z.string().trim().email().max(200),
-  message: z.string().trim().min(1).max(1000),
-});
 
 function CardArt({ card }: { card: Card }) {
   if (card.imageUrl) {
@@ -193,53 +176,20 @@ function FloatingStars() {
   );
 }
 
-function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
-  const { t, ts } = useLang();
-  const [state, setState] = useState<"idle" | "sending" | "done">("idle");
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  // Formspree endpoint — edit this string to change delivery target
-  const [targetEmail] = useState("beni@example.com");
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xlgqgppp";
+function CardModal({ card, onClose }: { card: Card; onClose: () => void }) {
+  const { t } = useLang();
+  const { addToCart, buyNow } = useCart();
+  const navigate = useNavigate();
+  const [added, setAdded] = useState(false);
 
-  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    const parsed = contactSchema.safeParse({
-      name: fd.get("name"),
-      email: fd.get("email"),
-      message: fd.get("message"),
-    });
-    if (!parsed.success) {
-      const errs: Record<string, string> = {};
-      parsed.error.issues.forEach((i) => {
-        errs[String(i.path[0])] = i.message;
-      });
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
-    setState("sending");
-    // Attach card metadata + target email so submissions include full context
-    fd.set("card_name", card.title);
-    fd.set("card_price", `$${card.price}`);
-    fd.set("card_id", card.id);
-    fd.set("target_email", targetEmail);
-    fd.set("_subject", `New inquiry: ${card.title} ($${card.price})`);
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: fd,
-      });
-      if (!res.ok) throw new Error("send failed");
-      setState("done");
-    } catch {
-      setState("idle");
-      setErrors({ message: "Something went wrong sending your inquiry. Please try again." });
-    }
+  const doAdd = () => {
+    addToCart({ id: card.id, title: card.title, price: card.price, imageUrl: card.imageUrl });
+    setAdded(true);
   };
-
+  const doBuyNow = () => {
+    buyNow({ id: card.id, title: card.title, price: card.price, imageUrl: card.imageUrl });
+    navigate({ to: "/checkout" });
+  };
 
   return (
     <motion.div
@@ -269,101 +219,50 @@ function OrderModal({ card, onClose }: { card: Card; onClose: () => void }) {
           <CardArt card={card} />
         </div>
 
+        <div className="border-t-[3px] border-[var(--color-ink)] p-5" style={{ background: "var(--cream)", color: "var(--ditto-deep)" }}>
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className="text-xl font-bold leading-tight">{card.title}</h3>
+              <p className="mt-1 text-xs" style={{ color: "#6B5A85" }}>{card.desc}</p>
+            </div>
+            <div className="shrink-0 text-right">
+              <div className="text-lg font-bold">${card.price}</div>
+              <div className="mt-1">
+                <SoldOutBadge available={card.available} t={t} />
+              </div>
+            </div>
+          </div>
 
-        <div className="border-t-[3px] border-[var(--color-ink)] p-5" style={{ background: "#261A36", color: "#F4EFFF" }}>
-          {state === "done" ? (
-            <div className="py-4 text-center">
-              <img
-                src={dittoPixelArt}
-                alt="Ditto mascot"
-                onError={handleDittoMascotError}
-                className="mx-auto mb-3 h-16 w-16 object-contain"
-                style={{ imageRendering: "pixelated" }}
-              />
-              <h3 className="text-2xl font-bold" style={{ color: "#FFFFFF" }}>Inquiry Sent! Ditto is on it!</h3>
-              <p className="mt-2 text-sm" style={{ color: "#F4EFFF" }}>
-                Beni will reply to your email as soon as possible.
-              </p>
+          {card.available ? (
+            <div className="flex gap-2">
               <button
-                onClick={onClose}
-                className="pill-btn pill-btn-hover mx-auto mt-5 text-sm"
+                onClick={doAdd}
+                disabled={added}
+                className="pill-btn pill-btn-hover flex-1 justify-center text-sm disabled:opacity-80"
+                style={{ background: "var(--mint)", color: "#1A122B" }}
+              >
+                {added ? (
+                  <>
+                    <Check size={16} /> Added!
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={16} /> Add to Cart
+                  </>
+                )}
+              </button>
+              <button
+                onClick={doBuyNow}
+                className="pill-btn pill-btn-hover flex-1 justify-center text-sm"
                 style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
               >
-                {t("close")}
+                <Zap size={16} /> Buy Now
               </button>
             </div>
-
           ) : (
-            <>
-              <div className="mb-3 flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="text-xl font-bold leading-tight">{card.title}</h3>
-                  <p className="mt-1 text-xs text-muted-foreground">{card.desc}</p>
-                </div>
-                <div className="shrink-0 text-right">
-                  <div className="text-lg font-bold">${card.price}</div>
-                  <div className="mt-1">
-                    <SoldOutBadge available={card.available} t={t} />
-                  </div>
-                </div>
-              </div>
-
-              <p className="mb-3 text-sm font-semibold">{t("order_title")}</p>
-              <p className="mb-4 text-xs text-muted-foreground">{t("order_sub")}</p>
-
-              <form onSubmit={onSubmit} className="space-y-3">
-                <label className="block">
-                  <span className="mb-1 block text-xs font-bold">{t("name")}</span>
-                  <input
-                    name="name"
-                    maxLength={80}
-                    placeholder={ts("name_ph")}
-                    className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
-                  />
-                  {errors.name && <p className="mt-1 text-xs text-red-300">{errors.name}</p>}
-                </label>
-                <label className="block">
-                  <span className="mb-1 block text-xs font-bold">{t("email")}</span>
-                  <input
-                    name="email"
-                    type="email"
-                    maxLength={200}
-                    placeholder={ts("email_ph")}
-                    className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
-                  />
-                  {errors.email && <p className="mt-1 text-xs text-red-300">{errors.email}</p>}
-                </label>
-                <label className="block">
-                  <span className="mb-1 block text-xs font-bold">{t("message")}</span>
-                  <textarea
-                    name="message"
-                    rows={3}
-                    maxLength={1000}
-                    placeholder={ts("message_ph")}
-                    className="w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-sm text-[#1A122B] outline-none focus:shadow-[3px_3px_0_0_var(--color-ink)]"
-                  />
-                  {errors.message && (
-                    <p className="mt-1 text-xs text-red-300">{errors.message}</p>
-                  )}
-                </label>
-                <button
-                  type="submit"
-                  disabled={state === "sending"}
-                  className="pill-btn pill-btn-hover w-full justify-center text-sm disabled:opacity-70"
-                  style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
-                >
-                  {state === "sending" ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" /> {t("sending")}
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} /> Contact Beni to Purchase
-                    </>
-                  )}
-                </button>
-              </form>
-            </>
+            <p className="rounded-md border-[2px] border-dashed border-[var(--color-ink)]/40 px-3 py-2 text-center text-xs font-bold" style={{ color: "#6B5A85" }}>
+              This one's sold out — check back soon, Beni restocks often!
+            </p>
           )}
         </div>
       </motion.div>
@@ -663,9 +562,46 @@ function CardSkeleton() {
   );
 }
 
+function ShopBanner() {
+  const [broken, setBroken] = useState(false);
+  if (broken) return null;
+  return (
+    <div
+      className="card-doodle relative mt-8 overflow-hidden p-0"
+      style={{ aspectRatio: "2000 / 1065" }}
+    >
+      <img
+        src="/images/shop-banner.jpg"
+        alt="Fans at a convention holding Beni's hand-drawn Pokemon cards"
+        className="h-full w-full object-cover"
+        loading="eager"
+        onError={() => setBroken(true)}
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 flex h-28 items-end justify-between gap-3 p-3 sm:h-36 sm:p-4"
+        style={{ background: "linear-gradient(0deg, rgba(20,14,36,0.85) 0%, rgba(20,14,36,0.5) 45%, transparent 100%)" }}
+      >
+        <span className="text-xs font-bold text-white sm:text-sm">
+          Beni meeting fans &amp; their original cards ✨
+        </span>
+        <a
+          href={BENI_INSTAGRAM_URL}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="pointer-events-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border-[2px] border-[var(--color-ink)] bg-white/95 px-3 py-1 text-[11px] font-bold text-[var(--ditto-deep)] shadow-[2px_2px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+        >
+          <Instagram size={12} /> Follow
+        </a>
+      </div>
+    </div>
+  );
+}
+
 export function Shop() {
   const { t } = useLang();
   const { isAdmin } = useAdmin();
+  const { addToCart, buyNow } = useCart();
+  const navigate = useNavigate();
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState<Card | null>(null);
@@ -740,11 +676,21 @@ export function Shop() {
           <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground sm:text-base">
             {t("shop_sub")}
           </p>
+          <a
+            href={BENI_INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-full border-[2px] border-[var(--color-ink)] px-3 py-1 text-xs font-bold shadow-[2px_2px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+            style={{ background: "linear-gradient(135deg, #F3A5FF 0%, #C29EE3 100%)", color: "#FFFFFF" }}
+          >
+            <Instagram size={13} /> {BENI_INSTAGRAM_HANDLE}
+          </a>
         </div>
       </div>
 
+      <ShopBanner />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {loading && Array.from({ length: 6 }).map((_, i) => <CardSkeleton key={`sk-${i}`} />)}
         {!loading && cards.map((c, i) => (
           <motion.div
@@ -765,17 +711,33 @@ export function Shop() {
                 <SoldOutBadge available={c.available} t={t} />
               </div>
               <p className="line-clamp-2 text-[11px]" style={{ color: "#3A2A50" }}>{c.desc}</p>
-              <div className="mt-auto flex items-center justify-between gap-2">
+              <div className="mt-auto flex flex-col gap-1.5">
                 <span className="text-base font-bold" style={{ color: "#1A122B" }}>${c.price}</span>
-                <motion.button
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.96 }}
-                  onClick={() => setOpen(c)}
-                  className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border-[2px] border-[var(--color-ink)] px-3 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110"
-                  style={{ background: "#3A2A50", color: "#FFFFFF" }}
-                >
-                  <Mail size={12} /> {t("inquire")}
-                </motion.button>
+                <div className="flex items-center gap-1.5">
+                  <motion.button
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.96 }}
+                    disabled={!c.available}
+                    onClick={() => addToCart({ id: c.id, title: c.title, price: c.price, imageUrl: c.imageUrl })}
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border-[2px] border-[var(--color-ink)] px-2 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110 disabled:opacity-50"
+                    style={{ background: "var(--mint)", color: "#1A122B" }}
+                  >
+                    <ShoppingCart size={12} /> Add
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.96 }}
+                    disabled={!c.available}
+                    onClick={() => {
+                      buyNow({ id: c.id, title: c.title, price: c.price, imageUrl: c.imageUrl });
+                      navigate({ to: "/checkout" });
+                    }}
+                    className="inline-flex flex-1 items-center justify-center gap-1 rounded-md border-[2px] border-[var(--color-ink)] px-2 py-1.5 text-[11px] font-extrabold shadow-[2px_2px_0_0_var(--color-ink)] transition-colors hover:brightness-110 disabled:opacity-50"
+                    style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
+                  >
+                    <Zap size={12} /> Buy Now
+                  </motion.button>
+                </div>
               </div>
               {isAdmin && (
                 <div className="mt-2 flex gap-2 border-t-[2px] border-dashed border-[var(--color-ink)]/40 pt-2">
@@ -812,7 +774,7 @@ export function Shop() {
       </div>
 
       <AnimatePresence>
-        {open && <OrderModal card={open} onClose={() => setOpen(null)} />}
+        {open && <CardModal card={open} onClose={() => setOpen(null)} />}
         {(editing || adding) && (
           <CardEditor
             initial={editing}
@@ -900,7 +862,7 @@ export function AdminLoginLink() {
                 <ShieldCheck size={26} />
               </div>
               <h3 className="text-xl font-bold">Admin Access</h3>
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="mt-1 text-xs" style={{ color: "#6B5A85" }}>
                 Enter the passcode to manage Beni's cards.
               </p>
               <input

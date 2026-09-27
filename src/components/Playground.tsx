@@ -4,8 +4,9 @@ import { RotateCcw } from "lucide-react";
 import { useLang, type TKey } from "@/lib/i18n";
 import { DittoSVG } from "./DittoSVG";
 import { ACCESSORIES, type AccessoryKey } from "./DittoAccessories";
-
-type Placed = { id: string; type: AccessoryKey; x: number; y: number };
+import { useDittoCustomization, type PlacedAccessory as Placed } from "@/lib/dittoCustomization";
+import { DittoJumper } from "./DittoJumper";
+import { DittoQuiz } from "./DittoQuiz";
 
 const LABELS: Record<AccessoryKey, TKey> = {
   hat: "acc_hat",
@@ -205,7 +206,7 @@ function DraggableAccessory({
 export function Playground() {
   const { t } = useLang();
   const stageRef = useRef<HTMLDivElement>(null);
-  const [placed, setPlaced] = useState<Placed[]>([]);
+  const { placed, setPlaced } = useDittoCustomization();
   const [stageSize, setStageSize] = useState({ w: 520, h: 440 });
 
   useEffect(() => {
@@ -243,13 +244,13 @@ export function Playground() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-[1fr_260px]">
-        <div className="card-doodle relative overflow-hidden p-6" style={{ background: "linear-gradient(160deg, #2A1740 0%, #1C0F30 100%)", color: "#F4EFFF" }}>
+        <div className="card-doodle relative overflow-hidden p-6" style={{ background: "linear-gradient(160deg, #4A3D73 0%, #362B58 100%)", color: "#F6EFFF" }}>
           <div
             aria-hidden
             className="absolute inset-0 opacity-30"
             style={{
               backgroundImage:
-                "radial-gradient(rgba(215,161,249,0.55) 1.5px, transparent 1.5px)",
+                "radial-gradient(rgba(215,161,249,0.5) 1.5px, transparent 1.5px)",
               backgroundSize: "22px 22px",
             }}
           />
@@ -270,7 +271,7 @@ export function Playground() {
           </div>
         </div>
 
-        <aside className="card-doodle-sm flex flex-col gap-3 p-4" style={{ background: "rgba(46,26,64,0.75)", backdropFilter: "blur(6px)", color: "#F4EFFF", boxShadow: "4px 4px 0 0 var(--color-ink), 0 0 22px rgba(215,161,249,0.35)", borderColor: "#D7A1F9" }}>
+        <aside className="card-doodle-sm flex flex-col gap-3 p-4" style={{ background: "rgba(58,42,84,0.9)", backdropFilter: "blur(6px)", color: "#F6EFFF", boxShadow: "4px 4px 0 0 var(--color-ink), 0 0 22px rgba(194,158,227,0.3)" }}>
           <h3 className="text-lg font-bold">{t("accessory_box")}</h3>
           <div
             className="cosmic-scroll grid grid-cols-3 gap-2 overflow-y-auto pr-1"
@@ -283,9 +284,9 @@ export function Playground() {
                 whileTap={{ scale: 0.94 }}
                 onClick={() => add(k)}
                 className="card-doodle-sm flex aspect-square flex-col items-center justify-center gap-1 p-2 text-[10px] font-semibold leading-tight"
-                style={{ boxShadow: "3px 3px 0 0 var(--color-ink)", background: "#3A2554", color: "#F4EFFF", borderColor: "#D7A1F9" }}
+                style={{ boxShadow: "3px 3px 0 0 var(--color-ink)", background: "#FFFFFF", color: "var(--ditto-deep)" }}
               >
-                <span className="flex h-9 items-center justify-center">
+                <span className="flex h-9 w-9 items-center justify-center overflow-hidden [&>svg]:!h-9 [&>svg]:!w-auto [&>svg]:max-w-9">
                   {ACCESSORIES[k].render(34)}
                 </span>
                 <span className="text-center">{t(LABELS[k])}</span>
@@ -303,6 +304,11 @@ export function Playground() {
             Click + drag Ditto to spin · Shift + drag to move · Tap for squish · Drag accessories freely
           </p>
         </aside>
+      </div>
+
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <DittoJumper />
+        <DittoQuiz />
       </div>
     </section>
   );

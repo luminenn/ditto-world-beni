@@ -35,34 +35,11 @@ export function Hero() {
           <Sparkles size={20} />
         </motion.span>
 
-        <div className="mb-4 flex items-center gap-3">
-          <motion.img
-            src={dittoWaving3d}
-            alt="Waving Ditto mascot"
-            width={96}
-            height={96}
-            loading="eager"
-            animate={{ rotate: [-6, 6, -6], y: [0, -4, 0] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            className="h-20 w-20 shrink-0 drop-shadow-[3px_3px_0_var(--color-ink)] sm:h-24 sm:w-24"
-          />
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9, rotate: -6 }}
-            animate={{ opacity: 1, scale: 1, rotate: -2 }}
-            whileHover={{ rotate: 1, y: -3 }}
-            transition={{ type: "spring", stiffness: 200, damping: 12 }}
-            className="inline-block rounded-md border-[3px] border-[var(--color-ink)] px-5 py-2 text-2xl font-bold shadow-[4px_4px_0_0_var(--color-ink)] sm:text-3xl"
-            style={{ background: "#2E1547", color: "#FFFFFF" }}
-          >
-            {t("welcome")}
-          </motion.h1>
-        </div>
-
         <motion.div
           initial={{ opacity: 0, y: 20, rotate: 2 }}
           animate={{ opacity: 1, y: 0, rotate: 1.5 }}
           className="inline-flex items-center gap-2 rounded-md border-[2.5px] border-[var(--color-ink)] px-3 py-1 text-xs font-bold shadow-[3px_3px_0_0_var(--color-ink)]"
-          style={{ background: "#2E1547", color: "#FFFFFF" }}
+          style={{ background: "var(--ditto-deep)", color: "#FFFFFF" }}
         >
           <Sparkles size={14} /> {t("tagline")}
         </motion.div>

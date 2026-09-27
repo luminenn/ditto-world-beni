@@ -10,6 +10,7 @@ type Star = {
   delay: number;
   type: "dot" | "sparkle";
   rot: number;
+  color: string;
 };
 
 function seededRandom(seed: number) {
@@ -34,21 +35,22 @@ function SparkleIcon({ size = 14, color = "#FFF5FB" }: { size?: number; color?: 
   );
 }
 
-export function StarField({ count = 60, seed = 7 }: { count?: number; seed?: number }) {
+export function StarField({ count = 24, seed = 7 }: { count?: number; seed?: number }) {
   const stars = useMemo<Star[]>(() => {
     const rand = seededRandom(seed);
     return Array.from({ length: count }).map((_, i) => {
-      const isSparkle = rand() < 0.28;
+      const isSparkle = rand() < 0.18;
       return {
         id: i,
         x: rand() * 100,
         y: rand() * 100,
-        size: isSparkle ? 10 + rand() * 12 : 1 + rand() * 3,
-        opacity: 0.3 + rand() * 0.7,
+        size: isSparkle ? 8 + rand() * 8 : 1.2 + rand() * 2.5,
+        opacity: 0.35 + rand() * 0.45,
         dur: 2.4 + rand() * 4.5,
         delay: rand() * 5,
         type: isSparkle ? "sparkle" : "dot",
         rot: rand() * 60 - 30,
+        color: rand() > 0.5 ? "#FFF5FB" : "#F8C8FF",
       };
     });
   }, [count, seed]);
@@ -69,7 +71,7 @@ export function StarField({ count = 60, seed = 7 }: { count?: number; seed?: num
             "--tw-min": `${Math.max(s.opacity - 0.4, 0.15)}`,
             "--tw-max": `${Math.min(s.opacity + 0.1, 1)}`,
             animationDelay: `${s.delay}s`,
-            filter: s.type === "dot" ? "blur(0.3px)" : "drop-shadow(0 0 4px rgba(255,220,255,0.6))",
+            filter: s.type === "dot" ? "blur(0.3px)" : "drop-shadow(0 0 4px rgba(255,220,255,0.5))",
           }}
         >
           {s.type === "dot" ? (
@@ -82,7 +84,7 @@ export function StarField({ count = 60, seed = 7 }: { count?: number; seed?: num
               }}
             />
           ) : (
-            <SparkleIcon size={s.size} color={Math.random() > 0.5 ? "#FFF5FB" : "#F8C8FF"} />
+            <SparkleIcon size={s.size} color={s.color} />
           )}
         </span>
       ))}

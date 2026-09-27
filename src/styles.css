@@ -49,35 +49,34 @@
 :root {
   --radius: 1.25rem;
 
-  /* Warmer, lighter cosmic lavender palette */
+  /* Dusk storefront palette — moody purple canvas, crisp white content cards */
   --ditto-pink: #F3A5FF;
   --ditto-pink-soft: #F8C8FF;
   --ditto-purple: #C29EE3;
-  --ditto-deep: #2E1547;
-  --cream: #EADCF7;            /* soft pastel lavender panels */
+  --ditto-deep: #2E1547;       /* dark plum — text/badges on WHITE cards */
+  --cream: #FFFFFF;            /* card surface */
   --butter: #FDF0A6;
   --mint: #A3E6D2;
   --sky: #C8B6F0;
-  --ink: #1A122B;
+  --ink: #1A122B;              /* doodle border/shadow ink */
   --wood: #D9A46B;
-  --bg-lavender: #3E2F6B;      /* deeper twilight indigo */
+  --bg-dusk: #6C5C96;          /* moderate dusk-purple page background — darker than before, lighter than the original midnight indigo */
 
-
-  --background: var(--bg-lavender);
-  --foreground: #FBF6FF;
-  --card: var(--cream);
-  --card-foreground: #1A122B;
-  --popover: var(--cream);
-  --popover-foreground: #1A122B;
+  --background: var(--bg-dusk);
+  --foreground: #F6EFFF;       /* light text for content sitting directly on the dusk bg */
+  --card: #FFFFFF;
+  --card-foreground: var(--ditto-deep);
+  --popover: #FFFFFF;
+  --popover-foreground: var(--ditto-deep);
   --primary: var(--ditto-pink);
-  --primary-foreground: #1A122B;
+  --primary-foreground: var(--ditto-deep);
   --secondary: var(--ditto-purple);
-  --secondary-foreground: #1A122B;
-  --muted: #4A3B75;
-  --muted-foreground: #E8DFFA;
+  --secondary-foreground: #FFFFFF;
+  --muted: #F0E7F8;            /* light muted surface, used inside white cards */
+  --muted-foreground: #E3D8F5; /* light muted text, for use directly on the dusk bg */
   --accent: var(--mint);
-  --accent-foreground: #1A122B;
-  --destructive: oklch(0.7 0.18 25);
+  --accent-foreground: var(--ditto-deep);
+  --destructive: oklch(0.65 0.2 25);
   --destructive-foreground: oklch(0.99 0 0);
   --border: var(--ink);
   --input: var(--ink);
@@ -107,33 +106,11 @@
   }
   body {
     background-image:
-      /* dense starlight points */
-      radial-gradient(1.6px 1.6px at 6% 12%, rgba(255,255,255,0.95), transparent 60%),
-      radial-gradient(1.2px 1.2px at 14% 32%, rgba(255,240,255,0.75), transparent 60%),
-      radial-gradient(1px 1px at 22% 8%, rgba(255,255,255,0.7), transparent 60%),
-      radial-gradient(1.4px 1.4px at 32% 22%, rgba(240,220,255,0.85), transparent 60%),
-      radial-gradient(1px 1px at 42% 6%, rgba(255,255,255,0.55), transparent 60%),
-      radial-gradient(1.5px 1.5px at 52% 38%, rgba(255,255,255,0.9), transparent 60%),
-      radial-gradient(1px 1px at 62% 14%, rgba(255,240,255,0.65), transparent 60%),
-      radial-gradient(1.4px 1.4px at 72% 26%, rgba(255,255,255,0.85), transparent 60%),
-      radial-gradient(1px 1px at 82% 10%, rgba(240,220,255,0.7), transparent 60%),
-      radial-gradient(1.3px 1.3px at 92% 34%, rgba(255,255,255,0.75), transparent 60%),
-      radial-gradient(1.2px 1.2px at 8% 58%, rgba(255,240,255,0.7), transparent 60%),
-      radial-gradient(1px 1px at 18% 74%, rgba(255,255,255,0.6), transparent 60%),
-      radial-gradient(1.5px 1.5px at 28% 88%, rgba(240,220,255,0.85), transparent 60%),
-      radial-gradient(1px 1px at 38% 62%, rgba(255,255,255,0.55), transparent 60%),
-      radial-gradient(1.4px 1.4px at 48% 82%, rgba(255,240,255,0.8), transparent 60%),
-      radial-gradient(1px 1px at 58% 68%, rgba(255,255,255,0.6), transparent 60%),
-      radial-gradient(1.3px 1.3px at 68% 92%, rgba(240,220,255,0.75), transparent 60%),
-      radial-gradient(1.2px 1.2px at 78% 60%, rgba(255,255,255,0.7), transparent 60%),
-      radial-gradient(1px 1px at 88% 78%, rgba(255,240,255,0.6), transparent 60%),
-      radial-gradient(1.5px 1.5px at 96% 96%, rgba(255,255,255,0.85), transparent 60%),
-      /* warm pastel nebula blooms */
-      radial-gradient(circle at 15% 20%, color-mix(in oklab, #E4B8FF 45%, transparent) 0, transparent 45%),
-      radial-gradient(circle at 85% 25%, color-mix(in oklab, #F3A5FF 30%, transparent) 0, transparent 50%),
-      radial-gradient(circle at 50% 100%, color-mix(in oklab, #FFC8F0 40%, transparent) 0, transparent 55%),
-      /* base warmer cosmic gradient */
-      linear-gradient(180deg, #3E2F6B 0%, #2F2557 50%, #221B44 100%);
+      /* two faint, restrained tints — not a rainbow wash */
+      radial-gradient(circle at 12% 8%, color-mix(in oklab, #F8C8FF 16%, transparent) 0, transparent 40%),
+      radial-gradient(circle at 90% 85%, color-mix(in oklab, #A3E6D2 14%, transparent) 0, transparent 45%),
+      /* moderate dusk gradient — darker top-to-bottom, still readable */
+      linear-gradient(180deg, #7A6AA6 0%, #6C5C96 45%, #58497F 100%);
     background-attachment: fixed;
   }
 }

@@ -182,8 +182,8 @@ type Mode = "flash" | "trace" | "story";
 
 function SpeechBubble({ text, mood }: { text: string; mood: "idle" | "correct" | "wrong" }) {
   const bg =
-    mood === "correct" ? "#3D2A5C" : mood === "wrong" ? "#4A2A5C" : "#2E1547";
-  const fg = mood === "wrong" ? "#F8C8FF" : "#FFFFFF";
+    mood === "correct" ? "var(--mint)" : mood === "wrong" ? "#FFD9E8" : "var(--ditto-pink-soft)";
+  const fg = "var(--ditto-deep)";
   return (
     <motion.div
       key={text}
@@ -306,8 +306,12 @@ function ModeBtn({
 
 function Flashcards() {
   const { t } = useLang();
-  // Randomize on mount
-  const [deck] = useState(() => shuffle(BASE_DECK));
+  // Deterministic order for SSR + first client render; shuffled client-side
+  // after mount so Math.random() never diverges between server and client.
+  const [deck, setDeck] = useState<VocabCard[]>(BASE_DECK);
+  useEffect(() => {
+    setDeck(shuffle(BASE_DECK));
+  }, []);
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -315,7 +319,7 @@ function Flashcards() {
   const [picked, setPicked] = useState<string | null>(null);
 
   const card = deck[idx % deck.length];
-  const [shuffled, setShuffled] = useState<string[]>(() => shuffle(card.choices));
+  const [shuffled, setShuffled] = useState<string[]>(card.choices);
   useEffect(() => {
     setShuffled(shuffle(card.choices));
   }, [idx, card.choices]);
@@ -340,7 +344,7 @@ function Flashcards() {
   };
 
   return (
-    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "linear-gradient(160deg, #4A3D73 0%, #362B58 100%)", color: "#F6EFFF" }}>
 
       <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
 
@@ -371,8 +375,8 @@ function Flashcards() {
                   ? "var(--mint)"
                   : revealed && isPicked
                     ? "color-mix(in oklab, var(--destructive) 40%, white)"
-                    : "#3A2A50";
-              const fg = revealed && isAnswer ? "#1A122B" : "#FFFFFF";
+                    : "var(--muted)";
+              const fg = "var(--ditto-deep)";
               return (
                 <motion.button
                   key={c}
@@ -473,7 +477,10 @@ function TracingCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawing = useRef(false);
   const last = useRef<{ x: number; y: number } | null>(null);
-  const [deck] = useState(() => shuffle(BASE_TRACE_DECK));
+  const [deck, setDeck] = useState<TraceItem[]>(BASE_TRACE_DECK);
+  useEffect(() => {
+    setDeck(shuffle(BASE_TRACE_DECK));
+  }, []);
   const [idx, setIdx] = useState(0);
   const [mood, setMood] = useState<"idle" | "correct" | "wrong">("idle");
   const [showHints, setShowHints] = useState(true);
@@ -541,7 +548,7 @@ function TracingCanvas() {
   };
 
   return (
-    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "linear-gradient(160deg, #4A3D73 0%, #362B58 100%)", color: "#F6EFFF" }}>
       <div className="grid gap-8 md:grid-cols-[240px_1fr] md:items-center">
         <div className="flex justify-center">
           <DittoMascot mood={mood} />
@@ -641,10 +648,13 @@ function TracingCanvas() {
 
 function StoryTime() {
   const { t } = useLang();
-  const [deck] = useState(() => shuffle(BASE_STORIES));
+  const [deck, setDeck] = useState<Story[]>(BASE_STORIES);
+  useEffect(() => {
+    setDeck(shuffle(BASE_STORIES));
+  }, []);
   const [idx, setIdx] = useState(0);
   const story = deck[idx % deck.length];
-  const [shuffledChoices, setShuffledChoices] = useState<StoryChoice[]>(() => shuffle(story.choices));
+  const [shuffledChoices, setShuffledChoices] = useState<StoryChoice[]>(story.choices);
   const [picked, setPicked] = useState<StoryChoice | null>(null);
   const [mood, setMood] = useState<"idle" | "correct" | "wrong">("idle");
   const [score, setScore] = useState(0);
@@ -672,7 +682,7 @@ function StoryTime() {
   const next = () => setIdx((i) => i + 1);
 
   return (
-    <div className="card-doodle p-6 sm:p-8" style={{ background: "#3A2A50", color: "#F4EFFF" }}>
+    <div className="card-doodle p-6 sm:p-8" style={{ background: "linear-gradient(160deg, #4A3D73 0%, #362B58 100%)", color: "#F6EFFF" }}>
 
       <ScoreBar score={score} streak={streak} scoreLabel={t("score")} streakLabel={t("streak")} />
 
@@ -705,8 +715,8 @@ function StoryTime() {
             </p>
           </motion.div>
 
-          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]" style={{ background: "#2E1A40", color: "#F4EFFF" }}>
-            <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#D7A1F9" }}>
+          <div className="mt-6 rounded-2xl border-[3px] border-[var(--color-ink)] p-4 shadow-[4px_4px_0_0_var(--color-ink)]" style={{ background: "var(--ditto-purple)", color: "#FFFFFF" }}>
+            <div className="text-xs font-bold uppercase tracking-wider" style={{ color: "#FFF3FB" }}>
               Question
             </div>
             <p className="text-base sm:text-lg font-bold" style={{ color: "#FFFFFF" }}>{story.question}</p>
@@ -722,8 +732,8 @@ function StoryTime() {
                   ? "var(--mint)"
                   : revealed && isThis
                     ? "color-mix(in oklab, var(--destructive) 40%, white)"
-                    : "#4F3A66";
-              const fg = revealed && c.correct ? "#1A122B" : "#FFFFFF";
+                    : "var(--muted)";
+              const fg = "var(--ditto-deep)";
               return (
                 <motion.button
                   key={c.label}
