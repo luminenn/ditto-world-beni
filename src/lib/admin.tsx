@@ -1,56 +1,45 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-
-const STORAGE_KEY = "dittoland_admin_v1";
-const PASSCODE = "oshawottditto2026";
+import { supabase } from "@/integrations/supabase/client";
 
 type AdminCtx = {
   isAdmin: boolean;
-  login: (code: string) => boolean;
+  ready: boolean;
+  login: (email: string, password: string) => Promise<string | null>;
   logout: () => void;
 };
 
 const Ctx = createContext<AdminCtx>({
   isAdmin: false,
-  login: () => false,
+  ready: false,
+  login: async () => "Not ready yet — try again in a moment.",
   logout: () => {},
 });
 
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    try {
-      if (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY) === "1") {
-        setIsAdmin(true);
-      }
-    } catch {
-      /* noop */
-    }
+    supabase.auth.getSession().then(({ data }) => {
+      setIsAdmin(!!data.session);
+      setReady(true);
+    });
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAdmin(!!session);
+    });
+    return () => subscription.subscription.unsubscribe();
   }, []);
 
-  const login = (code: string) => {
-    if (code.trim() === PASSCODE) {
-      setIsAdmin(true);
-      try {
-        localStorage.setItem(STORAGE_KEY, "1");
-      } catch {
-        /* noop */
-      }
-      return true;
-    }
-    return false;
+  const login = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    return error ? error.message : null;
   };
 
   const logout = () => {
-    setIsAdmin(false);
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      /* noop */
-    }
+    void supabase.auth.signOut();
   };
 
-  return <Ctx.Provider value={{ isAdmin, login, logout }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ isAdmin, ready, login, logout }}>{children}</Ctx.Provider>;
 }
 
 export const useAdmin = () => useContext(Ctx);

@@ -39,6 +39,18 @@ const LABELS: Record<AccessoryKey, TKey> = {
   hpglasses: "acc_hpglasses",
   diamondcrown: "acc_diamondcrown",
   shortcake: "acc_shortcake",
+  wizardhat: "acc_wizardhat",
+  santahat: "acc_santahat",
+  cowboyhat: "acc_cowboyhat",
+  flowercrown: "acc_flowercrown",
+  gradcap: "acc_gradcap",
+  partyhat: "acc_partyhat",
+  baseballcap: "acc_baseballcap",
+  cape: "acc_cape",
+  hoodie: "acc_hoodie",
+  overalls: "acc_overalls",
+  headphones: "acc_headphones",
+  necklace: "acc_necklace",
 };
 
 function SquishyDitto() {
@@ -228,8 +240,10 @@ export function Playground() {
 
   const keys: AccessoryKey[] = [
     "hat", "detective", "chef", "beanie", "crown", "propeller", "piratehat", "astrohelmet", "diamondcrown",
-    "glasses", "pixelshades", "hpglasses", "monocle", "moustache", "bunnyears", "catears",
-    "ribbon", "bowtie", "scarf", "greenscarf",
+    "wizardhat", "santahat", "cowboyhat", "flowercrown", "gradcap", "partyhat", "baseballcap",
+    "glasses", "pixelshades", "hpglasses", "monocle", "moustache", "bunnyears", "catears", "headphones",
+    "ribbon", "bowtie", "scarf", "greenscarf", "necklace",
+    "cape", "hoodie", "overalls",
     "lollipop", "rainbowpop", "pizza", "chocobar", "shortcake", "boba", "rubberduck",
     "pokeball", "sword", "balloon",
   ];

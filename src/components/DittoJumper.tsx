@@ -4,16 +4,21 @@ import { DittoSVG } from "./DittoSVG";
 import { ACCESSORIES } from "./DittoAccessories";
 import { useDittoCustomization, STAGE_W, STAGE_H } from "@/lib/dittoCustomization";
 
-const AREA_H = 360;
-const DITTO_SIZE = 52;
-const DITTO_X_RATIO = 0.26; // fixed horizontal position, as a fraction of area width
-const GRAVITY = 1500; // px/s^2
-const FLAP_VELOCITY = -430; // px/s
-const MAX_FALL_SPEED = 620;
-const PIPE_WIDTH = 54;
-const GAP_HEIGHT = 158;
-const PIPE_SPEED = 170; // px/s
-const SPAWN_DISTANCE = 260; // px between pipe spawns
+const AREA_H = 220;
+const GROUND_MARGIN = 14; // height of the ground strip
+const GROUND_Y = AREA_H - GROUND_MARGIN; // y where Ditto's feet / spike bases sit
+const DITTO_SIZE = 46;
+const DITTO_X_RATIO = 0.2; // fixed horizontal position, as a fraction of area width
+const GRAVITY = 2200; // px/s^2
+const JUMP_VELOCITY = -620; // px/s, single jump impulse (grounded-only, no mid-air re-jump)
+const MAX_FALL_SPEED = 900;
+const SPIKE_W = 30;
+const SPIKE_H = 44;
+const BASE_SPEED = 230; // px/s
+const SPEED_PER_POINT = 5; // difficulty ramps up as score increases
+const MAX_SPEED = 420;
+const SPAWN_DISTANCE = 230; // min px between obstacle spawns
+const SPIN_RATE = 480; // deg/s while airborne
 const BEST_KEY = "dittoland_jumper_best_v1";
 
 // The sandbox stage renders Ditto at size 300 within a 520x440 box, bottom-aligned with 16px padding.
@@ -21,7 +26,7 @@ const SANDBOX_DITTO_SIZE = 300;
 const SANDBOX_DITTO_LEFT = (STAGE_W - SANDBOX_DITTO_SIZE) / 2;
 const SANDBOX_DITTO_TOP = STAGE_H - SANDBOX_DITTO_SIZE - 16;
 
-type Pipe = { id: number; x: number; gapY: number; passed: boolean };
+type Obstacle = { id: number; x: number; width: number; count: number; passed: boolean };
 type GameState = "ready" | "playing" | "over";
 
 function MiniCustomDitto({ size }: { size: number }) {
@@ -44,22 +49,50 @@ function MiniCustomDitto({ size }: { size: number }) {
   );
 }
 
+function SpikeCluster({ count }: { count: number }) {
+  return (
+    <div className="relative" style={{ width: count * SPIKE_W, height: SPIKE_H }}>
+      {Array.from({ length: count }).map((_, i) => (
+        <svg
+          key={i}
+          className="absolute bottom-0"
+          style={{ left: i * SPIKE_W }}
+          width={SPIKE_W}
+          height={SPIKE_H}
+          viewBox={`0 0 ${SPIKE_W} ${SPIKE_H}`}
+        >
+          <polygon
+            points={`${SPIKE_W / 2},2 2,${SPIKE_H - 2} ${SPIKE_W - 2},${SPIKE_H - 2}`}
+            fill="var(--ditto-pink)"
+            stroke="#1A122B"
+            strokeWidth="2.5"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+const groundedY = () => GROUND_Y - DITTO_SIZE;
+
 export function DittoJumper() {
   const [state, setState] = useState<GameState>("ready");
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
-  const [dittoY, setDittoY] = useState(AREA_H / 2 - DITTO_SIZE / 2);
-  const [pipes, setPipes] = useState<Pipe[]>([]);
+  const [dittoY, setDittoY] = useState(groundedY());
+  const [obstacles, setObstacles] = useState<Obstacle[]>([]);
   const [areaW, setAreaW] = useState(340);
 
   const areaRef = useRef<HTMLDivElement>(null);
   const velocityRef = useRef(0);
   const dittoYRef = useRef(dittoY);
+  const groundedRef = useRef(true);
+  const spinRef = useRef(0);
   const scoreRef = useRef(0);
-  const lastSpawnXRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
-  const nextPipeId = useRef(0);
+  const nextObstacleId = useRef(0);
   const stateRef = useRef<GameState>("ready");
 
   useEffect(() => {
@@ -91,28 +124,35 @@ export function DittoJumper() {
     });
   }, []);
 
-  const flap = useCallback(() => {
-    if (stateRef.current === "ready") {
-      velocityRef.current = FLAP_VELOCITY;
-      dittoYRef.current = AREA_H / 2 - DITTO_SIZE / 2;
-      lastSpawnXRef.current = 0;
-      nextPipeId.current = 0;
-      scoreRef.current = 0;
-      setPipes([]);
-      setScore(0);
-      setState("playing");
-    } else if (stateRef.current === "playing") {
-      velocityRef.current = FLAP_VELOCITY;
+  const start = useCallback(() => {
+    dittoYRef.current = groundedY();
+    velocityRef.current = 0;
+    groundedRef.current = true;
+    spinRef.current = 0;
+    scoreRef.current = 0;
+    nextObstacleId.current = 0;
+    setDittoY(dittoYRef.current);
+    setObstacles([]);
+    setScore(0);
+    setState("playing");
+  }, []);
+
+  const jump = useCallback(() => {
+    if (stateRef.current === "playing" && groundedRef.current) {
+      velocityRef.current = JUMP_VELOCITY;
+      groundedRef.current = false;
     }
   }, []);
 
   const restart = useCallback(() => {
     setState("ready");
-    setDittoY(AREA_H / 2 - DITTO_SIZE / 2);
-    dittoYRef.current = AREA_H / 2 - DITTO_SIZE / 2;
+    dittoYRef.current = groundedY();
     velocityRef.current = 0;
+    groundedRef.current = true;
+    spinRef.current = 0;
     scoreRef.current = 0;
-    setPipes([]);
+    setDittoY(dittoYRef.current);
+    setObstacles([]);
     setScore(0);
   }, []);
 
@@ -131,42 +171,47 @@ export function DittoJumper() {
       velocityRef.current = Math.min(velocityRef.current + GRAVITY * dt, MAX_FALL_SPEED);
       dittoYRef.current += velocityRef.current * dt;
 
-      let collided = false;
       if (dittoYRef.current <= 0) {
         dittoYRef.current = 0;
-        collided = true;
+        velocityRef.current = 0;
       }
-      if (dittoYRef.current + DITTO_SIZE >= AREA_H) {
-        dittoYRef.current = AREA_H - DITTO_SIZE;
-        collided = true;
+      if (dittoYRef.current >= groundedY()) {
+        dittoYRef.current = groundedY();
+        velocityRef.current = 0;
+        groundedRef.current = true;
+        spinRef.current = 0;
+      } else {
+        groundedRef.current = false;
+        spinRef.current += SPIN_RATE * dt;
       }
 
       setDittoY(dittoYRef.current);
 
-      setPipes((prev) => {
+      const speed = Math.min(BASE_SPEED + scoreRef.current * SPEED_PER_POINT, MAX_SPEED);
+      let collided = false;
+
+      setObstacles((prev) => {
         let scoredThisFrame = 0;
         const next = prev
-          .map((p) => ({ ...p, x: p.x - PIPE_SPEED * dt }))
-          .filter((p) => p.x + PIPE_WIDTH > -10);
+          .map((o) => ({ ...o, x: o.x - speed * dt }))
+          .filter((o) => o.x + o.width > -20);
 
-        for (const p of next) {
-          const overlapsX = dittoX + DITTO_SIZE > p.x + 6 && dittoX + 6 < p.x + PIPE_WIDTH;
+        for (const o of next) {
+          const overlapsX = dittoX + DITTO_SIZE - 8 > o.x + 6 && dittoX + 8 < o.x + o.width - 6;
           if (overlapsX) {
-            const hitsTop = dittoYRef.current < p.gapY;
-            const hitsBottom = dittoYRef.current + DITTO_SIZE > p.gapY + GAP_HEIGHT;
-            if (hitsTop || hitsBottom) collided = true;
+            const dittoBottom = dittoYRef.current + DITTO_SIZE;
+            if (dittoBottom > GROUND_Y - SPIKE_H + 8) collided = true;
           }
-          if (!p.passed && p.x + PIPE_WIDTH < dittoX) {
-            p.passed = true;
+          if (!o.passed && o.x + o.width < dittoX) {
+            o.passed = true;
             scoredThisFrame += 1;
           }
         }
 
         const last = next[next.length - 1];
         if (!last || last.x < areaW - SPAWN_DISTANCE) {
-          const margin = 40;
-          const gapY = margin + Math.random() * (AREA_H - GAP_HEIGHT - margin * 2);
-          next.push({ id: nextPipeId.current++, x: areaW + PIPE_WIDTH, gapY, passed: false });
+          const count = Math.random() < 0.3 ? 2 : 1;
+          next.push({ id: nextObstacleId.current++, x: areaW + 40, width: count * SPIKE_W, count, passed: false });
         }
 
         if (scoredThisFrame > 0) {
@@ -188,12 +233,12 @@ export function DittoJumper() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, areaW, dittoX, endGame]);
 
   const onInteract = () => {
     if (state === "over") return;
-    flap();
+    if (state === "ready") start();
+    else jump();
   };
 
   useEffect(() => {
@@ -201,25 +246,26 @@ export function DittoJumper() {
       if (e.code === "Space") {
         e.preventDefault();
         if (state === "over") restart();
-        else flap();
+        else if (state === "ready") start();
+        else jump();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [state, flap, restart]);
+  }, [state, start, jump, restart]);
 
   return (
     <div className="card-doodle p-5" style={{ background: "var(--cream)" }}>
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-lg font-bold" style={{ color: "#1A122B" }}>
-          Ditto Sky Jump
+          Ditto Dash
         </h3>
         <div className="flex items-center gap-1.5 text-xs font-bold" style={{ color: "#6B5A85" }}>
           <Trophy size={13} /> Best: {best}
         </div>
       </div>
       <p className="mb-3 text-xs" style={{ color: "#6B5A85" }}>
-        Click, tap, or press Space to flap and dodge the pipes. Your Ditto keeps whatever accessories you've equipped above!
+        Click, tap, or press Space to jump over the spikes. Your Ditto keeps whatever accessories you've equipped above!
       </p>
 
       <div
@@ -232,36 +278,20 @@ export function DittoJumper() {
         className="relative w-full cursor-pointer select-none overflow-hidden rounded-md border-[2.5px]"
         style={{ height: AREA_H, borderColor: "#1A122B", background: "linear-gradient(180deg, #DCEBFF 0%, #F3E9FF 100%)" }}
       >
-        {pipes.map((p) => (
-          <div key={p.id}>
-            <div
-              className="absolute rounded-b-sm border-[2.5px] border-t-0"
-              style={{
-                left: p.x,
-                top: 0,
-                width: PIPE_WIDTH,
-                height: p.gapY,
-                background: "var(--mint)",
-                borderColor: "#1A122B",
-              }}
-            />
-            <div
-              className="absolute rounded-t-sm border-[2.5px] border-b-0"
-              style={{
-                left: p.x,
-                top: p.gapY + GAP_HEIGHT,
-                width: PIPE_WIDTH,
-                height: AREA_H - (p.gapY + GAP_HEIGHT),
-                background: "var(--mint)",
-                borderColor: "#1A122B",
-              }}
-            />
+        <div
+          className="absolute inset-x-0 bottom-0"
+          style={{ height: GROUND_MARGIN, background: "var(--ditto-deep)", borderTop: "2.5px solid #1A122B" }}
+        />
+
+        {obstacles.map((o) => (
+          <div key={o.id} className="absolute" style={{ left: o.x, bottom: GROUND_MARGIN }}>
+            <SpikeCluster count={o.count} />
           </div>
         ))}
 
         <div
           className="absolute"
-          style={{ left: dittoX, top: dittoY, transform: `rotate(${Math.min(Math.max(velocityRef.current / 14, -25), 70)}deg)` }}
+          style={{ left: dittoX, top: dittoY, transform: `rotate(${spinRef.current}deg)` }}
         >
           <MiniCustomDitto size={DITTO_SIZE} />
         </div>

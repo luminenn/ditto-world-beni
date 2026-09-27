@@ -817,19 +817,25 @@ export function AdminBanner() {
 export function AdminLoginLink() {
   const { isAdmin, login } = useAdmin();
   const [open, setOpen] = useState(false);
-  const [code, setCode] = useState("");
-  const [err, setErr] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   if (isAdmin) return null;
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (login(code)) {
+    setSubmitting(true);
+    const errMsg = await login(email, password);
+    setSubmitting(false);
+    if (!errMsg) {
       setOpen(false);
-      setCode("");
-      setErr(false);
+      setEmail("");
+      setPassword("");
+      setErr(null);
     } else {
-      setErr(true);
+      setErr(errMsg);
     }
   };
 
@@ -863,20 +869,30 @@ export function AdminLoginLink() {
               </div>
               <h3 className="text-xl font-bold">Admin Access</h3>
               <p className="mt-1 text-xs" style={{ color: "#6B5A85" }}>
-                Enter the passcode to manage Beni's cards.
+                Sign in to manage Beni's cards, events, and about page.
               </p>
               <input
-                type="password"
-                value={code}
+                type="email"
+                value={email}
                 onChange={(e) => {
-                  setCode(e.target.value);
-                  setErr(false);
+                  setEmail(e.target.value);
+                  setErr(null);
                 }}
-                placeholder="Passcode"
+                placeholder="Email"
                 className="mt-4 w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-center text-sm text-[#1A122B] outline-none"
                 autoFocus
               />
-              {err && <p className="mt-2 text-xs text-red-300">Wrong passcode, try again.</p>}
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErr(null);
+                }}
+                placeholder="Password"
+                className="mt-2 w-full rounded-md border-[2.5px] border-[var(--color-ink)] bg-white px-3 py-2 text-center text-sm text-[#1A122B] outline-none"
+              />
+              {err && <p className="mt-2 text-xs text-red-300">{err}</p>}
               <div className="mt-4 flex justify-center gap-2">
                 <button
                   type="button"
@@ -888,10 +904,11 @@ export function AdminLoginLink() {
                 </button>
                 <button
                   type="submit"
-                  className="pill-btn pill-btn-hover text-sm"
+                  disabled={submitting}
+                  className="pill-btn pill-btn-hover text-sm disabled:opacity-70"
                   style={{ background: "var(--ditto-pink)", color: "#0A0414" }}
                 >
-                  Unlock
+                  {submitting ? "Signing in…" : "Sign In"}
                 </button>
               </div>
             </motion.form>

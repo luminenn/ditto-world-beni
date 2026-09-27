@@ -361,6 +361,150 @@ export function ShortcakeSVG({ size = 78 }: { size?: number }) {
   );
 }
 
+/* --- NEW HATS & OUTFITS --- */
+
+export function WizardHatSVG({ size = 84 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 84 96" width={size} height={size * (96 / 84)} aria-label="Wizard hat">
+      <path d="M10 78 Q42 68 74 78 L70 86 Q42 80 14 86 Z" fill="#4A2C8A" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M28 78 Q36 20 46 4 Q54 24 58 78 Z" fill="#5E3AA8" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M38 12 l2 4 l4 -1 l-3 3 l2 4 l-4 -2 l-3 3 l0 -4 l-4 -2 l4 -1 Z" fill="#F6E048" stroke={INK} strokeWidth="1.2" strokeLinejoin="round" />
+      <path d="M44 42 l1.5 3 l3 -0.7 l-2.2 2.2 l1.5 3 l-3 -1.5 l-2.2 2.2 l0 -3 l-3 -1.5 l3 -0.7 Z" fill="#F6E048" stroke={INK} strokeWidth="1" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function SantaHatSVG({ size = 76 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 76 76" width={size} height={size} aria-label="Santa hat">
+      <path d="M14 40 Q18 10 50 8 Q46 30 66 40 Q40 30 14 40 Z" fill="#D33B3B" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="64" cy="38" r="8" fill="#FBFAFF" stroke={INK} strokeWidth="2.2" />
+      <rect x="8" y="38" width="60" height="14" rx="6" fill="#FBFAFF" stroke={INK} strokeWidth="2.5" />
+    </svg>
+  );
+}
+
+export function CowboyHatSVG({ size = 96 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 96 56" width={size} height={size * (56 / 96)} aria-label="Cowboy hat">
+      <path d="M4 40 Q48 24 92 40 Q80 50 48 50 Q16 50 4 40 Z" fill="#A9764A" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M28 40 Q30 10 48 8 Q66 10 68 40 Z" fill="#BE8957" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="28" y="32" width="40" height="7" fill="#5A3520" stroke={INK} strokeWidth="2" />
+    </svg>
+  );
+}
+
+export function FlowerCrownSVG({ size = 96 }: { size?: number }) {
+  const flower = (cx: number, cy: number, color: string) => (
+    <g key={`${cx}-${cy}`}>
+      <circle cx={cx - 5} cy={cy} r="4.5" fill={color} stroke={INK} strokeWidth="1.2" />
+      <circle cx={cx + 5} cy={cy} r="4.5" fill={color} stroke={INK} strokeWidth="1.2" />
+      <circle cx={cx} cy={cy - 5} r="4.5" fill={color} stroke={INK} strokeWidth="1.2" />
+      <circle cx={cx} cy={cy + 5} r="4.5" fill={color} stroke={INK} strokeWidth="1.2" />
+      <circle cx={cx} cy={cy} r="3.5" fill="#F6C948" stroke={INK} strokeWidth="1" />
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 100 40" width={size} height={size * (40 / 100)} aria-label="Flower crown">
+      <path d="M6 26 Q50 6 94 26" stroke="#6B9E4E" strokeWidth="4" fill="none" strokeLinecap="round" />
+      {flower(20, 22, "#F8B4D9")}
+      {flower(40, 12, "#EC7CD2")}
+      {flower(60, 12, "#A56BD6")}
+      {flower(80, 22, "#F8B4D9")}
+    </svg>
+  );
+}
+
+export function GradCapSVG({ size = 92 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 92 70" width={size} height={size * (70 / 92)} aria-label="Graduation cap">
+      <path d="M46 8 L88 28 L46 48 L4 28 Z" fill="#161122" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <rect x="30" y="30" width="32" height="16" fill="#2E2440" stroke={INK} strokeWidth="2.2" />
+      <path d="M74 30 L74 50" stroke={INK} strokeWidth="2" />
+      <circle cx="74" cy="54" r="4" fill="#F6C948" stroke={INK} strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+export function PartyHatSVG({ size = 72 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 60 88" width={size} height={size * (88 / 60)} aria-label="Party hat">
+      <path d="M30 4 L54 80 L6 80 Z" fill="#5A8CE0" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="22" cy="40" r="3" fill="#F6C948" />
+      <circle cx="36" cy="55" r="3" fill="#EC7CD2" />
+      <circle cx="26" cy="66" r="3" fill="#F6C948" />
+      <circle cx="38" cy="30" r="3" fill="#EC7CD2" />
+      <circle cx="30" cy="4" r="6" fill="#FBFAFF" stroke={INK} strokeWidth="2.2" />
+    </svg>
+  );
+}
+
+export function BaseballCapSVG({ size = 96 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 96 60" width={size} height={size * (60 / 96)} aria-label="Baseball cap">
+      <path d="M14 40 Q20 10 48 10 Q76 10 82 40 Z" fill="#5A8CE0" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M48 10 L48 40" stroke={INK} strokeWidth="1.2" opacity="0.4" />
+      <path d="M78 38 Q94 38 92 48 Q76 50 76 42 Z" fill="#4A72C4" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
+      <circle cx="48" cy="12" r="2.5" fill={INK} />
+    </svg>
+  );
+}
+
+export function CapeSVG({ size = 110 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 110 96" width={size} height={size * (96 / 110)} aria-label="Superhero cape">
+      <path d="M40 8 Q55 0 70 8 L66 18 Q55 14 44 18 Z" fill="#EC3B3B" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M40 16 Q10 40 6 90 Q30 76 55 88 Q80 76 104 90 Q100 40 70 16 Q55 24 40 16 Z" fill="#EC3B3B" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M55 22 Q40 44 42 80 M55 22 Q70 44 68 80" stroke="#A82929" strokeWidth="1.5" fill="none" opacity="0.6" />
+    </svg>
+  );
+}
+
+export function HoodieSVG({ size = 120 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 120 90" width={size} height={size * (90 / 120)} aria-label="Cozy hoodie">
+      <path d="M20 30 Q60 4 100 30 L100 84 Q60 96 20 84 Z" fill="#7AA6DE" stroke={INK} strokeWidth="2.8" strokeLinejoin="round" />
+      <path d="M38 28 Q60 14 82 28 Q78 44 60 40 Q42 44 38 28 Z" fill="#5A8CE0" stroke={INK} strokeWidth="2.5" strokeLinejoin="round" />
+      <circle cx="60" cy="50" r="3.5" fill="#FBFAFF" stroke={INK} strokeWidth="1.5" />
+      <path d="M60 54 v14" stroke="#FBFAFF" strokeWidth="2" strokeLinecap="round" />
+      <path d="M24 36 Q10 50 14 70 M96 36 Q110 50 106 70" stroke={INK} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function OverallsSVG({ size = 110 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 110 90" width={size} height={size * (90 / 110)} aria-label="Denim overalls">
+      <path d="M20 30 L34 30 L34 4 L44 4 L44 20 L66 20 L66 4 L76 4 L76 30 L90 30 L90 84 Q55 96 20 84 Z" fill="#5A8CE0" stroke={INK} strokeWidth="2.6" strokeLinejoin="round" />
+      <rect x="40" y="8" width="8" height="8" rx="1.5" fill="#F6C948" stroke={INK} strokeWidth="1.5" />
+      <rect x="62" y="8" width="8" height="8" rx="1.5" fill="#F6C948" stroke={INK} strokeWidth="1.5" />
+      <path d="M30 44 h50 M30 58 h50 M30 72 h50" stroke="#3A5FA8" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+    </svg>
+  );
+}
+
+export function HeadphonesSVG({ size = 96 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 96 72" width={size} height={size * (72 / 96)} aria-label="Headphones">
+      <path d="M14 40 Q14 4 48 4 Q82 4 82 40" stroke={INK} strokeWidth="3" fill="none" strokeLinecap="round" />
+      <rect x="4" y="34" width="18" height="28" rx="7" fill="#3A2148" stroke={INK} strokeWidth="2.5" />
+      <rect x="74" y="34" width="18" height="28" rx="7" fill="#3A2148" stroke={INK} strokeWidth="2.5" />
+      <circle cx="13" cy="48" r="4" fill="#EC7CD2" opacity="0.8" />
+      <circle cx="83" cy="48" r="4" fill="#EC7CD2" opacity="0.8" />
+    </svg>
+  );
+}
+
+export function NecklaceSVG({ size = 84 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 84 52" width={size} height={size * (52 / 84)} aria-label="Necklace">
+      <path d="M6 6 Q42 46 78 6" stroke="#C9A83A" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M32 34 L42 48 L52 34 L42 24 Z" fill="#7AD1F5" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" />
+      <circle cx="42" cy="32" r="2" fill="#FBFAFF" opacity="0.8" />
+    </svg>
+  );
+}
+
 export type AccessoryKey =
   | "hat"
   | "glasses"
@@ -391,7 +535,19 @@ export type AccessoryKey =
   | "balloon"
   | "hpglasses"
   | "diamondcrown"
-  | "shortcake";
+  | "shortcake"
+  | "wizardhat"
+  | "santahat"
+  | "cowboyhat"
+  | "flowercrown"
+  | "gradcap"
+  | "partyhat"
+  | "baseballcap"
+  | "cape"
+  | "hoodie"
+  | "overalls"
+  | "headphones"
+  | "necklace";
 
 export const ACCESSORIES: Record<
   AccessoryKey,
@@ -427,4 +583,16 @@ export const ACCESSORIES: Record<
   hpglasses: { w: 110, render: (s) => <HPGlassesSVG size={s} />, defaultPos: { x: 140, y: 115 } },
   diamondcrown: { w: 104, render: (s) => <DiamondCrownSVG size={s} />, defaultPos: { x: 140, y: 10 } },
   shortcake: { w: 84, render: (s) => <ShortcakeSVG size={s} />, defaultPos: { x: 150, y: 220 } },
+  wizardhat: { w: 84, render: (s) => <WizardHatSVG size={s} />, defaultPos: { x: 145, y: -4 } },
+  santahat: { w: 76, render: (s) => <SantaHatSVG size={s} />, defaultPos: { x: 150, y: 6 } },
+  cowboyhat: { w: 110, render: (s) => <CowboyHatSVG size={s} />, defaultPos: { x: 130, y: 10 } },
+  flowercrown: { w: 100, render: (s) => <FlowerCrownSVG size={s} />, defaultPos: { x: 145, y: 34 } },
+  gradcap: { w: 92, render: (s) => <GradCapSVG size={s} />, defaultPos: { x: 140, y: 4 } },
+  partyhat: { w: 64, render: (s) => <PartyHatSVG size={s} />, defaultPos: { x: 160, y: -6 } },
+  baseballcap: { w: 96, render: (s) => <BaseballCapSVG size={s} />, defaultPos: { x: 140, y: 8 } },
+  cape: { w: 110, render: (s) => <CapeSVG size={s} />, defaultPos: { x: 130, y: 120 } },
+  hoodie: { w: 120, render: (s) => <HoodieSVG size={s} />, defaultPos: { x: 120, y: 150 } },
+  overalls: { w: 110, render: (s) => <OverallsSVG size={s} />, defaultPos: { x: 125, y: 160 } },
+  headphones: { w: 96, render: (s) => <HeadphonesSVG size={s} />, defaultPos: { x: 135, y: 70 } },
+  necklace: { w: 84, render: (s) => <NecklaceSVG size={s} />, defaultPos: { x: 145, y: 200 } },
 };
