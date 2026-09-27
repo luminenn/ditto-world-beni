@@ -35,6 +35,10 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
       const row = byId.get(item.id);
       if (!row) throw new Error("One of the cards in your cart no longer exists.");
       if (row.availability === "sold_out") throw new Error(`"${row.name}" just sold out — sorry!`);
+      // Stripe only accepts hosted image URLs (max 2048 chars) — the admin card
+      // editor can also store an uploaded photo as a base64 data: URL, which
+      // Stripe would reject, so only pass through real http(s) links.
+      const hasHostedImage = !!row.image_url && /^https?:\/\//i.test(row.image_url) && row.image_url.length <= 2048;
       return {
         quantity: item.qty,
         price_data: {
@@ -42,7 +46,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
           unit_amount: Math.round(Number(row.price) * 100),
           product_data: {
             name: row.name,
-            images: row.image_url ? [row.image_url] : undefined,
+            images: hasHostedImage ? [row.image_url!] : undefined,
           },
         },
       };
